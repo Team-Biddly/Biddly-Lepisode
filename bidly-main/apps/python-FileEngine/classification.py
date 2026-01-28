@@ -2,9 +2,9 @@ from typing import Literal
 from pathlib import Path
 from fastapi import UploadFile
 
-from HwpToTxt.hwp_converter import HwpConverter
-from DocToTxt.doc_converter import DocConverter
-from PdfToTxt.pdf_converter import PdfConverter
+from converters.hwp_converter import HwpConverter
+from converters.doc_converter import DocConverter
+from converters.pdf_converter import PdfConverter
 
 
 # 파일 타입 정의

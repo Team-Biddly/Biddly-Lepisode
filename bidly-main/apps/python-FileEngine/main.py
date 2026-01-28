@@ -7,9 +7,9 @@ from classification import process_file_by_type
 from classification import FileClassifier
 from database import BidNotice, get_db, init_db
 
-from DocToTxt.doc_converter import DocConverter
-from HwpToTxt.hwp_converter import HwpConverter
-from PdfToTxt.pdf_converter import PdfConverter
+from converters.doc_converter import DocConverter
+from converters.hwp_converter import HwpConverter
+from converters.pdf_converter import PdfConverter
 app = FastAPI(
     title="File to Txt Converter",
     description="File to Txt Converter with Classifier",
