@@ -1,0 +1,11 @@
+model Setting {
+    key   String  @id
+    value String?
+}
+
+model BackgroundTaskLog {
+    id          String   @id @default(uuid())
+    name        String
+    description String?
+    createdAt   DateTime @default(now())
+}

@@ -1,0 +1,18 @@
+<div class="flex flex-col gap-3">
+    <span>전체 {{ $result.value()?.pageInfo?.totalItems }} 건</span>
+
+    <main class="flex flex-col relative" auto-animate>
+        @for (item of $result.value()?.items; track item.id) {
+            <app-pre-standard-item [preStandard]="item" />
+        } @empty {
+            <div class="flex flex-col items-center justify-center gap-4 py-20">
+                <app-icon name="material-symbols:search-off" class="text-6xl text-gray-300" />
+                <p class="text-gray-400">검색 결과가 없습니다.</p>
+            </div>
+        }
+    </main>
+
+    @if ($result.value()?.pageInfo; as pageInfo) {
+        <app-pagination class="mt-10 self-center" [(page)]="pageNo" [pageInfo]="pageInfo" />
+    }
+</div>

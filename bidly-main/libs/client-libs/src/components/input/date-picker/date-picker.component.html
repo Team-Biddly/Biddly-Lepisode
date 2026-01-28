@@ -1,0 +1,65 @@
+<app-fieldset [label]="label()" [required]="required() ? 'true' : 'false'">
+    <label
+        (clickOutside)="open.set(false)"
+        (click)="handleOpen($event)"
+        class="input hidden md:flex"
+        cdkOverlayOrigin
+        #trigger="cdkOverlayOrigin"
+    >
+        <input
+            style="caret-color: transparent"
+            #yearRef
+            placeholder="년"
+            [(ngModel)]="year"
+            class="focus-within:bg-primary-100 my-2 w-[8ch] text-end placeholder-gray-500"
+            maxlength="4"
+            (keydown)="yearKeydown($event)"
+            (paste)="handlePaste($event)"
+        />
+        <p class="text-xs">.</p>
+        <input
+            style="caret-color: transparent"
+            #monthRef
+            placeholder="월"
+            [(ngModel)]="month"
+            class="focus-within:bg-primary-100 w-[4ch] text-end placeholder-gray-500"
+            maxlength="2"
+            (keydown)="monthKeydown($event)"
+            (paste)="handlePaste($event)"
+        />
+        <p class="text-xs">.</p>
+        <input
+            style="caret-color: transparent"
+            #dayRef
+            placeholder="일"
+            [(ngModel)]="day"
+            class="focus-within:bg-primary-100 w-[4ch] text-end placeholder-gray-500"
+            maxlength="2"
+            (paste)="handlePaste($event)"
+            (keydown)="dayKeydown($event)"
+        />
+        <div class="flex w-full justify-end ml-6">
+            @if (year() || month() || day()) {
+                <app-icon (click)="reset()" name="ic:baseline-cancel" class="!size-5 cursor-pointer text-gray-400" />
+            }
+        </div>
+    </label>
+
+    <input type="date" [(ngModel)]="value" class="input md:hidden" />
+</app-fieldset>
+
+<ng-template
+    #calendar
+    cdkConnectedOverlay
+    [cdkConnectedOverlayOrigin]="trigger"
+    [cdkConnectedOverlayOpen]="open()"
+    (detach)="open.set(false)"
+    (clickOutside)="open.set(false)"
+>
+    <div class="rounded-md custom-shadow" (click)="handleOpen($event)">
+        <app-pick-calendar [(value)]="value" (valueChange)="handleValueChange()" />
+        <div class="flex w-full justify-end border-t border-gray-100 p-4 bg-white">
+            <button class="btn btn-primary" (click)="open.set(false); $event.stopPropagation()">확인</button>
+        </div>
+    </div>
+</ng-template>

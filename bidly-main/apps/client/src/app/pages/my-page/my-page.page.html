@@ -1,0 +1,78 @@
+<main class="flex flex-col lg:flex-row lg:container lg:h-220 h-screen py-8 lg:gap-10 bg-zinc-50 lg:bg-white">
+    <!-- 탭: 북마크 / 내정보수정 (모바일 전용) -->
+    <div class="block lg:hidden">
+        <div class="flex items-center justify-between px-4">
+            <div class="flex flex-col gap-1">
+                <p class="text-zinc-800 font-semibold">{{ user()?.name }}</p>
+                <p class="text-zinc-400 text-sm">{{ email() }}</p>
+            </div>
+            <button (click)="logout()" class="flex items-center gap-2 text-zinc-400">
+                <app-icon name="mdi:logout" class="size-5" />
+                로그아웃
+            </button>
+        </div>
+
+        <div class="flex mt-6 border border-zinc-100 rounded-sm overflow-hidden h-10">
+            <button
+                routerLink="/my-page/book-mark"
+                [queryParams]="{ tab: 'order-plan' }"
+                class="w-1/2 py-2"
+                [ngClass]="isBookMarkTab() ? 'bg-[#EAF4EF] text-primary' : 'bg-white text-zinc-500'"
+            >
+                북마크
+            </button>
+            <button
+                routerLink="/my-page/update-info"
+                [queryParams]="{ tab: 'info' }"
+                class="w-1/2 py-2"
+                [ngClass]="!isBookMarkTab() ? 'bg-[#EAF4EF] text-primary' : 'bg-white text-zinc-500'"
+            >
+                내정보수정
+            </button>
+        </div>
+    </div>
+
+    <!-- PC 사이드바 -->
+    <div class="hidden lg:flex flex-col gap-2.5 w-64 border h-max border-zinc-100 rounded-sm p-5 shrink-0">
+        <div>
+            <p class="text-zinc-800">{{ user()?.name }}</p>
+            <p class="text-zinc-400 text-sm">{{ user()?.auths?.[0]?.email }}</p>
+        </div>
+
+        <div class="border border-zinc-100"></div>
+
+        <div class="flex flex-col gap-1">
+            <button
+                routerLink="/my-page/book-mark"
+                [queryParams]="{ tab: 'order-plan' }"
+                class="p-3 cursor-pointer"
+                [ngClass]="isBookMarkTab() ? 'text-primary font-semibold bg-[#EAF4EF] rounded-sm' : ''"
+            >
+                북마크
+            </button>
+            <button
+                routerLink="/my-page/update-info"
+                [queryParams]="{ tab: 'info' }"
+                class="p-3 cursor-pointer"
+                [ngClass]="!isBookMarkTab() ? 'text-primary font-semibold bg-[#EAF4EF] rounded-sm' : ''"
+            >
+                내 정보 수정
+            </button>
+        </div>
+
+        <div class="border border-zinc-100"></div>
+
+        <div class="flex items-center cursor-pointer gap-1 text-zinc-500 mt-2">
+            <app-icon name="mdi:logout" class="w-5 h-5" />
+            <button (click)="logout()">로그아웃</button>
+        </div>
+    </div>
+
+    <!-- 우측 컨텐츠 -->
+    <div
+        class="lg:h-full h-screen w-full"
+        [ngClass]="isBookMarkTab() ? '' : 'lg:border lg:border-zinc-100 lg:bg-zinc-50 bg-white px-4 py-5 lg:py-15'"
+    >
+        <router-outlet />
+    </div>
+</main>

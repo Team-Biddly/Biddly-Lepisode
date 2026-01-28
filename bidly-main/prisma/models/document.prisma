@@ -1,0 +1,17 @@
+model Document {
+    id      String       @id @default(cuid(2))
+    type    DocumentType
+    name    String
+    content String
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+enum DocumentType {
+    HWP
+    WORD
+    EXCEL
+    PDF
+    TXT
+}

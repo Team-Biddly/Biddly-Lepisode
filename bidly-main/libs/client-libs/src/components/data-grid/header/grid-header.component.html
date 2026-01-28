@@ -1,0 +1,39 @@
+<!-- eslint-disable @angular-eslint/template/label-has-associated-control -->
+<section class="flex flex-col gap-3">
+    <section class="flex w-full justify-between items-center">
+        <label class="focus-within:input-primary input">
+            <app-icon name="mdi:search" />
+            <input appInput [(value)]="query" [debounce]="300" type="text" placeholder="검색어를 입력해주세요." required />
+        </label>
+        <div class="flex items-center gap-2">
+            <ng-content name="[buttons]" />
+        </div>
+    </section>
+</section>
+
+<ng-template #menu>
+    <app-menu cdkMenu>
+        @for (option of aligns; track $index) {
+            <div class="relative group">
+                <app-menu-option icon="ic:baseline-chevron-left">
+                    <div class="flex items-center justify-end w-full gap-2">
+                        <p>{{ option === 'desc' ? '내림차순' : '오름차순' }}</p>
+                        <app-icon [name]="option === 'desc' ? 'ic:outline-arrow-downward' : 'ic:outline-arrow-upward'" size="sm" />
+                    </div>
+                </app-menu-option>
+                <app-menu class="absolute right-[calc(100%)] top-0 hidden group-hover:block">
+                    @for (column of columns(); track column.field) {
+                        @if (column.field !== 'rowNumber' && column.field !== 'checkbox') {
+                            <app-menu-option
+                                (click)="handleOrderBy(option, column.alias || column.field)"
+                                cdkMenuItem
+                                [active]="column.name === currentOrderBy() && align() === option"
+                                >{{ column.name }}</app-menu-option
+                            >
+                        }
+                    }
+                </app-menu>
+            </div>
+        }
+    </app-menu>
+</ng-template>

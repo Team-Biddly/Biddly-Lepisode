@@ -1,0 +1,82 @@
+<section class="w-screen sm:w-auto sm:min-w-[30rem] rounded-lg bg-base-100">
+    <form class="flex flex-col gap-4 p-4" [formGroup]="form">
+        <app-color-picker />
+        <fieldset class="fieldset">
+            <legend class="fieldset-legend">제목</legend>
+            <input
+                appInput
+                formControlName="title"
+                class="input focus-within:border-primary w-full"
+                required
+                placeholder="제목을 입력해주세요."
+            />
+        </fieldset>
+        <div class="flex flex-col gap-2 w-full">
+            <div class="flex w-full justify-between items-center">
+                <fieldset class="fieldset w-full">
+                    <div class="flex w-full justify-between items-center">
+                        <legend class="fieldset-legend">날짜</legend>
+                        <label class="fieldset-label">
+                            <input
+                                type="checkbox"
+                                formControlName="hasEndDate"
+                                class="rounded-md checkbox checkbox-primary border-neutral-300"
+                            />
+                            <p class="text-sm">종료일 포함</p>
+                        </label>
+                    </div>
+                    <div class="flex gap-2 items-center">
+                        @if (hasTime()) {
+                            <app-checkbox formControlName="allDay" label="종일" />
+                        }
+                    </div>
+                </fieldset>
+            </div>
+            <div class="flex sm:flex-row flex-col gap-2.5 sm:items-center">
+                <input appInput type="date" formControlName="startDate" class="input" />
+                @if (hasTime() && !allDay()) {
+                    <input
+                        appInput
+                        type="time"
+                        [required]="hasTime() && !allDay() ? 'true' : 'false'"
+                        formControlName="startTime"
+                        class="w-full input"
+                    />
+                }
+
+                @if (hasEndDate()) {
+                    <p class="theme-text">-</p>
+                    <input
+                        appInput
+                        type="date"
+                        [required]="hasEndDate() ? 'true' : 'false'"
+                        formControlName="endDate"
+                        class="w-full input"
+                    />
+                    @if (hasTime() && !allDay()) {
+                        <input
+                            appInput
+                            type="time"
+                            [required]="hasTime() && !allDay() ? 'true' : 'false'"
+                            formControlName="endTime"
+                            class="w-full input"
+                        />
+                    }
+                }
+            </div>
+        </div>
+        <fieldset class="fieldset">
+            <legend class="fieldset-legend">내용</legend>
+            <textarea
+                appInput
+                formControlName="content"
+                class="textarea resize-none focus-within:border-primary"
+                placeholder="내용을 입력해주세요."
+            ></textarea>
+        </fieldset>
+    </form>
+    <div class="w-full h-px bg-base-300"></div>
+    <div class="flex w-full p-4">
+        <button (click)="submit()" class="btn-block btn btn-primary" [disabled]="!form.valid">{{ event() ? '수정' : '등록' }}</button>
+    </div>
+</section>

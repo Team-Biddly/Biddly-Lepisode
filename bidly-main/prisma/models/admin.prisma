@@ -1,0 +1,38 @@
+model Admin {
+    id           String   @id @default(uuid())
+    email        String   @unique
+    name         String
+    password     String
+    permissions  String[]
+    refreshToken String?  @unique
+    createdAt    DateTime @default(now())
+    updatedAt    DateTime @default(now()) @updatedAt
+    role         AdminRole @default(NORMAL)
+    blockedAt    DateTime? /// 차단 일시
+    deletedAt    DateTime? /// 삭제 일시
+    status       AdminAccountStatus @default(ACTIVE)
+
+    // 관계
+    faqs         Faq[]
+    blockLogs    BlockLog[] @relation("blocker")
+    blockedLogs  BlockLog[] @relation("blocked")
+    policies     Policy[]
+    files        File[]
+    businessInfos BusinessInfo[]
+    banners      Banner[]
+    logs         Log[]
+    actionLogs   UserActionLog[]
+}
+
+enum AdminRole {
+    SUPER_ADMIN 
+    NORMAL // 일반 관리자
+}
+
+// 관리자 상태
+enum AdminAccountStatus {
+  ACTIVE        // 정상 사용 중
+  BLOCKED       // 차단됨
+  WITHDRAWN     // 탈퇴 완료
+  REJOINABLE    // 재가입 가능
+}

@@ -1,0 +1,63 @@
+<div class="flex flex-col gap-2 w-full">
+    <div class="flex items-center gap-1">
+        <span class="font-semibold text-zinc-800">연락처</span>
+        <span class="size-2 rounded-full bg-primary"></span>
+    </div>
+    <div class="flex items-center w-full gap-1">
+        <fieldset class="fieldset w-full">
+            <input
+                class="input text-zinc-800 placeholder:text-zinc-400 w-full"
+                type="text"
+                [value]="showValue() || value()"
+                (input)="handleInput($event)"
+                inputmode="numeric"
+                maxlength="11"
+                placeholder="입력해주세요."
+                [readOnly]="isVerified() || (mode() === 'UPDATE' && !isUpdating()) || token()"
+            />
+        </fieldset>
+
+        @if (mode() === 'UPDATE' && !isUpdating()) {
+            <button (click)="handleUpdateMode()" class="border rounded-sm px-3 py-2 min-w-25 transition-colors duration-200">
+                연락처 변경
+            </button>
+        }
+
+        @if ((!isVerified() && mode() === 'UPDATE' && isUpdating()) || (!isVerified() && mode() === 'CREATE')) {
+            <button
+                (click)="sendSmsCode()"
+                [disabled]="!isValidContact()"
+                class="border rounded-sm px-3 py-2 min-w-25 transition-colors duration-200 bg-white disabled:text-zinc-400 disabled:curosrnr-not-allowed disabled:pointer-events-none disabled:bg-zinc-200"
+            >
+                연락처 인증
+            </button>
+        }
+    </div>
+
+    @if (!isVerified() && this.token()) {
+        <div class="flex items-center w-full gap-1">
+            <input
+                [value]="code()"
+                (input)="handleCodeInput($event)"
+                class="input text-zinc-800 placeholder:text-zinc-400 w-full"
+                type="text"
+                inputmode="numeric"
+                maxlength="6"
+                placeholder="입력해주세요."
+            />
+            <button
+                (click)="verifySmsCode()"
+                [disabled]="!isValidCode()"
+                class="border rounded-sm px-3 py-2 min-w-25 transition-colors duration-200 disabled:text-zinc-400 disabled:cursor-not-allowed disabled:pointer-events-none disabled:bg-zinc-200"
+            >
+                인증하기
+            </button>
+        </div>
+        @if (isVerified()) {
+            <div class="flex items-center gap-1">
+                <img src="icons/check.svg" alt="check" class="w-4 h-4" />
+                <span class="text-primary text-xs">인증번호 일치</span>
+            </div>
+        }
+    }
+</div>

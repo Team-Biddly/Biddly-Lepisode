@@ -1,0 +1,50 @@
+<!-- @if ($data.value(); as banner) {
+    <div class="flex flex-col gap-6 w-full">
+        <div class="flex items-center gap-2">
+            <div class="flex items-center cursor-pointer" routerLink="/banner">
+                <div class="w-5 h-5">
+                    <app-button icon="mdi:chevron-left" />
+                </div>
+                <p class="text-xl font-semibold">목록으로</p>
+            </div>
+        </div>
+
+        <app-accordion title="기본 정보">
+            <div buttons>
+                <button class="cursor-pointer" [cdkMenuTriggerFor]="menu">
+                    <app-icon name="iconamoon:menu-kebab-vertical-bold" class="text-gray-800" />
+                </button>
+            </div>
+
+            <ng-template #menu>
+                <app-menu cdkMenu>
+                    <app-menu-option (click)="openFormModal($event)"> 수정</app-menu-option>
+                    <app-menu-option (click)="handleDelete($event)"> 삭제</app-menu-option>
+                </app-menu>
+            </ng-template>
+
+            <section class="grid grid-cols-3 gap-6">
+                <app-text-field label="이미지" class="col-span-3">
+                    <img [src]="banner.files[0].url" alt="image" />
+                </app-text-field>
+                <app-text-field label="상태"> {{ banner.isExposed ? '노출' : '숨김' }} </app-text-field>
+                <app-text-field label="제목"> {{ banner.title }} </app-text-field>
+                <app-text-field label="링크">
+                    <a
+                        [class]="banner.url ? 'underline hover:text-primary transition-all cursor-pointer' : ''"
+                        [href]="banner.url"
+                        target="_blank"
+                    >
+                        {{ banner.url || '-' }}
+                    </a>
+                </app-text-field>
+                <app-text-field label="작성자">
+                    <a [routerLink]="['/user', banner.admin.id]" class="underline hover:text-primary transition-all cursor-pointer">
+                        {{ banner?.admin?.name || '-' }}
+                    </a>
+                </app-text-field>
+                <app-text-field label="등록일시"> {{ banner.createdAt | date: 'yyyy-MM-dd HH:mm' }} </app-text-field>
+            </section>
+        </app-accordion>
+    </div>
+} -->

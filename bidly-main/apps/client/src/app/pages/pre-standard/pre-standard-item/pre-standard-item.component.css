@@ -1,0 +1,12 @@
+#info-detail {
+  app-icon,
+  h6 {
+    color: var(--color-zinc-400);
+  }
+
+  span {
+    color: var(--color-zinc-600);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}

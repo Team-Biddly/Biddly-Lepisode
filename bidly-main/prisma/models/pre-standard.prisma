@@ -1,0 +1,30 @@
+model PreStandard {
+    id        String   @id
+    keywords  String[]
+    createdAt DateTime @default(now())
+
+    업무구분명          String
+    참조번호             String /// refNo
+    품명                   String /// prdctClsfcNoNm
+    발주기관명          String /// orderInsttNm
+    실수요기관명       String /// rlDminsttNm 
+    배정예산금액       BigInt /// asignBdgtAmt
+    접수일시             DateTime /// rcptDt
+    의견등록마감일시 DateTime ///opninRgstClseDt
+    담당자전화번호    String /// ofclTelNo
+    담당자명             String /// ofclNm
+    SW사업대상여부     Boolean /// swBizObjYn
+    납품기한일시       DateTime? /// dlvrTmlmtDt
+    납품일수             Int? /// dlvrDaynum 
+    사전규격등록번호 String /// bfSpecRgstNo
+    규격문서파일URL    String[] /// specDocFileUrl
+    물품상세목록       String[] /// prdctDtlList
+    등록일시             DateTime /// rgstDt
+    입찰공고번호목록 String[] /// bidNtceNoList
+    의견목록             Json[]
+
+    @@index([접수일시])
+    @@index([업무구분명])
+    @@index([발주기관명])
+    @@index([담당자명])
+}

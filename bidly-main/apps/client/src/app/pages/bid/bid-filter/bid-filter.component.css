@@ -1,0 +1,11 @@
+:host {
+  animation: slideInY 0.2s cubic-bezier(0.68, -0.1, 0.3, 1) both;
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--spacing) * 3);
+  border-bottom: 1px solid var(--color-gray-200);
+  padding: calc(var(--spacing) * 5);
+}

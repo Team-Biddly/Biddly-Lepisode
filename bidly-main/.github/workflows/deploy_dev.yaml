@@ -1,0 +1,149 @@
+name: Deploy Dev
+
+on:
+  push:
+    branches: ['develop']
+    paths:
+      - 'apps/**'
+      - 'docker/**'
+      - 'libs/**'
+      - '.github/workflows/deploy_dev.yaml'
+      - 'nx.json'
+  workflow_dispatch:
+env:
+  service_name: bidly
+  portainer_restart_url: https://portainer.lepisode.team/api/stacks/webhooks/7c661b55-251c-4d1e-a503-72d33411c3eb
+  ENVIRONMENT: development
+
+jobs:
+  detect-changes:
+    runs-on: self-hosted
+    outputs:
+      admin: ${{ steps.filter.outputs.admin }}
+      client: ${{ steps.filter.outputs.client }}
+      server: ${{ steps.filter.outputs.server }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Get changed files
+        id: filter
+        uses: dorny/paths-filter@v2
+        with:
+          filters: |
+            admin:
+              - 'apps/admin/**'
+              - 'docker/Dockerfile.admin'
+              - 'libs/**'
+            client:
+              - 'apps/client/**'
+              - 'docker/Dockerfile.client'
+              - 'libs/**'
+            server:
+              - 'apps/server/**'
+              - 'docker/Dockerfile.server'
+              - 'libs/**'
+
+  deploy_admin:
+    runs-on: self-hosted
+    needs: [detect-changes]
+    env:
+      app_name: admin
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Dependencies
+        run: |
+          npm ci --legacy-peer-deps
+          npm install @angular/material --force
+
+      - name: Login Docker Registry
+        uses: docker/login-action@v3
+        with:
+          username: ${{secrets.LEPISODE_DOCKER_USERNAME}}
+          password: ${{secrets.LEPISODE_DOCKER_PASSWORD}}
+
+      - name: Build Application
+        run: npx nx build ${{env.app_name}} --configuration development --skip-nx-cache
+
+      - name: Build Docker Image
+        run: docker build --build-arg environment=${{env.ENVIRONMENT}} -t lepisoderegistry/${{env.service_name}}-${{env.app_name}}:dev-latest -f docker/Dockerfile.${{env.app_name}} .
+
+      - name: Push Docker Image
+        run: docker push lepisoderegistry/${{env.service_name}}-${{env.app_name}}:dev-latest
+
+  deploy_client:
+    runs-on: self-hosted
+    needs: [detect-changes]
+    env:
+      app_name: client
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Dependencies
+        run: |
+          npm ci --legacy-peer-deps
+          npm install @angular/material --force
+
+      - name: Login Docker Registry
+        uses: docker/login-action@v3
+        with:
+          username: ${{secrets.LEPISODE_DOCKER_USERNAME}}
+          password: ${{secrets.LEPISODE_DOCKER_PASSWORD}}
+
+      - name: Build Application
+        run: npx nx build ${{env.app_name}} --configuration development --skip-nx-cache
+
+      - name: Build Docker Image
+        run: docker build --build-arg environment=${{env.ENVIRONMENT}} -t lepisoderegistry/${{env.service_name}}-${{env.app_name}}:dev-latest -f docker/Dockerfile.${{env.app_name}} .
+
+      - name: Push Docker Image
+        run: docker push lepisoderegistry/${{env.service_name}}-${{env.app_name}}:dev-latest
+
+  deploy_server:
+    runs-on: self-hosted
+    needs: [detect-changes]
+    env:
+      app_name: server
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Login Docker Registry
+        uses: docker/login-action@v3
+        with:
+          username: ${{secrets.LEPISODE_DOCKER_USERNAME}}
+          password: ${{secrets.LEPISODE_DOCKER_PASSWORD}}
+
+      - name: Build Application
+        run: npx nx build ${{env.app_name}} --configuration development --skip-nx-cache
+
+      - name: Build Docker Image
+        run: docker build --build-arg environment=${{env.ENVIRONMENT}} -t lepisoderegistry/${{env.service_name}}-${{env.app_name}}:dev-latest -f docker/Dockerfile.${{env.app_name}} .
+
+      - name: Push Docker Image
+        run: docker push lepisoderegistry/${{env.service_name}}-${{env.app_name}}:dev-latest
+
+  restart_stack:
+    runs-on: self-hosted
+    needs: ['deploy_admin', 'deploy_client', 'deploy_server']
+    if: ${{always()}}
+    steps:
+      - name: Restart Stack
+        run: curl -X POST ${{env.portainer_restart_url}}

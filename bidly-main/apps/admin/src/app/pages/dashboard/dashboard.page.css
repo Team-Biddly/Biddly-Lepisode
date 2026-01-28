@@ -1,0 +1,13 @@
+@reference '../../../styles.css';
+
+main {
+  @apply bg-base-200 flex flex-col w-full h-full min-h-screen gap-6 overflow-y-auto pb-[10rem];
+}
+
+.card-section {
+  @apply flex flex-col gap-6 p-8 bg-base-100 rounded-xl;
+}
+
+.card-section-title {
+  @apply text-gray-800 text-xl font-semibold;
+}

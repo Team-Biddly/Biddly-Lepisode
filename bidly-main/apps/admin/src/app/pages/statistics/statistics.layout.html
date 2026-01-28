@@ -1,0 +1,31 @@
+<section class="flex flex-col h-full w-full pt-6">
+    <app-segment [options]="segmentOptions" [(value)]="segment" (valueChange)="handleSegmentChange()" />
+    <section class="bg-base-200 w-full h-full">
+        <router-outlet />
+        <section class="p-6 pt-0">
+            <div class="flex flex-col gap-6 p-8 bg-base-100 rounded-xl">
+                <div class="flex gap-3 items-center">
+                    <p class="text-xl font-semibold text-gray-800">방문자 목록</p>
+                    @if (startAt() && endAt()) {
+                        <div class="px-2.5 py-1 rounded-lg bg-gray-50">
+                            <p class="text-sm text-gray-400">
+                                {{ startAt() | date: 'y년 MM월 dd일' }} - {{ endAt() | date: 'y년 MM월 dd일' }}
+                            </p>
+                        </div>
+                    }
+                </div>
+                <app-ssp-data-grid
+                    [columns]="columns"
+                    [rowData]="items()!"
+                    [pageInfo]="pageInfo()!"
+                    [(page)]="pageNo"
+                    [(pageSize)]="pageSize"
+                    [(orderBy)]="orderBy"
+                    [(align)]="align"
+                    [(query)]="query"
+                    [options]="gridOptions"
+                />
+            </div>
+        </section>
+    </section>
+</section>

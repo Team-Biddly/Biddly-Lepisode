@@ -1,0 +1,15 @@
+model SyncLog {
+    id       Int      @id @default(autoincrement())
+    type     SyncType
+    apiCalls Int
+    entries  Int
+    duration Int // milliseconds
+
+    createdAt DateTime @default(now())
+}
+
+enum SyncType {
+    사전규격
+    발주계획
+    입찰공고
+}

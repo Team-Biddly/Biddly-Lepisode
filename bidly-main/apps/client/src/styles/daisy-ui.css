@@ -1,0 +1,109 @@
+* {
+  outline: 0;
+}
+
+@plugin "daisyui" {
+  themes: light --default;
+}
+
+@plugin "daisyui/theme" {
+  name: 'light';
+  default: true;
+  --color-base-100: oklch(100% 0 0);
+  --color-base-200: oklch(0.98 0 0 / 1);
+
+  --color-base-content: var(--color-zinc-800);
+
+  --color-primary: oklch(0.7 0.19 46.27 / 1);
+  --color-primary-200: oklch(0.87 0.08 55.73 / 1);
+  --color-primary-content: oklch(100% 0 0);
+
+  --color-secondary: oklch(0.27 0.01 286.03 / 1);
+  --color-secondary-content: oklch(100% 0 0);
+
+  --color-error: var(--color-red-500);
+  --color-error-content: oklch(100% 0 0);
+
+  --color-success: var(--color-green-400);
+  --color-success-content: oklch(100% 0 0);
+
+  --color-normal: oklch(0.92 0 286.32 / 1);
+  --color-normal-content: oklch(0.71 0.01 286.07 / 1);
+
+  --color-info: var(--color-zinc-400);
+  --color-info-content: oklch(100% 0 0);
+
+  --color-neutral: var(--color-neutral-400);
+  --color-neutral-content: oklch(100% 0 0);
+
+  --color-warning: var(--color-yellow-400);
+  --color-warning-content: oklch(100% 0 0);
+
+  --color-blue-50: oklch(0.97 0.01 254.6 / 1);
+}
+
+@utility tablist {
+  @apply flex gap-3;
+
+  .tab {
+    @apply px-0 text-base duration-200 hover:text-primary;
+  }
+}
+
+@utility tab-active {
+  @apply text-primary;
+}
+
+@utility input {
+  @apply focus-within:border-primary;
+}
+
+@utility fieldset {
+  @apply text-base;
+}
+
+@utility alert-error {
+  @apply bg-[#bd362f];
+}
+
+@utility alert-success {
+  @apply bg-[#51a351];
+}
+
+@utility alert-warning {
+  @apply bg-[#f89406];
+}
+
+@utility alert-info {
+  @apply bg-[#2f96b4];
+}
+
+@utility checkbox {
+  @apply bg-white checkbox-primary border-zinc-300 checked:border-primary checked:bg-primary rounded-md;
+}
+
+@layer base {
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type='number'] {
+    -moz-appearance: textfield !important;
+  }
+
+  /* input 클릭 시 캘린더 오픈 되도록 수정 */
+  input[type='date']::-webkit-calendar-picker-indicator {
+    background: transparent;
+    bottom: 0;
+    color: transparent;
+    cursor: pointer;
+    height: auto;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: auto;
+  }
+}

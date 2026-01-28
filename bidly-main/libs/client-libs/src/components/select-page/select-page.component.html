@@ -1,0 +1,36 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<div class="flex items-center gap-1 select-none">
+    @if (page() !== 1) {
+        <div [attr.data-theme]="theme()" class="page-button">
+            <app-icon name="ri:skip-left-line" (click)="page.set(1)" [attr.data-theme]="theme()" class="theme-text" />
+        </div>
+        <div [attr.data-theme]="theme()" class="page-button" (click)="page.set(page() - 1)">
+            <app-icon name="mdi:chevron-left" [attr.data-theme]="theme()" class="theme-text" />
+        </div>
+    }
+    @for (_page of pages(); track _page) {
+        <div
+            [attr.data-page]="_page"
+            [attr.data-theme]="theme()"
+            [attr.data-active]="page() === _page"
+            (click)="page.set(_page)"
+            class="page-button theme-text"
+        >
+            {{ _page }}
+        </div>
+    }
+    @if (page() !== pageInfo().totalPages) {
+        <div [attr.data-theme]="theme()" class="page-button" (click)="page.set(page() + 1)">
+            <app-icon name="mdi:chevron-right" [attr.data-theme]="theme()" class="theme-text" />
+        </div>
+        <div [attr.data-theme]="theme()" class="page-button">
+            <app-icon
+                name="ri:skip-right-line"
+                (click)="page.set(pageInfo().totalPages || 0)"
+                [attr.data-theme]="theme()"
+                class="theme-text"
+            />
+        </div>
+    }
+</div>

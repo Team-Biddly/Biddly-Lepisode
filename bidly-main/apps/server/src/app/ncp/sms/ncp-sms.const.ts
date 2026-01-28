@@ -1,0 +1,1 @@
+export const NCP_SMS_MODULE_OPTIONS = Symbol('NCP_SMS_MODULE_OPTIONS');

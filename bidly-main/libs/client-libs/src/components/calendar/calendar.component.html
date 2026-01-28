@@ -1,0 +1,11 @@
+<section class="flex flex-col rounded-md select-none">
+    <app-calendar-header [(mode)]="mode">
+        <ng-content select="[buttons]" />
+    </app-calendar-header>
+
+    @if (mode() === 'day') {
+        <app-timeline-calendar />
+    } @else {
+        <app-block-calendar />
+    }
+</section>

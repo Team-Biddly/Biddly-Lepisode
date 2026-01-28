@@ -1,0 +1,79 @@
+@if (user(); as user) {
+    <div #test class="flex flex-col gap-6">
+        <div class="flex items-center gap-2">
+            <div class="flex items-center cursor-pointer" routerLink="/user">
+                <app-icon name="mdi:chevron-left" />
+                <p class="text-xl font-semibold">목록으로</p>
+            </div>
+        </div>
+
+        <section>
+            <div class="flex flex-col gap-6 border border-gray-200 rounded-lg p-6">
+                <div class="flex items-center justify-between">
+                    <button class="flex items-center gap-3 cursor-pointer" (click)="isOpen = !isOpen">
+                        <div class="text-xl font-semibold">기본 정보</div>
+                        <app-icon
+                            [name]="isOpen ? 'mdi:chevron-up' : 'mdi:chevron-down'"
+                            class="w-5 h-5 transition duration-300 ease-in-out"
+                        />
+                    </button>
+                    <div buttons>
+                        <button class="cursor-pointer" [cdkMenuTriggerFor]="menu">
+                            <app-icon name="mdi:dots-vertical" />
+                        </button>
+                    </div>
+
+                    <ng-template #menu>
+                        <app-menu cdkMenu>
+                            <app-menu-option (click)="toggleBlock()">차단/차단해제</app-menu-option>
+                        </app-menu>
+                    </ng-template>
+                </div>
+
+                @if (isOpen) {
+                    <hr class="border-gray-200" />
+                }
+
+                @if (isOpen) {
+                    <div class="grid grid-cols-3 gap-4">
+                        <div class="flex flex-col gap-1">
+                            <span class="font-semibold text-gray-700">상태</span>
+                            <span
+                                class="self-start w-fit inline-flex items-center rounded-full border px-3 py-1 text-sm font-medium"
+                                [ngClass]="{
+                                    'bg-emerald-50 text-emerald-600 border-emerald-200': user.status === 'ACTIVE',
+                                    'bg-red-50 text-red-600 border-red-200': user.status === 'BLOCKED',
+                                    'bg-gray-50 text-gray-600 border-gray-200': user.status === 'WITHDRAWN',
+                                }"
+                            >
+                                {{ user.status === 'ACTIVE' ? '정상' : user.status === 'WITHDRAWN' ? '탈퇴' : '차단' }}
+                            </span>
+                        </div>
+
+                        <div class="flex flex-col gap-1">
+                            <span class="font-semibold text-gray-700">이름</span>
+                            <span class="text-gray-500">{{ user.name }}</span>
+                        </div>
+
+                        <div class="flex flex-col gap-1">
+                            <span class="font-semibold text-gray-700">연락처</span>
+                            <span class="text-gray-500">{{ user.contact }}</span>
+                        </div>
+
+                        <div class="flex flex-col gap-1">
+                            <span class="font-semibold text-gray-700">이메일</span>
+                            <span class="text-gray-500">{{ user.auths[0].email }}</span>
+                        </div>
+
+                        <div class="flex flex-col gap-1">
+                            <span class="font-semibold text-gray-700">가입일시</span>
+                            <span class="text-gray-500">{{ user.createdAt | date: 'yyyy-MM-dd HH:mm' }}</span>
+                        </div>
+                    </div>
+                }
+            </div>
+        </section>
+
+        <app-user-log [user]="user" />
+    </div>
+}

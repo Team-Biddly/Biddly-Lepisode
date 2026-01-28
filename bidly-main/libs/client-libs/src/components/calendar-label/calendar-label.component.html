@@ -1,0 +1,4 @@
+<div class="flex gap-1 items-center">
+  <app-year-label [value]="value()" (dateChange)="dateChange.emit($event)" />
+  <app-month-label [value]="value()" (dateChange)="dateChange.emit($event)" />
+</div>

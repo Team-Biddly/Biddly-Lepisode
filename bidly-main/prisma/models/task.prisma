@@ -1,0 +1,14 @@
+model Task {
+    id          String     @id @default(cuid())
+    name        String
+    description String?
+    cron        String     @default("0 0 0 * * *") // 매일 0시 0분 0초에 실행
+    createdAt   DateTime   @default(now())
+    updatedAt   DateTime   @default(now()) @updatedAt
+    status      TaskStatus @default(RUNNING)
+}
+
+enum TaskStatus {
+    STOPPED
+    RUNNING
+}

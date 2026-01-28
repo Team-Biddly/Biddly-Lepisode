@@ -1,0 +1,49 @@
+@if (event(); as event) {
+    <div
+        [dndDraggable]="{ event, type: 'drop' }"
+        [cdkContextMenuTriggerFor]="contextMenu"
+        (cdkContextMenuOpened)="isContextOpen.set(true)"
+        (cdkContextMenuClosed)="isContextOpen.set(false)"
+        [style]="{
+            'background-color': isHex()! ? currentColor() : '',
+        }"
+        [attr.data-color]="isHex()! ? '' : currentColor()"
+        dndDraggingClass="dragging"
+        class="event truncate"
+    >
+        <!-- color가 hex 코드인 경우에만 배경색을 적용합니다. -->
+        <!-- hex 코드가 아닌 경우 css에서 정의한 색상을 적용합니다. -->
+        <div
+            class="prefix"
+            [attr.data-all-day]="event.allDay"
+            [style]="{
+                'background-color': isHex()! ? event.color : '',
+            }"
+            [attr.data-color]="isHex()! ? '' : event.color"
+            [class.active]="isContextOpen()"
+        ></div>
+        <div
+            [class.disabled]="!options()?.event?.resize"
+            [dndDisableIf]="!options()?.event?.resize"
+            [dndDraggable]="{ event, type: 'resize', time: 'start' }"
+            class="resizer-top"
+        ></div>
+        <p timelineEventContent [event]="event"></p>
+        <div
+            [class.disabled]="!options()?.event?.resize"
+            [dndDisableIf]="!options()?.event?.resize"
+            [dndDraggable]="{ event, type: 'resize', time: 'end' }"
+            class="resizer-bottom"
+        ></div>
+    </div>
+}
+
+<ng-template #contextMenu>
+    @if (menus() && menus().length > 0) {
+        <app-menu cdkMenu>
+            @for (option of menus(); track $index) {
+                <app-menu-option (click)="menu.emit(option.value)" cdkMenuItem [icon]="option.icon">{{ option.label }}</app-menu-option>
+            }
+        </app-menu>
+    }
+</ng-template>

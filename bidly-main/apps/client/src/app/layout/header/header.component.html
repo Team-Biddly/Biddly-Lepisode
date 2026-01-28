@@ -1,0 +1,19 @@
+<div class="flex w-full sm:flex-col flex-row">
+    @if (!data()?.layoutType || data()?.layoutType === LAYOUT_TYPE.DEFAULT) {
+        <div class="w-full">
+            <app-default-header />
+        </div>
+    }
+
+    @if (data()?.layoutType === LAYOUT_TYPE.ARROW) {
+        <div class="hidden sm:flex w-full sm:flex-col">
+            <app-default-header />
+        </div>
+
+        <div class="border-b border-zinc-100 sm:hidden flex-1">
+            <button (click)="location.back()" class="p-4">
+                <app-icon name="mdi:chevron-left" class="text-zinc-500" />
+            </button>
+        </div>
+    }
+</div>

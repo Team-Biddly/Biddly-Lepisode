@@ -1,0 +1,10 @@
+/// 차단 로그
+model BlockLog {
+  id        String   @id @default(uuid())                                    
+  createdAt DateTime @default(now())          /// 차단 일시                                          
+  until     DateTime?                         // 차단 유효 기간                                
+  adminId   String                                                                        
+  admin     Admin     @relation("blocker", fields: [adminId], references: [id], onDelete: Cascade) /// 차단할 수 있는 회원
+  userId    String                                                                        
+  user      Admin     @relation("blocked", fields: [userId], references: [id], onDelete: Cascade) /// 차단 대상 회원
+}

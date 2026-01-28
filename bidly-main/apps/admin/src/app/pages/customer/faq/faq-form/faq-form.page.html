@@ -1,0 +1,36 @@
+<main class="flex flex-col gap-6 p-6">
+    <form [formGroup]="form">
+        <app-accordion [title]="id() ? 'FAQ 수정' : 'FAQ 등록'">
+            <section class="flex flex-col gap-6">
+                <app-fieldset label="상단 고정" required>
+                    <label class="fieldset-label w-max" for="isPinned">
+                        <input
+                            type="checkbox"
+                            formControlName="isPinned"
+                            checked="checked"
+                            id="isPinned"
+                            class="toggle"
+                            [checked]="this.form.getRawValue().isPinned"
+                        />
+                    </label>
+                </app-fieldset>
+                <app-fieldset label="질문" required>
+                    <input
+                        type="text"
+                        class="w-full input text-zinc-800 placeholder:text-zinc-400"
+                        placeholder="질문을 입력해주세요."
+                        formControlName="question"
+                    />
+                </app-fieldset>
+                <app-fieldset label="답변" required>
+                    <app-editor formControlName="answer" />
+                </app-fieldset>
+            </section>
+        </app-accordion>
+    </form>
+
+    <section class="flex gap-3 mx-auto">
+        <button class="btn btn-wide border-neutral-300 btn-outline w-[30rem]" (click)="location.back()">취소</button>
+        <button class="btn btn-wide btn-primary w-[30rem]" (click)="submit()">저장</button>
+    </section>
+</main>

@@ -1,0 +1,62 @@
+<div class="flex flex-col min-h-screen gap-6 sm:gap-10">
+    <header class="bg-[#F1F6EB]">
+        <div class="flex justify-between items-center container py-2">
+            <div class="flex flex-col gap-2.5">
+                <p class="text-zinc-500 text-sm min-w-max">비들리 이용안내</p>
+                <p class="text-zinc-800 font-semibold text-xl min-w-max">궁금한 사항을 살펴보세요.</p>
+            </div>
+
+            <img src="images/faq.png" alt="faq" class="h-24" />
+        </div>
+    </header>
+
+    <div class="flex flex-col gap-4 sm:gap-6 container">
+        <div class="flex flex-col-reverse justify-between gap-4 sm:gap-0 sm:items-center sm:flex-row">
+            <p class="text-zinc-800 font-semibold">전체 {{ this.$data.value()?.pageInfo?.totalItems || '0' }}</p>
+            <div class="flex items-center gap-3 sm:w-100">
+                <app-input-text-search
+                    class="w-full text-zinc-800 placeholder:text-zinc-400"
+                    [(value)]="query"
+                    placeholder="검색어를 입력해주세요."
+                    [maxLength]="500"
+                    [readonly]="false"
+                />
+            </div>
+        </div>
+
+        @for (faq of $data.value()?.items; track $index) {
+            <div class="transform ease-in-out">
+                <details class="group flex flex-col border border-zinc-100 cursor-pointer" name="faqs" #detailsEl>
+                    <summary class="flex items-center justify-between px-5 py-3" (click)="toggleDetails(detailsEl, $event)">
+                        <div class="flex items-center gap-4">
+                            <img src="icons/faq_Q.svg" alt="faq_Q" class="size-7" />
+                            <p class="text-zinc-800">{{ faq.title }}</p>
+                        </div>
+                        <app-icon name="mdi:chevron-down" class="group-open:rotate-180 transition-transform text-zinc-500 px-1" />
+                    </summary>
+
+                    <div (click)="closeWithAnimation(detailsEl)">
+                        <div class="flex items-start gap-4 px-6 py-3 mx-5 mb-3 bg-zinc-50">
+                            <img src="icons/faq_A.svg" alt="faq_A" class="size-7" />
+                            <div class="text-zinc-500 pt-0.5" [innerHTML]="extractTextContent(faq.content) | safeHtml"></div>
+                        </div>
+
+                        @if (extractFirstImageSrc(faq.content)) {
+                            <div class="w-48 aspect-square">
+                                <img
+                                    [src]="extractFirstImageSrc(faq.content)"
+                                    alt="FAQ 이미지"
+                                    class="object-cover size-full rounded-2xl"
+                                />
+                            </div>
+                        }
+                    </div>
+                </details>
+            </div>
+        }
+
+        <div class="flex justify-center w-full">
+            <app-pagination [pageInfo]="pageInfo()" [(page)]="pageNo" />
+        </div>
+    </div>
+</div>

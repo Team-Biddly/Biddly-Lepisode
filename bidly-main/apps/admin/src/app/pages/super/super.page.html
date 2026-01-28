@@ -1,0 +1,18 @@
+@if (admin(); as admin) {
+    <app-ssp-data-grid
+        [pageInfo]="admin!.pageInfo"
+        [rowData]="filteredAdmin()"
+        [columns]="cols"
+        [options]="gridOptions"
+        (refresh)="admin$.reload()"
+        [(page)]="pageNo"
+        [(pageSize)]="pageSize"
+        [(align)]="align"
+        [(orderBy)]="orderBy"
+        [(query)]="query"
+    >
+        <div buttons>
+            <button class="bg-primary text-white px-3 py-2 rounded-lg hover:cursor-pointer" routerLink="/super/create">등록</button>
+        </div>
+    </app-ssp-data-grid>
+}

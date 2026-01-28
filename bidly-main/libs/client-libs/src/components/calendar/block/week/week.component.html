@@ -1,0 +1,26 @@
+<section #weekRef class="relative flex w-full">
+    @for (day of days(); track $index) {
+        <div
+            class="day-wrapper"
+            [class.weekend]="$index === 6 || $index === 0"
+            dndDropzone
+            dndDragoverClass="bg-primary-content"
+            (dndDrop)="drop($event, day)"
+        >
+            <app-day [day]="day" [height]="height() || 200" class="sm:block hidden" />
+            <app-day [day]="day" [height]="80" class="sm:hidden" />
+        </div>
+    }
+    @for (event of renderEvents(); track event.id) {
+        <app-block-calendar-event
+            #eventRef
+            class="calendar-event-container sm:block hidden"
+            (menu)="handleEventMenu($event, event)"
+            [days]="days()"
+            [event]="event"
+            [index]="$index"
+            [weekIndex]="index()"
+            [width]="width() / 7"
+        />
+    }
+</section>

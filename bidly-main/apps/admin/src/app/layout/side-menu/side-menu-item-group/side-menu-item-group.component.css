@@ -1,0 +1,38 @@
+:host button {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+  border-radius: 0.375rem;
+  user-select: none;
+}
+
+:host button[data-active='true'] {
+  background-color: #eff6ff;
+  color: #60a5fa;
+}
+
+:host button[data-active='true']:hover {
+  background-color: #dbeafe;
+}
+
+:host button[data-active='false'] {
+  color: #737373;
+  color: #9ca3af;
+}
+
+:host button[data-active='false']:hover {
+  background-color: #f3f4f6;
+  color: #374151;
+}
+
+:host button[data-active='false']:active {
+  background-color: #e5e7eb;
+}

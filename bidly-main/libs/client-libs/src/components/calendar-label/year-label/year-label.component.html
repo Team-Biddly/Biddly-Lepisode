@@ -1,0 +1,15 @@
+<div class="relative">
+    <button (click)="yearOpen.set(true)" class="btn btn-ghost">
+        <p class="font-semibold text-base sm:text-lg">
+            {{ value() | date: 'y년' }}
+        </p>
+    </button>
+    @if (yearOpen()) {
+        <app-year-select
+            [value]="value()!"
+            (clickOutside)="yearOpen.set(false)"
+            (select)="handleSelectYear($event)"
+            class="absolute z-[99] left-0 top-[calc(100%+4px)]"
+        />
+    }
+</div>

@@ -1,0 +1,20 @@
+@if (column(); as column) {
+    @switch (rowType()) {
+        @case ('text') {
+            <app-text-cell [column]="column" [row]="row()" />
+        }
+        @case ('badge') {
+            <app-badge-cell [column]="column" [row]="row()" />
+        }
+        @case ('checkbox') {
+            <!-- <app-checkbox-cell
+        [column]="column"
+        [row]="row()"
+        [(selecteds)]="selecteds"
+      /> -->
+        }
+        @case ('custom') {
+            <app-custom-cell [column]="column" [row]="row()" />
+        }
+    }
+}

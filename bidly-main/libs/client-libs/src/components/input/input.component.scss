@@ -1,0 +1,150 @@
+:host {
+  label {
+    @apply relative flex flex-col gap-1;
+  }
+
+  input,
+  textarea {
+    @apply outline-none bg-transparent;
+  }
+
+  .input-outline {
+    @apply absolute inset-0 pointer-events-none;
+  }
+
+  .input-wrapper {
+    @apply relative flex items-center border;
+
+    /* theme */
+    // &[data-theme='light'] {
+    //   @apply border-neutral-300 bg-transparent;
+    // }
+
+    &[data-theme='dark'] {
+      @apply border-dark-divider bg-dark-surface;
+
+      &[data-disabled='true'] {
+        @apply bg-gray-500;
+      }
+    }
+
+    &:focus-within {
+      @apply border-transparent;
+
+      .input-outline {
+        @apply border-2;
+
+        &[data-color='primary'] {
+          @apply border-primary;
+        }
+
+        &[data-color='red'] {
+          @apply border-red-500;
+        }
+
+        &[data-color='green'] {
+          @apply border-green-500;
+        }
+
+        &[data-color='blue'] {
+          @apply border-blue-500;
+        }
+
+        &[data-color='yellow'] {
+          @apply border-yellow-500;
+        }
+      }
+    }
+  }
+
+  .input-rounded {
+    /* rounded  */
+    &[data-rounded='xs'] {
+      @apply rounded-sm;
+    }
+
+    &[data-rounded='sm'] {
+      @apply rounded;
+    }
+
+    &[data-rounded='md'] {
+      @apply rounded-md;
+    }
+
+    &[data-rounded='lg'] {
+      @apply rounded-lg;
+    }
+
+    &[data-rounded='xl'] {
+      @apply rounded-xl;
+    }
+    &[data-rounded='full'] {
+      @apply rounded-full;
+    }
+  }
+
+  .input-padding {
+    /* padding  */
+    &[data-size='xs'] {
+      @apply px-2 py-1.5;
+    }
+
+    &[data-size='sm'] {
+      @apply px-2.5 py-2;
+    }
+
+    &[data-size='md'] {
+      @apply px-3 py-2.5;
+    }
+
+    &[data-size='lg'] {
+      @apply px-3.5 py-3;
+    }
+
+    &[data-size='xl'] {
+      @apply px-4 py-3.5;
+    }
+  }
+
+  .input-text-size {
+    /* text size  */
+    &[data-size='xs'] {
+      @apply text-xs;
+    }
+
+    &[data-size='sm'] {
+      @apply text-sm;
+    }
+
+    &[data-size='md'] {
+      @apply text-sm;
+    }
+
+    &[data-size='lg'] {
+      @apply text-base;
+    }
+
+    &[data-size='xl'] {
+      @apply text-lg;
+    }
+  }
+
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  input[type='number'] {
+    -moz-appearance: textfield;
+  }
+
+  input[type='date']::-webkit-calendar-picker-indicator,
+  input[type='time']::-webkit-calendar-picker-indicator,
+  input[type='month']::-webkit-calendar-picker-indicator,
+  input[type='week']::-webkit-calendar-picker-indicator,
+  input[type='datetime-local']::-webkit-calendar-picker-indicator {
+    display: none;
+  }
+}

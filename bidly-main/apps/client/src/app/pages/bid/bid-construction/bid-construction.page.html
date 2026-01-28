@@ -1,0 +1,364 @@
+@if ($bid.value(); as data) {
+    <div class="container">
+        <div class="flex flex-col gap-6 sm:py-15 sm:px-0 p-4">
+            <details open class="group flex flex-col border border-zinc-100 rounded-sm p-6 w-full">
+                <summary class="cursor-pointer">
+                    <div class="flex flex-col gap-3 pb-5 border-b border-zinc-100">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <span class="px-2 py-1 text-sm font-medium text-white bg-blue-500 rounded">{{ data.type }}</span>
+                                <span class="px-2 py-1 text-sm font-medium text-blue-500 border-blue-500 border rounded">{{
+                                    data['공고종류명'] || '-'
+                                }}</span>
+                            </div>
+                            <app-bookmark-icon [modelId]="data.id" modelName="입찰공고" />
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <p class="text-xl font-semibold text-zinc-800">{{ data['입찰공고명'] || '-' }}</p>
+                            <div class="min-w-max">
+                                <app-icon
+                                    name="mdi:chevron-down"
+                                    class="size-4 text-zinc-400 group-open:rotate-180 transition-transform self-end"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </summary>
+
+                <div class="flex flex-col gap-5">
+                    <div class="flex flex-col gap-5">
+                        <div class="w-full h-px bg-zinc-100"></div>
+                        <p class="text-zinc-800 font-semibold">기본정보</p>
+                        <div class="flex flex-col gap-4 sm:grid grid-cols-3 gap-y-4 gap-x-8 text-sm">
+                            <div class="flex gap-2">
+                                <span class="text-gray-500 min-w-max">공고종류</span>
+                                <span class="text-zinc-800">{{ data['공고종류명'] || '-' }}</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="text-gray-500 min-w-max">게시일시</span>
+                                @if (!data['게시일시']) {
+                                    <span class="text-zinc-800">-</span>
+                                } @else {
+                                    <span class="text-zinc-800">{{ data['게시일시'] | date: 'yyyy-MM-dd HH:mm' }}</span>
+                                }
+                                <span class="text-zinc-800">{{ data['등록일시'] | date: 'yyyy-MM-dd HH:mm' }}</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="text-gray-500 min-w-max">발주계획통합번호</span>
+                                <span class="text-zinc-800">{{ '-' }}</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="text-gray-500 min-w-max">참조번호</span>
+                                <span class="text-zinc-800">{{ data['참조번호'] || '-' }}</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="text-gray-500 min-w-max">입찰방식</span>
+                                <span class="text-zinc-800">{{ data['입찰방식명'] || '-' }}</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="text-gray-500 min-w-max">낙찰방법</span>
+                                <span class="text-zinc-800">{{ data['낙찰방법명'] || '-' }}</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="text-gray-500 min-w-max">계약방법</span>
+                                <span class="text-zinc-800">{{ data['계약체결방법명'] || '-' }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col gap-5">
+                        <div class="w-full h-px bg-zinc-100"></div>
+                        <p class="text-zinc-800 font-semibold">입찰정보</p>
+
+                        <div class="flex flex-col gap-4 sm:grid grid-cols-3 text-sm">
+                            <div class="flex gap-2">
+                                <span class="text-gray-500 min-w-max">국제입찰여부</span>
+                                <span class="text-zinc-800">{{ data['국제입찰여부'] ? '국외' : '국내' }}</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="text-gray-500 min-w-max">재입찰허용여부</span>
+                                <span class="text-zinc-800">{{ data['재입찰허용여부'] ? '허용' : '불허용' }}</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="text-gray-500 min-w-max">채권자명</span>
+                                <span class="text-zinc-800">{{ data['채권자명'] || '-' }}</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="text-gray-500 min-w-max">공동수급협정서 제출 및 구성방식</span>
+                                <span class="text-zinc-800">{{ data['공동수급협정서접수방식'] || '-' }}</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="text-gray-500 min-w-max">PQ심사여부</span>
+                                <span class="text-zinc-800">{{ data['PQ심사여부'] ? '필요' : '불필요' }}</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="text-gray-500 min-w-max">실적신청서접수방법명</span>
+                                <span class="text-zinc-800">{{ data['실적신청서접수방법명'] || '-' }}</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="text-gray-500 min-w-max">설명회실시장소</span>
+                                <span class="text-zinc-800">{{ data['설명회실시장소'] || '-' }}</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="text-gray-500 min-w-max">현장설명일시</span>
+                                @if (!data['설명회실시일시']) {
+                                    <span class="text-zinc-800">-</span>
+                                } @else {
+                                    <span class="text-zinc-800">{{ data['설명회실시일시'] | date: 'yyyy/MM/dd HH:mm' }}</span>
+                                }
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="text-gray-500 min-w-max">관급금액</span>
+                                <span class="text-zinc-800">{{ data['관급금액'] | number }}</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="text-gray-500 min-w-max">건설산업기본법 적용대상여부</span>
+                                <span class="text-zinc-800">{{ data['건설산업법적용대상여부'] ? '대상' : '비대상' }}</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="text-gray-500 min-w-max">상호시장진출 허용여부</span>
+                                <span class="text-zinc-800">{{ data['상호시장진출허용여부'] ? '허용' : '불허용' }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col gap-5">
+                        <div class="w-full h-px bg-zinc-100"></div>
+                        <p class="text-zinc-800 font-semibold">현장정보</p>
+
+                        <div class="flex flex-col gap-4 sm:grid grid-cols-3 text-sm">
+                            <div class="flex gap-2">
+                                <span class="text-gray-500 min-w-max">공사현장지역명</span>
+                                <span class="text-zinc-800">{{ data['공사현장지역명'] || '-' }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </details>
+
+            <div class="overflow-hidden overflow-x-scroll">
+                <app-segment [options]="segmentOptions" [(value)]="segment" class="w-full" />
+            </div>
+
+            <section class="flex flex-col gap-4">
+                <p class="text-zinc-800 font-semibold text-lg">{{ segment() }}</p>
+                @switch (fnGetKeyByValue(BidConstructionTabs, segment())) {
+                    @case (BidConstructionTabs['투찰제한-일반']) {
+                        <section class="flex flex-col gap-4">
+                            <p class="text-zinc-800 font-semibold text-lg">가산지역명</p>
+                            <div class="flex gap-2 border border-zinc-100 p-5 rounded-sm">
+                                @for (item of data['가산지역명']; track $index) {
+                                    <span class="border border-zinc-300 text-zinc-500 px-1">{{ item }}</span>
+                                } @empty {
+                                    <p>-</p>
+                                }
+                            </div>
+                        </section>
+
+                        <div class="flex flex-col border border-zinc-100 rounded-sm w-full p-5">
+                            <div class="flex flex-col gap-4 sm:grid grid-cols-3 gap-y-4 gap-x-8 text-sm">
+                                <div class="flex gap-2">
+                                    <span class="text-gray-500 min-w-max">업종제한여부</span>
+                                    <span class="text-zinc-800">{{ data['업종제한여부'] || '-' }}</span>
+                                </div>
+                                <div class="flex gap-2">
+                                    <span class="text-gray-500 min-w-max">주력분야평가여부</span>
+                                    <span class="text-zinc-800">{{ data['주력분야평가여부'] ? '평가' : '미평가' }}</span>
+                                </div>
+                                <div class="flex gap-2">
+                                    <span class="text-gray-500 min-w-max">내역입찰여부</span>
+                                    <span class="text-zinc-800">{{ data['내역입찰여부'] ? '평가' : '미평가' }}</span>
+                                </div>
+                                <div class="flex gap-2">
+                                    <span class="text-gray-500 min-w-max">공동수급업체지역제한여부</span>
+                                    <span class="text-zinc-800">{{ data['공동수급업체지역제한여부'] ? '제한' : '미제한' }}</span>
+                                </div>
+                                <div class="flex gap-2">
+                                    <span class="text-gray-500 min-w-max">공동수급업체수</span>
+                                    <span class="text-zinc-800">{{ data['공동수급업체수'] || '-' }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    @case (BidConstructionTabs['공종별 전체지분율']) {
+                        <p>
+                            공종별 전체지분율(%) <span class="text-primary font-semibold">{{ data['공종별지분율목록'].length || 0 }}</span
+                            >건
+                        </p>
+                    }
+                    @case (BidConstructionTabs['입찰진행정보']) {
+                        <p>
+                            입찰공고차수 <span class="text-primary font-semibold">{{ data['입찰공고차수'] || 0 }}</span
+                            >건
+                        </p>
+                    }
+                    @case (BidConstructionTabs['가격']) {
+                        <div class="flex flex-col border border-zinc-100 rounded-sm w-full p-5">
+                            <div class="flex flex-col gap-4 sm:grid grid-cols-3 gap-y-4 gap-x-8 text-sm">
+                                <div class="flex gap-2">
+                                    <span class="text-gray-500 min-w-max">추정금액</span>
+                                    <span class="text-zinc-800">{{ data['추정가격'] | number }}원</span>
+                                </div>
+                                <div class="flex gap-2">
+                                    <span class="text-gray-500 min-w-max">예산금액</span>
+                                    <span class="text-zinc-800">{{ data['예산금액'] | number }}원</span>
+                                </div>
+                                <div class="flex gap-2">
+                                    <span class="text-gray-500 min-w-max">주공종추정가격</span>
+                                    <span class="text-zinc-800">{{ data['주공종추정가격'] | number }}원</span>
+                                </div>
+                                <div class="flex gap-2">
+                                    <span class="text-gray-500 min-w-max">부가가치세</span>
+                                    <span class="text-zinc-800">{{ data['부가가치세'] | number }}원</span>
+                                </div>
+                                <div class="flex gap-2">
+                                    <span class="text-gray-500 min-w-max">주공종부가가치세</span>
+                                    <span class="text-zinc-800">{{ data['주공종부가가치세'] | number }}원</span>
+                                </div>
+                                <div class="flex gap-2">
+                                    <span class="text-gray-500 min-w-max">관급금액</span>
+                                    <span class="text-zinc-800">{{ data['관급금액'] | number }}원</span>
+                                </div>
+                                <div class="flex gap-2">
+                                    <span class="text-gray-500 min-w-max">관급자설치관급자재금액</span>
+                                    <span class="text-zinc-800">{{ data['관급자설치관급자재금액'] | number }}원</span>
+                                </div>
+                                <div class="flex gap-2">
+                                    <span class="text-gray-500 min-w-max">도급자설치관급자재금액</span>
+                                    <span class="text-zinc-800">{{ data['도급자설치관급자재금액'] | number }}원</span>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    @case (BidConstructionTabs['기초금액공개']) {
+                        <p>
+                            기초금액공개 <span class="text-primary font-semibold">{{ 0 }}</span
+                            >건
+                        </p>
+                    }
+
+                    @case (BidConstructionTabs['심사']) {
+                        <div class="flex flex-col border border-zinc-100 rounded-sm w-full p-5">
+                            <div class="flex flex-col gap-4 sm:grid grid-cols-3 gap-y-4 gap-x-8 text-sm">
+                                <div class="flex gap-2">
+                                    <span class="text-gray-500 min-w-max">주공종</span>
+                                    <span class="text-zinc-800">{{ data['주공종명'] || '-' }}</span>
+                                </div>
+                                <div class="flex gap-2">
+                                    <span class="text-gray-500 min-w-max">주공종추정금액</span>
+                                    <span class="text-zinc-800">{{ data['주공종공사예정금액'] || '-' }}</span>
+                                </div>
+                                <div class="flex gap-2">
+                                    <span class="text-gray-500 min-w-max">주공종 업종평가비율</span>
+                                    <span class="text-zinc-800">{{ data['업종평가비율'] || '-' }}</span>
+                                </div>
+                                <section class="flex flex-col gap-4">
+                                    <p class="text-zinc-800 font-semibold text-lg">가산지역명</p>
+                                    <div class="flex gap-2 border border-zinc-100 p-5 rounded-sm">
+                                        @for (item of data['가산지역명']; track $index) {
+                                            <span class="border border-zinc-300 text-zinc-500 px-1">{{ item }}</span>
+                                        } @empty {
+                                            <p>-</p>
+                                        }
+                                    </div>
+                                </section>
+
+                                <div class="flex gap-2">
+                                    <span class="text-gray-500 min-w-max">주력분야평가여부</span>
+                                    <span class="text-zinc-800">{{ data['주력분야평가여부'] ? '평가' : '미평가' }}</span>
+                                </div>
+
+                                <section class="flex flex-col gap-4">
+                                    @for (item of data['부공종업종평가비율']; track $index) {
+                                        <div class="divide-y divide-zinc-200 border-y border-zinc-200">
+                                            <div class="flex items-center justify-between p-4">
+                                                {{ item }}
+                                            </div>
+                                        </div>
+                                    }
+                                </section>
+                            </div>
+                        </div>
+                    }
+
+                    @case (BidConstructionTabs['공고기관 담당자정보']) {
+                        <div class="flex flex-col border border-zinc-100 rounded-sm w-full p-5">
+                            <div class="flex flex-col gap-4 sm:grid grid-cols-3 gap-y-4 gap-x-8 text-sm">
+                                <div class="flex gap-2">
+                                    <span class="text-gray-500 min-w-max">공고기관</span>
+                                    <span class="text-zinc-800">{{ data['공고기관명'] || '-' }}</span>
+                                </div>
+                                <div class="flex gap-2">
+                                    <span class="text-gray-500 min-w-max">공고담당자</span>
+                                    <span class="text-zinc-800">{{ data['공고기관담당자명'] || '-' }}</span>
+                                </div>
+                                <div class="flex gap-2">
+                                    <span class="text-gray-500 min-w-max">전화번호</span>
+                                    <span class="text-zinc-800">{{ data['공고기관담당자전화번호'] || '-' }}</span>
+                                </div>
+                                <div class="flex gap-2">
+                                    <span class="text-gray-500 min-w-max">이메일</span>
+                                    <span class="text-zinc-800">{{ data['공고기관담당자이메일주소'] || '-' }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    @case (BidConstructionTabs['수요기관 담당자정보 목록']) {
+                        <div class="flex flex-col border border-zinc-100 rounded-sm w-full p-5">
+                            <div class="flex flex-col gap-4 sm:grid grid-cols-3 gap-y-4 gap-x-8 text-sm">
+                                <div class="flex gap-2">
+                                    <span class="text-gray-500 min-w-max">수요기관</span>
+                                    <span class="text-zinc-800">{{ data['수요기관명'] || '-' }}</span>
+                                </div>
+                                <div class="flex gap-2">
+                                    <span class="text-gray-500 min-w-max">이메일</span>
+                                    <span class="text-zinc-800">{{ data['수요기관담당자이메일주소'] || '-' }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    @case (BidConstructionTabs['연관정보']) {
+                        <div class="flex flex-col border border-zinc-100 rounded-sm w-full p-5">
+                            <div class="flex flex-col gap-4 sm:grid grid-cols-3 gap-y-4 gap-x-8 text-sm">
+                                <div class="flex gap-2">
+                                    <span class="text-gray-500 min-w-max">발주계획통합번호</span>
+                                    <span class="text-zinc-800">{{ data['발주계획번호'] }}</span>
+                                </div>
+                                <div class="flex gap-2">
+                                    <span class="text-gray-500 min-w-max">사전규격등록번호</span>
+                                    <span class="text-zinc-800">{{ data['사전규격등록번호'] }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    @case (BidConstructionTabs['입찰공고 첨부파일']) {
+                        <section class="flex flex-col gap-4">
+                            <p class="text-zinc-800 font-semibold text-lg">파일첨부</p>
+                            @for (item of data['공고규격파일명']; track $index) {
+                                <div class="divide-y divide-zinc-200 border-y border-zinc-200">
+                                    <div class="flex items-center justify-between p-4">
+                                        {{ item }}
+                                        <app-file-download [url]="data['공고규격서URL'][$index]" [filename]="item">
+                                            <button class="flex items-center gap-1 border border-zinc-200 rounded-sm px-3 py-1">
+                                                <app-icon name="mdi:tray-arrow-down" class="text-zinc-400" size="xs" />
+                                                <span class="text-zinc-600">다운로드</span>
+                                            </button>
+                                        </app-file-download>
+                                    </div>
+                                </div>
+                            }
+                        </section>
+                    }
+                }
+            </section>
+
+            <div class="flex justify-center w-full py-6">
+                <button (click)="location.back()" class="border border-e-zinc-200 rounded-sm py-2 w-full sm:w-75">목록으로</button>
+            </div>
+        </div>
+    </div>
+}

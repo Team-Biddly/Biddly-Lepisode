@@ -1,0 +1,3 @@
+export const NHN_CLOUD_EMAIL_MODULE_CONFIG = Symbol(
+  "NHN_CLOUD_EMAIL_MODULE_CONFIG",
+);

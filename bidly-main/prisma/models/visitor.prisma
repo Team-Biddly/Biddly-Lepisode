@@ -1,0 +1,14 @@
+
+/// 방문자 로그
+model Visitor {
+    id        Int      @id @default(autoincrement())
+    ip       String
+    device   String
+    os       String
+    browser  String
+    pageUrl  String
+    nation   String?
+    city     String?
+    referrer String?
+    createdAt DateTime @default(now())
+}

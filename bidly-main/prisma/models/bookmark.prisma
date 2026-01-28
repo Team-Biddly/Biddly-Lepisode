@@ -1,0 +1,15 @@
+model Bookmark {
+  id        String            @id @default(cuid(2))
+  modelName BookmarkModelName
+  modelId   String
+  userId    String
+  user      User?             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([modelName, modelId, userId])
+}
+
+enum BookmarkModelName {
+  발주계획
+  사전규격
+  입찰공고
+}

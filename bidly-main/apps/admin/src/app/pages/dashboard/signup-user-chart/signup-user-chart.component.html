@@ -1,0 +1,18 @@
+<section class="border border-gray-100 rounded-xl p-6">
+    <div class="flex w-full justify-between items-center">
+        <p class="card-section-title">가입자 수</p>
+        <div class="flex gap-3 items-center min-w-max">
+            <app-date-range [(startAt)]="startAt" [(endAt)]="endAt" />
+        </div>
+    </div>
+
+    @if (options(); as options) {
+        <app-chart [options]="options" />
+    }
+
+    <div class="grid grid-cols-3 gap-6">
+        <app-stats-card label="가입 회원수(오늘)" type="number" [value]="todaySignupUsers()" unit="명" icon="mdi:account" />
+        <app-stats-card label="가입 회원수(최근 3일)" type="number" [value]="last3DaysSignupUsers()" unit="명" icon="mdi:account" />
+        <app-stats-card label="가입 회원수(최근 7일)" type="number" [value]="last7DaysSignupUsers()" unit="명" icon="mdi:account" />
+    </div>
+</section>

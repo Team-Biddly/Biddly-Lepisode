@@ -1,0 +1,295 @@
+<!-- eslint-disable @angular-eslint/template/elements-content -->
+<div class="flex flex-col min-h-screen w-full space-y-6 sm:space-y-0">
+    <main class="flex flex-col flex-1 sm:container sm:py-[5rem] gap-6 sm:gap-16 px-4">
+        <!-- 배너 -->
+        @if (banners().length > 0) {
+            <div class="relative w-full aspect-[2.5/1] sm:aspect-[6/1] overflow-hidden">
+                <div
+                    swiper
+                    [options]="swiperOption()"
+                    (init)="swiper = $event"
+                    (realIndex)="onSlideChange($event)"
+                    class="absolute inset-0 w-full h-full min-h-0 flex transition-transform duration-700 ease-in-out swiper"
+                >
+                    <div class="flex swiper-wrapper w-full h-full min-h-0">
+                        @for (banner of banners(); track $index) {
+                            @if (banner.targetUrl && banner.targetUrl.trim() !== '') {
+                                <div class="flex shrink-0 swiper-slide w-full h-full min-h-0">
+                                    <a [href]="banner.targetUrl" rel="noopener noreferrer" class="block w-full h-full min-h-0">
+                                        <img
+                                            [src]="mode() === '모바일용' ? banner.mobileImageUrl : banner.imageUrl"
+                                            alt="배너"
+                                            class="w-full sm:h-full object-fill"
+                                        />
+                                    </a>
+                                </div>
+                            } @else {
+                                <div class="flex shrink-0 swiper-slide w-full h-full">
+                                    <img
+                                        [src]="mode() === '모바일용' ? banner.mobileImageUrl : banner.imageUrl"
+                                        alt="배너"
+                                        class="w-full sm:h-full object-fill"
+                                    />
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+
+                <!-- 인디케이터 -->
+                <div class="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-2">
+                    @for (banner of banners(); track $index) {
+                        <button
+                            type="button"
+                            class="w-2 h-2 rounded-full cursor-pointer focus:outline-none"
+                            [class.bg-primary]="$index === currentBannerIndex()"
+                            [class.bg-gray-300]="$index !== currentBannerIndex()"
+                            (click)="goToSlide($index)"
+                        ></button>
+                    }
+                </div>
+            </div>
+        } @else {
+            <div class="flex items-center justify-center w-full h-35 bg-zinc-100 text-zinc-400 text-sm">표시할 배너가 없습니다.</div>
+        }
+
+        <div class="flex gap-10 sm:flex-row flex-col-reverse">
+            <!-- 비들리 FAQ -->
+            @if (faqs() && faqs().length) {
+                @if (currentFaq(); as faq) {
+                    <div class="flex flex-col gap-4 flex-1 w-full">
+                        <div class="flex items-center justify-between w-full">
+                            <p class="text-2xl font-bold text-zinc-800">비들리 FAQ</p>
+                            <div class="flex items-center gap-1">
+                                <button
+                                    (click)="prev()"
+                                    [disabled]="currentFaqIndex() === 0"
+                                    class="size-7 border border-zinc-200 rounded-sm"
+                                    [class.cursor-not-allowed]="currentFaqIndex() === 0"
+                                    [class.pointer-events-none]="currentFaqIndex() === 0"
+                                    [class.text-zinc-400]="currentFaqIndex() === 0"
+                                >
+                                    <app-icon name="mdi:chevron-left" class="size-5" />
+                                </button>
+                                <button
+                                    (click)="next()"
+                                    [disabled]="currentFaqIndex() === (faqs().length || 0) - 1"
+                                    class="size-7 border border-zinc-200 rounded-sm"
+                                    [class.cursor-not-allowed]="currentFaqIndex() === (faqs().length || 0) - 1"
+                                    [class.pointer-events-none]="currentFaqIndex() === (faqs().length || 0) - 1"
+                                    [class.text-zinc-400]="currentFaqIndex() === (faqs().length || 0) - 1"
+                                >
+                                    <app-icon name="mdi:chevron-right" class="size-5" />
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="bg-zinc-50 p-5 h-full flex flex-col justify-center">
+                            <div class="flex justify-between">
+                                <div class="flex flex-col gap-4">
+                                    <div class="flex items-center gap-3">
+                                        <img src="icons/Q.svg" alt="faq_Q" class="size-5 pl-1" />
+                                        <span class="text-zinc-800 font-bold min-w-max pl-1">질문</span>
+                                        <p class="text-zinc-500 overflow-hidden line-clamp-1">
+                                            {{ faq.title }}
+                                        </p>
+                                    </div>
+
+                                    <div class="flex items-center gap-3">
+                                        <img src="icons/faq_A.svg" alt="faq_A" class="size-6" />
+                                        <span class="text-zinc-800 font-bold min-w-max">답변</span>
+                                        <p class="text-zinc-500 overflow-hidden line-clamp-1">
+                                            {{ faq.content }}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <button class="flex items-end text-zinc-400 min-w-max" routerLink="/faq">
+                                    더보기 <app-icon name="mdi:chevron-right" class="size-4" />
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            } @else {
+                <div class="flex flex-col gap-4 flex-1 w-full">
+                    <p class="text-2xl font-bold text-zinc-800">비들리 FAQ</p>
+                    <div class="bg-zinc-50 p-5 h-full flex items-center justify-center">
+                        <p class="text-zinc-500">아직 등록된 FAQ가 없습니다.</p>
+                    </div>
+                </div>
+            }
+
+            <!-- 내 정보 -->
+            @if (user()) {
+                <div class="flex flex-col gap-2.5 border border-[#D4E8E0] rounded-sm p-6 w-full sm:w-1/3 min-w-max">
+                    <div class="flex items-center justify-between">
+                        <div class="flex flex-col gap-1">
+                            <span>{{ user()?.name }}</span>
+                            <span>{{ user()?.auths?.[0]?.email }}</span>
+                        </div>
+
+                        <button
+                            class="border border-zinc-200 rounded-sm px-3 py-2"
+                            routerLink="/my-page/book-mark"
+                            [queryParams]="{ tab: 'order-plan' }"
+                        >
+                            마이페이지
+                        </button>
+                    </div>
+
+                    <div class="bg-[#F5FAF7] py-4 rounded-sm flex gap-2.5 items-center justify-center">
+                        <span class="text-gray-500 flex gap-1"
+                            >발주계획 <span class="text-primary">{{ bookmarkStore.stat()['발주계획'] }}</span></span
+                        >
+                        <span class="text-gray-500 flex gap-1"
+                            >사전규격 <span class="text-primary">{{ bookmarkStore.stat()['사전규격'] }}</span></span
+                        >
+                        <span class="text-gray-500 flex gap-1"
+                            >입찰공고 <span class="text-primary">{{ bookmarkStore.stat()['입찰공고'] }}</span></span
+                        >
+                    </div>
+                </div>
+            } @else {
+                <div class="flex flex-col gap-2.5 border border-[#D4E8E0] rounded-sm p-6 w-full sm:w-1/3 text-center">
+                    <p class="text-lg"><span class="text-primary">비들리</span> 시작하기</p>
+                    <p class="text-zinc-500 break-words w-full">발주 계획, 사전 규격, 입찰 공고 등 다양한 서비스를 이용할 수 있습니다.</p>
+                    <div routerLink="/login" class="bg-primary py-4 rounded-sm flex gap-2.5 items-center justify-center cursor-pointer">
+                        <span class="text-white">로그인하기</span>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!-- 발주 계획 -->
+        <div class="flex flex-col gap-6">
+            <div class="flex items-center justify-between">
+                <p class="text-2xl font-bold text-zinc-800">발주 계획</p>
+                <button routerLink="/order-plan" [queryParams]="{ tab: 'entire' }" class="flex items-center text-zinc-400">
+                    더보기 <app-icon name="mdi:chevron-right" class="size-4" />
+                </button>
+            </div>
+
+            <swiper-container slides-per-view="auto" space-between="16" free-mode="true">
+                @for (item of orderPlans(); track item.id) {
+                    <swiper-slide class="w-fit">
+                        <app-order-plan-item [orderPlan]="item" variant="card" />
+                    </swiper-slide>
+                }
+            </swiper-container>
+        </div>
+
+        <!-- 사전 규격 공개 -->
+        <div class="flex flex-col gap-6">
+            <div class="flex items-center justify-between">
+                <p class="text-2xl font-bold text-zinc-800">사전 규격 공개</p>
+                <button routerLink="/pre-standard" class="flex items-center text-zinc-400">
+                    더보기 <app-icon name="mdi:chevron-right" class="size-4" />
+                </button>
+            </div>
+
+            <swiper-container slides-per-view="auto" space-between="16" free-mode="true">
+                @for (item of preStandards(); track item.id) {
+                    <swiper-slide class="w-fit">
+                        <app-pre-standard-item [preStandard]="item" variant="card" />
+                    </swiper-slide>
+                }
+            </swiper-container>
+        </div>
+
+        <!-- 입찰 공고 -->
+        <div class="flex flex-col gap-6">
+            <div class="flex items-center justify-between">
+                <p class="text-2xl font-bold text-zinc-800">입찰 공고</p>
+                <button routerLink="/bid" class="flex items-center text-zinc-400">
+                    더보기 <app-icon name="mdi:chevron-right" class="size-4" />
+                </button>
+            </div>
+
+            <swiper-container slides-per-view="auto" space-between="16" free-mode="true">
+                @for (item of bids(); track item.id) {
+                    <swiper-slide class="w-fit">
+                        <app-bid-item [bid]="item" variant="card" />
+                    </swiper-slide>
+                }
+            </swiper-container>
+        </div>
+    </main>
+
+    <!-- 북마크한 조달 정보 -->
+    @if (userStore.isLogined()) {
+        <section class="bg-zinc-50 py-6 px-4">
+            <div class="flex flex-col container gap-6">
+                <div class="flex items-center justify-between">
+                    <p class="text-2xl font-bold text-zinc-800 min-w-max">북마크한 조달 정보</p>
+                    <button routerLink="/my-page/book-mark" [queryParams]="{ tab: 'order-plan' }" class="flex items-center text-zinc-400">
+                        더보기 <app-icon name="mdi:chevron-right" class="size-4" />
+                    </button>
+                </div>
+
+                <div class="w-full border-b border-zinc-100">
+                    <div class="flex text-zinc-500 gap-3">
+                        <button
+                            class="relative p-2 cursor-pointer"
+                            [ngClass]="currentTab === 'order-plan' ? 'text-zinc-800 font-semibold' : 'text-zinc-400'"
+                            (click)="currentTab = 'order-plan'"
+                        >
+                            발주 계획
+                            @if (currentTab === 'order-plan') {
+                                <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-[2px] bg-primary"></div>
+                            }
+                        </button>
+
+                        <button
+                            class="relative p-2 cursor-pointer"
+                            [ngClass]="currentTab === 'pre-standard' ? 'text-zinc-800 font-semibold' : 'text-zinc-400'"
+                            (click)="currentTab = 'pre-standard'"
+                        >
+                            사전 규격
+                            @if (currentTab === 'pre-standard') {
+                                <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-[2px] bg-primary"></div>
+                            }
+                        </button>
+
+                        <button
+                            class="relative p-2 cursor-pointer"
+                            [ngClass]="currentTab === 'bid' ? 'text-zinc-800 font-semibold' : 'text-zinc-400'"
+                            (click)="currentTab = 'bid'"
+                        >
+                            입찰 공고
+                            @if (currentTab === 'bid') {
+                                <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-[2px] bg-primary"></div>
+                            }
+                        </button>
+                    </div>
+                </div>
+
+                <swiper-container slides-per-view="auto" space-between="16" free-mode="true">
+                    @switch (currentTab) {
+                        @case ('order-plan') {
+                            @for (item of bookmarkStore.bookmarkedOrderPlans.value()?.items; track item.id) {
+                                <swiper-slide class="w-fit">
+                                    <app-order-plan-item [orderPlan]="item" variant="card" />
+                                </swiper-slide>
+                            }
+                        }
+                        @case ('pre-standard') {
+                            @for (item of bookmarkStore.bookmarkedPreStandards.value()?.items; track item.id) {
+                                <swiper-slide class="w-fit">
+                                    <app-pre-standard-item [preStandard]="item" variant="card" />
+                                </swiper-slide>
+                            }
+                        }
+                        @case ('bid') {
+                            @for (item of bookmarkStore.bookmarkedBids.value()?.items; track item.id) {
+                                <swiper-slide class="w-fit">
+                                    <app-bid-item [bid]="item" variant="card" />
+                                </swiper-slide>
+                            }
+                        }
+                    }
+                </swiper-container>
+            </div>
+        </section>
+    }
+</div>

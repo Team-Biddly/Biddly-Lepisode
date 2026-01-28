@@ -1,0 +1,1 @@
+export const CIPHER_MODULE_CONFIG = Symbol('CIPHER_MODULE_CONFIG');

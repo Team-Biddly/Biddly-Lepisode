@@ -1,0 +1,34 @@
+services:
+  bidly_database:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: 'test*'
+      POSTGRES_DB: bidly
+    ports:
+      - '20100:5432'
+    volumes:
+      - bidly-database:/var/lib/postgresql/data
+  client:
+    image: lepisoderegistry/bidly-client:dev-latest
+    restart: always
+    ports:
+      - '20102:80'
+
+  admin:
+    image: lepisoderegistry/bidly-v2:dev-latest
+    restart: always
+    ports:
+      - '20103:80'
+
+  server:
+    image: lepisoderegistry/bidly-server:dev-latest
+    restart: on-failure
+    depends_on:
+      - database
+    ports:
+      - '20101:3000'
+
+volumes:
+  bidly-database:

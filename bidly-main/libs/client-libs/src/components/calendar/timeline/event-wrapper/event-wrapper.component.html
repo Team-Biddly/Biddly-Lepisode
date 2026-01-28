@@ -1,0 +1,14 @@
+@if (slots() && slots()!.length > 0) {
+  @if (renderEvents() && renderEvents()!.length > 0) {
+    @for (event of renderEvents(); track event) {
+      <app-timeline-event
+        [slots]="slots()"
+        (menu)="menu.emit([$event, event])"
+        [event]="event"
+        [time]="time()"
+        [day]="day()"
+        [index]="$index"
+      />
+    }
+  }
+}

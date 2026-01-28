@@ -1,0 +1,5 @@
+<div>
+    <p [attr.data-type]="type()" [class.today]="isToday()" class="theme-text day">
+        {{ day().format('DD') }} ({{ day().toDate() | date: 'EE' }})
+    </p>
+</div>

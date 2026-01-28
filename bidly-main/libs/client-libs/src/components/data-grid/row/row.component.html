@@ -1,0 +1,26 @@
+@for (column of columns(); track $index) {
+    <td
+        class="px-4 py-2 transition-colors border-b border-gray-200"
+        [class.bg-blue-50]="selected() || active() || open()"
+        (contextmenu)="open.set(true)"
+        (clickOutside)="open.set(false)"
+        [cdkContextMenuTriggerFor]="context"
+        gridCell
+        [(selecteds)]="selecteds"
+        [class.cursor-pointer]="column.cellClickHandler"
+        [column]="column"
+        [row]="row()"
+    ></td>
+}
+
+<ng-template #context>
+    @if (rowOptions(); as options) {
+        @if (options.length > 0) {
+            <app-menu cdkMenu>
+                @for (option of options; track option) {
+                    <app-menu-option [icon]="option.icon" (click)="handleOption(option)" cdkMenuItem>{{ option.label }}</app-menu-option>
+                }
+            </app-menu>
+        }
+    }
+</ng-template>

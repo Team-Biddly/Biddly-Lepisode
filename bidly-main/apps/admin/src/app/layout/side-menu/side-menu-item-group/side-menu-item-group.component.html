@@ -1,0 +1,17 @@
+<div class="flex flex-col w-full gap-1">
+    <button class="group" [attr.data-active]="isOpen()" (click)="isOpen.set(!isOpen())">
+        <div class="flex items-center gap-3">
+            <app-icon [name]="icon()" />
+            <div class="flex flex-col">
+                {{ label() }}
+            </div>
+        </div>
+        <app-icon name="mdi:chevron-down" class="w-5 h-5 bg-gray-400" [class.rotate-180]="isOpen()" />
+    </button>
+    @if (isOpen()) {
+        <div class="relative flex flex-col w-full gap-1">
+            <div class="absolute w-px h-full border-r border-gray-300 left-[1.5rem]"></div>
+            <ng-content />
+        </div>
+    }
+</div>

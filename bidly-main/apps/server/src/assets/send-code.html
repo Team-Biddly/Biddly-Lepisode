@@ -1,0 +1,81 @@
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>[{{ TITLE }}]</title>
+        <style>
+            body,
+            table,
+            td,
+            p,
+            h2 {
+                margin: 0;
+                padding: 0;
+            }
+        </style>
+    </head>
+    <body style="margin: 0; padding: 0; font-family: 'SUIT', sans-serif; border: 1px solid #f4f4f5; border-radius: 24px">
+        <!-- 메인 컨테이너 -->
+        <table
+            width="100%"
+            border="0"
+            cellspacing="0"
+            cellpadding="0"
+            style="padding: 0; text-align: center; border-radius: 24px; background-color: #ffffff"
+        >
+            <!-- 헤더 -->
+            <tr>
+                <td style="padding: 24px; align-items: flex-start">
+                    <img
+                        src="https://kr1-api-object-storage.nhncloudservice.com/v1/AUTH_a07d5e8cf26f41d3804516d8f66a5160/image/image.svg"
+                        alt="서비스 로고"
+                        width="104"
+                        style="display: block"
+                    />
+                </td>
+            </tr>
+
+            <!-- 본문 -->
+            <tr style="background-color: #fafafa">
+                <td style="padding: 100px 24px">
+                    <h2 style="color: #27272a; font-size: 32px; font-weight: 700; margin-bottom: 32px">[{{ TITLE }}]</h2>
+                    <p style="font-size: 16px; font-weight: 500; color: #71717a; line-height: 1.5; margin-bottom: 32px">
+                        [{{ TEXT1 }}] <span style="font-size: 24px; color: #288e5b">[{{ code }}] </span>[{{ TEXT2 }}]<br />
+                        [{{ TEXT3 }}]
+                    </p>
+
+                    <p style="margin-top: 32px; font-size: 14px; font-style: normal; font-weight: 500; color: #a1a1aa">
+                        [{{ TEXT4 }}]<br />
+                        [{{ TEXT5 }}]
+                    </p>
+                </td>
+            </tr>
+
+            <!-- 푸터 -->
+            <tr>
+                <td style="padding: 32px; font-size: 12px; color: #71717a; text-align: start">
+                    <!-- 로고 -->
+                    <img
+                        src="https://kr1-api-object-storage.nhncloudservice.com/v1/AUTH_a07d5e8cf26f41d3804516d8f66a5160/image/image.svg"
+                        alt="서비스 로고"
+                        width="104"
+                        style="display: block"
+                    />
+
+                    <!-- 사업자 정보 -->
+                    <p style="margin-top: 16px">
+                        [{{ TEXT6 }}]: <strong>[{{ COMPANY_NAME }}]</strong>
+                        <span style="padding-left: 4px">| [{{ ADDRESS }}]</span>
+                    </p>
+
+                    <!-- 사업자 등록번호 -->
+                    <p style="margin-top: 8px; font-size: 12px; color: #71717a">[{{ BUSINESS_NUMBER }}]</p>
+                    <!-- 대표 전화 -->
+                    <p style="margin-top: 8px; font-size: 12px; color: #71717a">[{{ CONTACT }}]</p>
+                    <!-- CEO -->
+                    <p style="margin-top: 8px; font-size: 12px; color: #71717a">[{{ CEO }}]</p>
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>

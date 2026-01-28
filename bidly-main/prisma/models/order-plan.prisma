@@ -1,0 +1,40 @@
+/// 발주계획
+model OrderPlan {
+    id        String   @id
+    keywords  String[]
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    업무구분코드       String? /// bsnsDivCd 
+    업무구분명          String? /// bsnsDivNm 
+    업무유형코드       String? /// bsnsTyCd
+    업무유형명          String? /// bsnsTyNm
+    발주년도             Int? /// orderYear
+    발주기관코드       String? /// orderInsttCd
+    총괄기관명          String? /// totLmngInsttNm
+    소관구분코드       String? /// jrsdctnDivCd
+    소관구분명          String? /// jrsdctnDivNm
+    발주기관명          String? /// orderInsttNm 
+    발주계획순번       Int? /// orderPlanSno
+    조달방식             String? /// prcrmntMethd
+    발주월                String? /// orderMnth
+    사업명                String? /// bizNm
+    공사지역명          String? /// cnstwkRgnNm
+    공종구분명          String? /// cnsttyDivNm
+    계약방법명          String? /// cntrctMthdNm
+    발주도급금액       BigInt? /// orderContrctAmt
+    발주관급자재비    BigInt? /// orderGovsplyMtrcst
+    발주기타금액       BigInt? /// orderEtcAmt
+    합계발주금액       BigInt? /// sumOrderAmt
+    부서명                String? /// deptNm
+    담당자명             String? /// ofclNm
+    전화번호             String? /// telNo
+    협정여부             Boolean? /// agrmntYn
+    공고게시여부       Boolean? /// ntceNticeYn
+    합계발주미화금액 Float? /// sumOrderDolAmt
+    규격항목             Json? /// { specItemNm: specItemCntnts }
+    게시일시             DateTime? /// nticeDt (YYYY-MM-DD HH:mm:ss)
+    발주금차도급금액 BigInt? /// orderThtmContrctAmt
+    발주국고보조금액 BigInt? /// orderNtntrsAuxAmt
+    발주계획통합번호 String? /// orderPlanUntyNo
+}

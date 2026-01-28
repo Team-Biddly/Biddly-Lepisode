@@ -1,0 +1,24 @@
+.bid-info-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
+
+@media (min-width: 768px) {
+  .bid-info-row {
+    flex-direction: row;
+    align-items: start;
+    align-items: center;
+  }
+}
+
+.bid-info-label {
+  color: var(--color-zinc-400);
+  flex-shrink: 0;
+}
+
+.bid-info-value {
+  color: var(--color-zinc-800);
+  word-break: keep-all;
+}

@@ -1,0 +1,43 @@
+@if (column()?.type === 'checkbox') {
+    <div class="px-4 py-2">
+        <app-checkbox-column [(selecteds)]="selecteds" />
+    </div>
+} @else {
+    @let isOpenMenu =
+        !column()?.filter?.disabled && showHeaderOption() && column()?.field !== 'rowNumber' && column()?.field !== 'checkbox';
+
+    <button
+        [cdkMenuTriggerFor]="isOpenMenu ? menu : null"
+        [ngClass]="isOpenMenu ? 'cursor-pointer' : 'cursor-default'"
+        class="px-4 py-2 w-full flex"
+    >
+        {{ column()?.name }}
+    </button>
+}
+
+<ng-template #menu>
+    <app-menu cdkMenu>
+        <app-menu-option
+            cdkMenuItem
+            (click)="handleOrderBy('desc')"
+            icon="ic:outline-arrow-downward"
+            [active]="orderBy() === this.column()?.field && align() === 'desc'"
+            >내림차순</app-menu-option
+        >
+        <app-menu-option
+            cdkMenuItem
+            (click)="handleOrderBy('asc')"
+            icon="ic:outline-arrow-upward"
+            [active]="orderBy() === this.column()?.field && align() === 'asc'"
+            >오름차순</app-menu-option
+        >
+        <!-- <app-divider class="my-2" />
+    <app-menu-option
+      (click)="handleGroupBy()"
+      cdkMenuItem
+      icon="material-symbols:groups-2"
+    >
+      그룹화
+    </app-menu-option> -->
+    </app-menu>
+</ng-template>

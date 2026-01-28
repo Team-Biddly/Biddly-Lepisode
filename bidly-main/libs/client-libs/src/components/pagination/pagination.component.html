@@ -1,0 +1,25 @@
+<div class="join">
+    <button class="join-item btn btn-ghost btn-circle" (click)="page.set(1)" [disabled]="isFirstPage()">
+        <app-icon name="ri:skip-left-line" class="!size-4" />
+    </button>
+    <button class="join-item btn btn-ghost btn-circle" (click)="page.set(page() - 1)" [disabled]="isFirstPage()">
+        <app-icon name="mdi:chevron-left" class="!size-4" />
+    </button>
+    @for (_page of pages(); track _page) {
+        <input
+            class="join-item btn btn-circle"
+            type="radio"
+            name="options"
+            [ariaLabel]="_page"
+            [checked]="_page === page()"
+            [class.btn-ghost]="page() !== _page"
+            (change)="handleChange(_page)"
+        />
+    }
+    <button class="join-item btn btn-ghost btn-circle" (click)="page.set(page() + 1)" [disabled]="isLastPage()">
+        <app-icon class="text-gray-700 !size-4" name="mdi:chevron-right" />
+    </button>
+    <button class="join-item btn btn-ghost btn-circle" (click)="page.set(pageInfo().totalPages || 0)" [disabled]="isLastPage()">
+        <app-icon class="text-gray-700 !size-4" name="ri:skip-right-line" />
+    </button>
+</div>

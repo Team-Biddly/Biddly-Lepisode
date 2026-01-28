@@ -1,0 +1,214 @@
+<div class="flex flex-col gap-1 bg-white rounded-md border-zinc-300 border-2 focus-within:border-primary" [class.border]="!viewer()">
+    @if (!viewer()) {
+        <section
+            class="flex flex-col items-start gap-2 px-4 py-2 overflow-x-auto border-b sm:gap-4 sm:items-center border-zinc-200 sm:flex-row"
+        >
+            <section class="buttons">
+                <button
+                    appTooltip="굵게"
+                    tooltipPosition="bottom"
+                    (click)="handleCommand(editor?.chain()?.focus()?.toggleBold()?.run, $event)"
+                    class="editor-button toggleable data-[active='true']:bg-gray-200"
+                    [attr.data-active]="editor?.isActive('bold') ?? false"
+                >
+                    <app-icon class="text-gray-500 size-5" name="mdi:format-bold" />
+                </button>
+                <button
+                    appTooltip="밑줄"
+                    (click)="handleCommand(editor?.chain()?.focus()?.toggleUnderline()?.run, $event)"
+                    class="editor-button toggleable data-[active='true']:bg-gray-200"
+                    [attr.data-active]="editor?.isActive('underline') ?? false"
+                >
+                    <app-icon class="block text-gray-500 size-5" name="mdi:format-underline" />
+                </button>
+                <button
+                    appTooltip="이탤릭체"
+                    (click)="handleCommand(editor?.chain()?.focus()?.toggleItalic()?.run, $event)"
+                    class="editor-button toggleable data-[active='true']:bg-gray-200 data-[active='true']:text-gray-500 data-[active='false']:text-gray-900"
+                    [attr.data-active]="editor?.isActive('italic') ?? false"
+                >
+                    <app-icon class="block size-5" name="mdi:format-italic" />
+                </button>
+                <button class="editor-button" appTooltip="글자색" [cdkMenuTriggerFor]="textColorMenu">
+                    <app-icon
+                        class="block text-gray-500 size-5"
+                        name="mdi:format-color-text"
+                        class="block size-5"
+                        [ngStyle]="{
+                            'background-color': editor?.getAttributes('textStyle')['color'] || '#000 !important',
+                        }"
+                    />
+                </button>
+                <button
+                    appTooltip="배경색"
+                    [cdkMenuTriggerFor]="backgroundColorMenu"
+                    class="editor-button toggleable"
+                    [class.active]="editor?.isActive('highlight') ? editor?.isActive('highlight') : undefined"
+                >
+                    <app-icon
+                        class="block text-gray-500 size-5"
+                        name="mdi:format-color-highlight"
+                        [ngStyle]="{
+                            'background-color': editor?.getAttributes('highlight')['color'] || '#000 !important',
+                        }"
+                    />
+                </button>
+            </section>
+            <div class="hidden w-px h-4 bg-gray-200 sm:block"></div>
+            <section class="buttons">
+                <button appTooltip="글머리 목록" (click)="handleCommand(editor?.chain()?.focus()?.toggleBulletList()?.run, $event)">
+                    <app-icon class="editor-button block text-gray-500 size-5" name="mdi:format-list-bulleted" />
+                </button>
+                <button appTooltip="순서 목록" (click)="handleCommand(editor?.chain()?.focus()?.toggleOrderedList()?.run, $event)">
+                    <app-icon class="editor-button block text-gray-500 size-5" name="mdi:format-list-numbered" />
+                </button>
+                <button appTooltip="문단 정렬" [cdkMenuTriggerFor]="textAlignMenu">
+                    <app-icon class="editor-button block text-gray-500 size-5" [name]="currentTextAlignIcon()" />
+                </button>
+            </section>
+            <div class="hidden w-px h-4 bg-gray-200 sm:block"></div>
+            <section class="buttons">
+                <button class="editor-button" (click)="selectImage($event)" appTooltip="이미지">
+                    <app-icon class="text-gray-500 size-5" name="mdi:file-image" />
+                </button>
+                <!-- <button appTooltip="유튜브" [cdkMenuTriggerFor]="youtubeForm">
+                        <app-icon class="text-gray-500 size-5" name="mdi:youtube" />
+                    </button> -->
+            </section>
+            <section class="buttons">
+                <!-- <button
+                        appTooltip="표 삽입"
+                        [disabled]="editor?.isActive('table') ? editor?.isActive('table') : undefined"
+                        (click)="
+                            handleCommand(
+                                editor?.chain()?.focus().insertTable({
+                                    rows: 3,
+                                    cols: 3,
+                                    withHeaderRow: false,
+                                }).run,
+                                $event
+                            )
+                        "
+                    >
+                        <app-icon class="block text-gray-500 size-5" name="mdi:table" class="block bg-neutral-900 size-6" />
+                    </button>
+                    @if (editor?.isActive('table')) {
+                        <button appTooltip="테이블 삭제" (click)="handleCommand(editor?.chain()?.focus().deleteTable()?.run, $event)">
+                            <app-icon class="block text-gray-500 size-5" name="mdi:table-remove" />
+                        </button>
+                        <button appTooltip="오른쪽에 삽입" (click)="handleCommand(editor?.chain()?.focus().addColumnAfter()?.run, $event)">
+                            <app-icon class="block text-gray-500 size-5" name="mdi:table-column-plus-after" />
+                        </button>
+                        <button appTooltip="아래에 삽입" (click)="handleCommand(editor?.chain()?.focus().addRowAfter()?.run, $event)">
+                            <app-icon class="block text-gray-500 size-5" name="mdi:table-row-plus-after" />
+                        </button>
+                        <button appTooltip="열 삭제" (click)="handleCommand(editor?.chain()?.focus().deleteColumn()?.run, $event)">
+                            <app-icon class="block text-gray-500 size-5" name="mdi:table-column-remove" />
+                        </button>
+                        <button appTooltip="행 삭제" (click)="handleCommand(editor?.chain()?.focus().deleteRow()?.run, $event)">
+                            <app-icon class="block text-gray-500 size-5" name="mdi:table-row-remove" />
+                        </button>
+                        <button appTooltip="셀 배경색" [cdkMenuTriggerFor]="cellBackgroundColorMenu">
+                            <app-icon class="block text-gray-500 size-5" name="mdi:format-color-fill" />
+                        </button>
+    
+                        <button appTooltip="셀 분할" (click)="handleCommand(editor?.chain()?.focus().splitCell()?.run, $event)">
+                            <app-icon class="block text-gray-500 size-5" name="mdi:table-split-cell" />
+                        </button>
+                        <button [disabled]="" appTooltip="셀 병합" (click)="handleCommand(editor?.chain()?.focus().mergeCells()?.run, $event)">
+                            <app-icon class="block text-gray-500 size-5" name="mdi:table-merge-cells" />
+                        </button>
+                    } -->
+            </section>
+        </section>
+    }
+    <div class="h-[20rem] overflow-auto">
+        <div
+            #editorRef
+            class="h-full *:h-full *:outline-none break-all"
+            [style]="{ minHeight: minHeight + 'px' }"
+            [class.p-8]="!viewer()"
+            (click)="editor?.commands.focus()"
+        ></div>
+    </div>
+</div>
+
+<ng-template #textColorMenu>
+    <div cdkMenu class="grid grid-flow-row grid-cols-5 gap-1 p-2 bg-white rounded-md shadow-sm">
+        @for (color of colors; track color; let i = $index) {
+            <button
+                cdkMenuItem
+                (click)="handleCommand(editor?.chain()?.focus().setColor(color).run, $event)"
+                class="border editor-button rounded-full size-6 border-neutral-200"
+                [ngStyle]="{ 'background-color': color }"
+            ></button>
+        }
+    </div>
+</ng-template>
+
+<ng-template #backgroundColorMenu>
+    <div cdkMenu class="grid grid-flow-row grid-cols-5 gap-1 p-2 bg-white rounded-md shadow-sm">
+        @for (color of colors; track color; let i = $index) {
+            <button
+                cdkMenuItem
+                (click)="handleCommand(editor?.chain()?.focus()?.toggleHighlight({ color: color }).run, $event)"
+                class="border editor-button rounded-full size-6 border-neutral-200"
+                [ngStyle]="{ 'background-color': color }"
+            ></button>
+        }
+    </div>
+</ng-template>
+
+<ng-template #cellBackgroundColorMenu>
+    <div cdkMenu class="grid grid-flow-row grid-cols-5 gap-1 p-2 bg-white rounded-md shadow-sm">
+        @for (color of colors; track color; let i = $index) {
+            <button
+                cdkMenuItem
+                (click)="handleCommand(editor?.chain()?.focus().setCellAttribute('backgroundColor', color).run, $event)"
+                class="border editor-button rounded-full size-6 border-neutral-200"
+                [ngStyle]="{ 'background-color': color }"
+            ></button>
+        }
+    </div>
+</ng-template>
+
+<ng-template #textAlignMenu>
+    <div class="flex flex-col mt-1 overflow-hidden rounded-md shadow-md bg-neutral-200" cdkMenu>
+        <button
+            class="flex editor-button items-center justify-center p-1 transition-colors border rounded-md border-neutral-400 hover:bg-neutral-300 text-neutral-100"
+            cdkMenuItem
+            (click)="handleCommand(editor?.chain()?.focus().setTextAlign('left').run, $event)"
+        >
+            <app-icon class="block text-gray-500 size-5" class="block size-6 bg-neutral-800" name="mdi:format-align-left" />
+        </button>
+        <button
+            class="flex editor-button items-center justify-center p-1 transition-colors border rounded-md border-neutral-400 hover:bg-neutral-300 text-neutral-100"
+            cdkMenuItem
+            (click)="handleCommand(editor?.chain()?.focus().setTextAlign('center').run, $event)"
+        >
+            <app-icon class="block text-gray-500 size-5" class="block size-6 bg-neutral-800" name="mdi:format-align-center" />
+        </button>
+        <button
+            class="flex editor-button items-center justify-center p-1 transition-colors border rounded-md border-neutral-400 hover:bg-neutral-300 text-neutral-100"
+            cdkMenuItem
+            (click)="handleCommand(editor?.chain()?.focus().setTextAlign('right').run, $event)"
+        >
+            <app-icon class="block text-gray-500 size-5" class="block size-6 bg-neutral-800" name="mdi:format-align-right" />
+        </button>
+    </div>
+</ng-template>
+
+<!-- <ng-template #youtubeForm>
+        <div class="flex flex-col gap-2 p-4 bg-white shadow-xl" cdkMenu>
+            <h5 class="text-sm font-bold">유튜브 동영상 추가</h5>
+            <app-input label="URL" #youtubeInputRef />
+    
+            <app-button
+                class="self-end"
+                [disabled]="!isYoutubeUrl(youtubeInputRef.value())"
+                (click)="addYoutube(youtubeInputRef.value())"
+                cdkMenuItem
+                >추가</app-button
+            >
+        </div>
+    </ng-template> -->

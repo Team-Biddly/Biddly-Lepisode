@@ -1,0 +1,100 @@
+/// 용역 입찰 공고
+model Bid_Service {
+    id                         String    @id
+
+    keywords                   String[]
+
+    입찰공고차수        Int?
+    재공고여부         Boolean? @default(false)
+    등록유형명         String?
+    공고종류명         String?
+    국제입찰여부        Boolean? @default(false)
+    입찰공고일시        DateTime?
+    참조번호          String?
+    입찰공고명         String?
+    공고기관코드        String?
+    공고기관명         String?
+    수요기관코드        String?
+    수요기관명         String?
+    입찰방식명         String?
+    계약체결방법명       String?
+    공고기관담당자명      String?
+    공고기관담당자전화번호  String?
+    공고기관담당자이메일주소 String?
+    집행관명          String?
+    입찰참가자격등록마감일시 DateTime?
+    공동수급협정서접수방식  String?
+    공동수급협정마감일시    DateTime?
+    공동수급업체지역제한여부 Boolean? @default(false)
+    입찰개시일시        DateTime?
+    입찰마감일시        DateTime?
+    개찰일시          DateTime?
+    공고규격서URL        String[]
+    공고규격파일명       String[]
+    재입찰허용여부       Boolean?
+    PQ신청서접수방법명     String?
+    PQ신청서접수일시      DateTime?
+    TP심사신청방법명      String?
+    TP심사신청마감일시     DateTime?
+    공동도급의무지역명     String[]
+    지역의무공동도급비율    Int?
+    내역입찰여부         Boolean?
+    입찰참가제한여부      Boolean?
+    예정가격결정방법명     String?
+    총예가건수          Int?
+    추첨예가건수         Int?
+    배정예산금액         BigInt?
+    추정가격            BigInt?
+    개찰장소            String?
+    설명회실시일시        DateTime?
+    설명회실시장소        String?
+    입찰공고상세URL        String?
+    입찰공고URL           String?
+    입찰참가수수료납부여부  String?
+    입찰참가수수료        BigInt?
+    입찰보증금납부여부     Boolean?
+    채권자명             String?
+    조달청일반용역여부     Boolean?
+    용역구분명           String?
+    물품분류제한여부       Boolean?
+    제조여부             Boolean?
+    구매대상물품목록       String[]
+    통합공고번호          String?
+    공동수급방식코드       String?
+    공동수급구성방식명     String?
+    표준공고서URL          String?
+    지사투찰허용여부       Boolean?
+    지명경쟁여부          Boolean?
+    실적경쟁여부          Boolean?
+    PQ심사여부            Boolean?
+    TP심사여부            Boolean?
+    공고설명여부          Boolean?
+    예비가격재작성방법명    String?
+    실적신청서접수방법명    String?
+    실적신청서접수일시     DateTime?
+    발주계획통합번호       String?
+    낙찰하한율           Float?
+    등록일시             DateTime?
+    사전규격등록번호       String?
+    정보화사업여부        Boolean?
+    낙찰방법코드          String?
+    낙찰방법명           String?
+    수요기관담당자이메일주소 String?
+    업종제한여부          Boolean?
+    변경공고사유          String?
+    재입찰개찰일시        DateTime?
+    부가가치세           BigInt?
+    주공종부가가치세       BigInt?
+    공공조달대분류명       String?
+    공공조달중분류명       String?
+    공공조달분류번호       String?
+    공공조달분류명        String?
+
+    createdAt                  DateTime  @default(now())
+    updatedAt                  DateTime  @updatedAt
+
+    @@index([입찰공고명])
+    @@index([공고기관명])
+    @@index([수요기관명])
+    @@index([공고기관담당자명])
+}

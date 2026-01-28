@@ -1,0 +1,21 @@
+:host {
+  button {
+    @apply size-6 flex items-center justify-center gap-2 p-4 font-bold transition-colors rounded-md disabled:cursor-not-allowed;
+  }
+
+  .page-button {
+    @apply flex items-center justify-center p-1 rounded-md cursor-pointer size-10 transition-colors;
+
+    &[data-theme='dark'] {
+      @apply hover:bg-dark-450 active:bg-dark-400;
+    }
+
+    &[data-theme='light'] {
+      @apply hover:bg-neutral-200 active:bg-neutral-300;
+    }
+
+    &[data-active='true'] {
+      @apply hover:bg-primary text-white bg-primary;
+    }
+  }
+}

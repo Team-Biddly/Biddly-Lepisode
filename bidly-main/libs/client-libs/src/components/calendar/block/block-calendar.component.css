@@ -1,0 +1,26 @@
+.item {
+  font-size: 1rem;
+  text-align: center;
+  padding: 0.25rem;
+  position: relative;
+  width: 100%;
+}
+
+.text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  transition: background-color 0.2s ease-in-out;
+}
+/* Light mode */
+.text[data-text='today'] {
+  color: white;
+}
+.text[data-text='prev-month'] {
+  color: #9ca3af; /* text-dark-200 */
+}
+.text[data-background='today'] {
+  background-color: var(--color-primary);
+}

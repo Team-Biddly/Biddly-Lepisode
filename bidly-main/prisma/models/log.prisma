@@ -1,0 +1,20 @@
+model Log {
+    id          Int      @id @default(autoincrement()) /// 순번
+    user        User?    @relation(fields: [userId], references: [id]) /// 사용자
+    userId      String? /// 사용자 ID
+    admin       Admin?   @relation(fields: [adminId], references: [id]) /// 관리자
+    adminId     String?
+    action      LOG_ACTION? /// 로그 액션
+    targetModel String /// 타깃 모델
+    targetId    String /// 타깃 아이디
+    targetChildId String? /// 타깃 자식 아이디(종속된 관계 ex: 센터 -> 선생님)
+    targetChildModel String? /// 타깃 자식 모델
+    content     String /// 로그 내용
+    createdAt   DateTime @default(now()) /// 로그 생성 일시
+}
+
+enum LOG_ACTION {
+    CREATE
+    DELETE
+    UPDATE
+}

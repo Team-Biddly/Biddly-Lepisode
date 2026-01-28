@@ -1,0 +1,20 @@
+@if (option(); as option) {
+    <div [attr.data-height]="option.height" class="option">
+        @if (option.icon; as icon) {
+            <app-icon class="option-text" [name]="icon" />
+        }
+        <div [attr.data-color]="color()" [class.active]="active()" class="text-base transition-colors duration-200 ease-in-out option-text">
+            {{ option.label }}
+        </div>
+        @if (option.count; as count) {
+            <div class="flex items-center justify-center px-2 py-0.5 pb-1 text-sm rounded-md min-w-max bg-primary-100">
+                {{ count | number }}
+            </div>
+        }
+        @if (option.badge) {
+            <app-badge [color]="option.badge.color">
+                {{ option.badge.label }}
+            </app-badge>
+        }
+    </div>
+}

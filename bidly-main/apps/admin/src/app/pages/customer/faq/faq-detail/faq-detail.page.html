@@ -1,0 +1,40 @@
+<main class="flex flex-col gap-6 p-6">
+    @if (faq(); as faq) {
+        <app-accordion title="기본 정보">
+            <div class="flex gap-3 items-center" buttons>
+                <button class="btn" (click)="handleDelete()">
+                    <app-icon size="sm" name="mdi:delete" />
+                    삭제
+                </button>
+                <button class="btn" (click)="handleUpdate()">
+                    <app-icon size="sm" name="mdi:pencil" />
+                    수정
+                </button>
+            </div>
+            <section class="grid grid-cols-4 gap-6">
+                <app-text-field label="상태">
+                    @if (faq.isPinned) {
+                        <span class="badge badge-primary badge-soft">노출</span>
+                    } @else {
+                        <span class="badge badge-neutral badge-soft">숨김</span>
+                    }
+                </app-text-field>
+                <app-text-field label="작성자">
+                    {{ faq.admin.name }}
+                </app-text-field>
+                <app-text-field label="등록 일시">
+                    <p>{{ faq.createdAt | date: 'yyyy-MM-dd HH:mm' }}</p>
+                </app-text-field>
+            </section>
+        </app-accordion>
+
+        <app-accordion [title]="faq.question">
+            <section class="flex flex-col gap-6">
+                <p [innerHTML]="faq.answer | safeHtml"></p>
+            </section>
+        </app-accordion>
+    }
+    <div class="flex w-full justify-between">
+        <button routerLink=".." class="btn btn-primary">목록</button>
+    </div>
+</main>

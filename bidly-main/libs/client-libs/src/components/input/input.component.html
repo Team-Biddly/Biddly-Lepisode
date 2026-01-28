@@ -1,0 +1,67 @@
+<main class="flex flex-col gap-2">
+    @if (label(); as label) {
+        <app-label [required]="required()">
+            {{ label }}
+        </app-label>
+    }
+    <div
+        [attr.data-size]="currentSize()"
+        [attr.data-rounded]="currentRounded()"
+        [attr.data-theme]="theme()"
+        [attr.data-disabled]="disabled()"
+        class="input-wrapper input-rounded input-padding"
+        [ngClass]="disabled() ? 'bg-gray-200 border-gray-200 text-gray-400  cursor-not-allowed' : 'border-neutral-300 bg-white'"
+    >
+        <div [attr.data-color]="currentColor()" [attr.data-rounded]="currentRounded()" class="input-outline input-rounded"></div>
+        <ng-container *ngTemplateOutlet="prefixIconSection" />
+        <input
+            #inputRef
+            [disabled]="disabled()"
+            (click)="inputClick.emit()"
+            (focus)="inputFocus.emit()"
+            (blur)="inputBlur.emit()"
+            (keydown)="inputKeydown.emit($event)"
+            (change)="handleChange()"
+            class="w-full input-text-size theme-text"
+            [attr.data-size]="currentSize()"
+            [attr.data-theme]="theme()"
+            [type]="type()"
+            [placeholder]="placeholder()"
+            [spellcheck]="spellcheck()"
+            [autocomplete]="autocomplete()"
+            [readOnly]="readonly()"
+            [disabled]="disabled()"
+            (paste)="handlePaste($event)"
+            [maxLength]="maxlength() || 524288"
+            [value]="value() || null"
+        />
+        <ng-container *ngTemplateOutlet="suffixIconSection" />
+        <div class="min-h-6">
+            <ng-container *ngTemplateOutlet="suffixSection" />
+        </div>
+    </div>
+</main>
+
+<ng-template #prefixIconSection>
+    @if (prefixIcon(); as icon) {
+        <div class="flex items-center mr-2">
+            <app-icon [attr.data-theme]="theme()" [name]="icon" class="theme-text" size="sm" />
+        </div>
+    }
+</ng-template>
+
+<ng-template #suffixIconSection>
+    @if (icon() || suffixIcon()) {
+        <app-icon [attr.data-theme]="theme()" [name]="icon() || suffixIcon() || ''" class="theme-text !text-gray-400" />
+    } @else {
+        <ng-content name="[icons]" />
+    }
+</ng-template>
+
+<ng-template #suffixSection>
+    @if (suffix()) {
+        <span [attr.data-theme]="theme()" class="min-w-fit theme-text">
+            {{ suffix() }}
+        </span>
+    }
+</ng-template>

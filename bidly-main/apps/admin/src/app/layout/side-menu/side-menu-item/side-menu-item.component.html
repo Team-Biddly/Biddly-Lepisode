@@ -1,0 +1,6 @@
+<button [attr.data-active]="active()" class="group">
+    <app-icon [name]="icon()" />
+    <div class="flex flex-col">
+        <ng-content />
+    </div>
+</button>

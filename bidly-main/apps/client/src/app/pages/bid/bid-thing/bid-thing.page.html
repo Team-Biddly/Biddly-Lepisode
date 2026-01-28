@@ -1,0 +1,219 @@
+<main class="container mx-auto p-5 sm:p-10 md:p-16 flex flex-col gap-10 items-center">
+    @if (bidThing(); as bid) {
+        <div class="flex flex-col gap-6">
+            <!-- 기본 정보 -->
+            <cdk-accordion class="p-5 rounded-sm border border-zinc-100">
+                <cdk-accordion-item class="flex flex-col gap-5" #basicInfo="cdkAccordionItem" [expanded]="true">
+                    <div class="flex items-center justify-between">
+                        <div class="flex flex-col gap-3">
+                            <div class="flex items-center gap-1.5">
+                                <span class="text-sm text-white px-2 py-1 rounded-sm bg-blue-500">물품</span>
+                                <span class="text-sm text-blue-500 px-2 py-1 rounded-sm border border-blue-500!">등록공고</span>
+                            </div>
+                            <p class="text-xl font-semibold text-zinc-800 break-keep">{{ bid['입찰공고명'] || '-' }}</p>
+                        </div>
+                        <div class="flex flex-col justify-between self-stretch">
+                            <button>
+                                <app-icon name="mdi:bookmark" class="text-zinc-300" />
+                            </button>
+                            <button (click)="basicInfo.toggle()">
+                                <app-icon
+                                    name="mdi:chevron-down"
+                                    class="text-zinc-400 transition-transform duration-300"
+                                    [ngClass]="{ 'rotate-180 ': basicInfo.expanded }"
+                                />
+                            </button>
+                        </div>
+                    </div>
+                    @if (basicInfo.expanded) {
+                        <div class="w-full h-px bg-zinc-100"></div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                            <div class="bid-info-row">
+                                <p class="bid-info-label">공고종류</p>
+                                <p class="bid-info-value">{{ bid['공고종류명'] || '-' }}</p>
+                            </div>
+                            <div class="bid-info-row">
+                                <p class="bid-info-label">공고일시</p>
+                                <p class="bid-info-value">{{ (bid['입찰공고일시'] | date: 'yyyy/MM/dd HH:mm:ss') || '-' }}</p>
+                            </div>
+                            <div class="bid-info-row">
+                                <p class="bid-info-label">입찰공고번호</p>
+                                <!-- 통합공고번호가 입찰공고 번호가 맞는지 확인 필요 -->
+                                <p class="bid-info-value">{{ bid['통합공고번호'] || '-' }}</p>
+                            </div>
+                            <div class="bid-info-row">
+                                <p class="bid-info-label">참조번호</p>
+                                <p class="bid-info-value">{{ bid['참조번호'] || '-' }}</p>
+                            </div>
+                            <div class="bid-info-row">
+                                <p class="bid-info-label">공고기관</p>
+                                <p class="bid-info-value">{{ bid['공고기관명'] || '-' }}</p>
+                            </div>
+                            <div class="bid-info-row">
+                                <p class="bid-info-label">수요기관</p>
+                                <p class="bid-info-value">{{ bid['수요기관명'] || '-' }}</p>
+                            </div>
+                            <div class="bid-info-row">
+                                <p class="bid-info-label">계약방법</p>
+                                <p class="bid-info-value">{{ bid['계약체결방법명'] || '-' }}</p>
+                            </div>
+                            <div class="bid-info-row">
+                                <p class="bid-info-label">국제입찰구분</p>
+                                <p class="bid-info-value">{{ bid['국제입찰여부'] ? '국제' : '국내' }}</p>
+                            </div>
+                            <div class="bid-info-row">
+                                <p class="bid-info-label">입찰방법</p>
+                                <p class="bid-info-value">{{ bid['입찰방식명'] || '-' }}</p>
+                            </div>
+                            <div class="bid-info-row sm:col-span-2 md:col-span-3">
+                                <p class="bid-info-label">낙찰방법</p>
+                                <p class="bid-info-value">{{ bid['낙찰방법명'] || '-' }}</p>
+                            </div>
+                            <div class="flex flex-col gap-2 sm:col-span-2 md:col-span-3">
+                                <p class="bid-info-label">공사현장</p>
+                                <div class="p-4 bg-zinc-50">
+                                    <!-- 관련 컬럼 없음. -->
+                                    <p class="text-zinc-500">-</p>
+                                </div>
+                            </div>
+                            <div class="bid-info-row">
+                                <p class="bid-info-label shrink-0">공고서</p>
+                                @if (bid['표준공고서URL']) {
+                                    <a
+                                        class="px-3 py-1.5 border border-zinc-200 flex items-center gap-1 rounded-sm hover:bg-zinc-100 transition-colors duration-300"
+                                        [href]="bid['표준공고서URL']"
+                                    >
+                                        <app-icon name="mdi:download" class="text-zinc-400" />
+                                        <p class="text-zinc-700">다운로드</p>
+                                    </a>
+                                } @else {
+                                    <p class="text-zinc-500">-</p>
+                                }
+                            </div>
+                            <div class="bid-info-row">
+                                <p class="bid-info-label">재입찰</p>
+                                <p class="bid-info-value">{{ bid['재입찰허용여부'] ? '가능' : '불가' }}</p>
+                            </div>
+                            <div class="bid-info-row">
+                                <p class="bid-info-label">채권자명</p>
+                                <p class="bid-info-value">{{ bid['채권자명'] || '-' }}</p>
+                            </div>
+                        </div>
+                    }
+                </cdk-accordion-item>
+            </cdk-accordion>
+            <!-- 입찰 진행 -->
+            <section class="flex flex-col gap-5">
+                <p class="text-lg font-semibold text-zinc-800">입찰진행</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 p-5 rounded-sm border border-zinc-100">
+                    <p class="text-zinc-800 font-semibold sm:col-span-2 md:col-span-3">입찰정보</p>
+                    <div class="bid-info-row">
+                        <p class="bid-info-label">입찰서접수 개시일시</p>
+                        <p class="bid-info-value">{{ (bid['입찰개시일시'] | date: 'yyyy/MM/dd HH:mm:ss') || '-' }}</p>
+                    </div>
+                    <div class="bid-info-row">
+                        <p class="bid-info-label">입찰서접수 마감일시</p>
+                        <p class="bid-info-value">{{ (bid['입찰마감일시'] | date: 'yyyy/MM/dd HH:mm:ss') || '-' }}</p>
+                    </div>
+                    <div class="bid-info-row">
+                        <p class="bid-info-label">개찰일시</p>
+                        <p class="bid-info-value">{{ (bid['개찰일시'] | date: 'yyyy/MM/dd HH:mm:ss') || '-' }}</p>
+                    </div>
+                    <div class="bid-info-row">
+                        <p class="bid-info-label">입찰참가자격 등록마감일시</p>
+                        <p class="bid-info-value">{{ (bid['입찰참가자격등록마감일시'] | date: 'yyyy/MM/dd HH:mm:ss') || '-' }}</p>
+                    </div>
+                    <div class="bid-info-row">
+                        <p class="bid-info-label">공동수급협정서 마감일시</p>
+                        <p class="bid-info-value">{{ (bid['공동수급협정마감일시'] | date: 'yyyy/MM/dd HH:mm:ss') || '-' }}</p>
+                    </div>
+                    <div class="flex flex-col gap-2 sm:col-span-2 md:col-span-3">
+                        <p class="bid-info-label">공동수급협정서 구성방식</p>
+                        <div class="p-4 bg-zinc-50">
+                            <p class="text-zinc-500">{{ bid['공동수급구성방식명'] || '-' }}</p>
+                        </div>
+                    </div>
+                    <div class="bid-info-row">
+                        <p class="bid-info-label">현장(과업) 설명장소</p>
+                        <!-- 관련 컬럼 없음. -->
+                        <!-- <p class="bid-info-value">{{ bid['현장설명장소'] }}</p> -->
+                        <p class="bid-info-value">-</p>
+                    </div>
+                    <div class="bid-info-row">
+                        <p class="bid-info-label">개찰장소</p>
+                        <p class="bid-info-value">{{ bid['개찰장소'] || '-' }}</p>
+                    </div>
+                    <div class="bid-info-row">
+                        <p class="bid-info-label">참가가능지역</p>
+                        <!-- 관련 컬럼 없음. -->
+                        <!-- <p class="bid-info-value">{{ bid['참가가능지역'] }}</p> -->
+                        <p class="bid-info-value">-</p>
+                    </div>
+                    <div class="flex flex-col gap-2 sm:col-span-2 md:col-span-3">
+                        <p class="bid-info-label">입찰자격</p>
+                        <div class="p-4 bg-zinc-50">
+                            <!-- 관련 컬럼 없음. -->
+                            <!-- <p class="text-zinc-500">{{ bid['입찰자격'] }}</p> -->
+                            <p class="text-zinc-500">-</p>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-2 sm:col-span-2 md:col-span-3">
+                        <p class="bid-info-label">비고</p>
+                        <div class="p-4 bg-zinc-50">
+                            <!-- 관련 컬럼 없음. -->
+                            <!-- <p class="text-zinc-500">{{ bid['비고'] }}</p> -->
+                            <p class="text-zinc-500">-</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- 관련금액 -->
+            <section class="flex flex-col gap-5">
+                <p class="text-lg font-semibold text-zinc-800">관련금액</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 p-5 rounded-sm border border-zinc-100">
+                    <div class="bid-info-row">
+                        <p class="bid-info-label">배정예산</p>
+                        <p class="bid-info-value">{{ (bid['배정예산금액'] | number) || '-' }} 원</p>
+                    </div>
+                    <div class="bid-info-row">
+                        <p class="bid-info-label">추정가격</p>
+                        <p class="bid-info-value">{{ (bid['추정가격'] | number) || '-' }} 원</p>
+                    </div>
+                    <div class="bid-info-row">
+                        <p class="bid-info-label">부가가치세</p>
+                        <p class="bid-info-value">{{ (bid['부가가치세'] | number) || '-' }} 원</p>
+                    </div>
+                    <div class="bid-info-row">
+                        <p class="bid-info-label">기타금액</p>
+                        <!-- 관련 컬럼 없음. -->
+                        <!-- <p class="bid-info-value">{{ bid['기타금액']  || '-'}}</p> -->
+                        <p class="bid-info-value">-</p>
+                    </div>
+                </div>
+            </section>
+            <!-- 첨부파 일 -->
+            <section class="flex flex-col gap-5">
+                <p class="text-lg font-semibold text-zinc-800">첨부파일</p>
+                <div class="flex flex-col border-t border-zinc-100">
+                    @for (url of bid['공고규격서URL']; track $index) {
+                        <div class="flex items-center justify-between p-3 border-zinc-100 border-b">
+                            <p>{{ bid['공고규격파일명'][$index] }}</p>
+                            <a
+                                class="px-3 py-1.5 border border-zinc-200 flex items-center gap-1 rounded-sm hover:bg-zinc-100 transition-colors duration-300"
+                                [href]="url"
+                            >
+                                <app-icon name="mdi:download" class="text-zinc-400" />
+                                <p class="text-zinc-600">다운로드</p>
+                            </a>
+                        </div>
+                    } @empty {
+                        <div class="flex items-center justify-between py-5 border-zinc-100 border-b">
+                            <p class="text-zinc-400">첨부파일이 없습니다.</p>
+                        </div>
+                    }
+                </div>
+            </section>
+        </div>
+    }
+    <button class="btn btn-outline w-full md:max-w-72">목록으로</button>
+</main>

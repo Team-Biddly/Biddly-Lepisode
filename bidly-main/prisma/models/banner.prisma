@@ -1,0 +1,15 @@
+/// 배너
+model Banner {
+  id         String    @id @default(uuid())        /// ID
+  order      Int? @default(1)                                 /// 정렬 순서
+  isExposed  Boolean?  @default(false)            /// 노출 여부
+  title      String                              /// 제목
+  url        String?                             /// URL
+  createdAt  DateTime  @default(now())            /// 생성일
+  updatedAt  DateTime  @updatedAt                 /// 수정일
+
+  pcImage    File? @relation("BannerPCImage") // 배너 PC 이미지
+  mobileImage File? @relation("BannerMobileImage") // 배너 모바일 이미지
+  adminId    String?                            /// 작성자 ID
+  admin      Admin? @relation(fields: [adminId], references: [id], onDelete: Cascade) /// 작성자
+}

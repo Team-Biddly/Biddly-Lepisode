@@ -1,0 +1,40 @@
+<main class="flex flex-col gap-6 p-6">
+    @if (notice(); as notice) {
+        <app-accordion title="기본 정보">
+            <div class="flex gap-3 items-center" buttons>
+                <button class="btn" (click)="handleDelete()">
+                    <app-icon size="sm" name="mdi:delete" />
+                    삭제
+                </button>
+                <button class="btn" (click)="handleUpdate()">
+                    <app-icon size="sm" name="mdi:pencil" />
+                    수정
+                </button>
+            </div>
+            <section class="grid grid-cols-5 gap-6">
+                <app-text-field label="고정">
+                    @if (notice.isPinned) {
+                        <span class="badge badge-soft badge-primary">고정</span>
+                    } @else {
+                        <span class="badge badge-soft badge-neutral">해제</span>
+                    }
+                </app-text-field>
+                <app-text-field label="작성자">
+                    {{ notice.admin.name }}
+                </app-text-field>
+                <app-text-field label="등록 일시">
+                    <p>{{ notice.createdAt | date: 'yyyy-MM-dd HH:mm' }}</p>
+                </app-text-field>
+            </section>
+        </app-accordion>
+
+        <app-accordion [title]="notice.title">
+            <section class="flex flex-col gap-6">
+                <p [innerHTML]="notice.content | safeHtml"></p>
+            </section>
+        </app-accordion>
+    }
+    <div class="flex w-full justify-between">
+        <button class="btn btn-primary" routerLink="..">목록</button>
+    </div>
+</main>

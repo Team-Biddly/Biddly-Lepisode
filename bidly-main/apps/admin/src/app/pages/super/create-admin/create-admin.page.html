@@ -1,0 +1,63 @@
+<main>
+    <form [formGroup]="form" (ngSubmit)="submit()" class="flex flex-col gap-6">
+        <div class="flex flex-col gap-2">
+            <div class="flex gap-1">
+                <span>이메일 주소</span>
+                <span class="text-primary">*</span>
+            </div>
+            <div class="border border-gray-200 rounded-md p-2">
+                <input
+                    class="text-zinc-800 placeholder:text-zinc-400"
+                    formControlName="email"
+                    type="email"
+                    placeholder="이메일 주소를 입력해주세요."
+                />
+            </div>
+        </div>
+
+        <div class="flex flex-col gap-2">
+            <div class="flex gap-1">
+                <span>비밀번호</span>
+                <span class="text-primary">*</span>
+            </div>
+            <div class="border border-gray-200 rounded-md p-2">
+                <input
+                    class="text-zinc-800 placeholder:text-zinc-400"
+                    formControlName="password"
+                    type="password"
+                    placeholder="비밀번호를 입력해주세요."
+                />
+            </div>
+            <div class="border border-gray-200 rounded-md p-2">
+                <input
+                    class="text-zinc-800 placeholder:text-zinc-400"
+                    formControlName="passwordConfirm"
+                    type="password"
+                    placeholder="비밀번호를 다시 입력해주세요."
+                />
+            </div>
+        </div>
+
+        <div class="flex flex-col gap-2">
+            <div class="flex gap-1">
+                <span>관리자명</span>
+                <span class="text-primary">*</span>
+            </div>
+            <div class="border border-gray-200 rounded-md p-2">
+                <input
+                    class="text-zinc-800 placeholder:text-zinc-400"
+                    formControlName="name"
+                    type="text"
+                    placeholder="관리자명을 입력해주세요."
+                />
+            </div>
+        </div>
+
+        <div class="flex gap-3">
+            <button type="button" routerLink="/admin/super" class="w-full border border-gray-200 rounded-xl py-3 cursor-pointer">
+                취소
+            </button>
+            <button type="submit" class="w-full bg-primary rounded-xl py-3 text-white cursor-pointer">등록</button>
+        </div>
+    </form>
+</main>

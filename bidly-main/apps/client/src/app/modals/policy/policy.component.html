@@ -1,0 +1,14 @@
+<div class="w-[600px] max-w-full p-6 rounded-2xl bg-white">
+    <div class="flex justify-between items-center mb-4">
+        <h2 class="text-xl font-semibold">{{ data.title }}</h2>
+        <button class="text-zinc-400" (click)="close()">✕</button>
+    </div>
+
+    <div class="border border-zinc-100 bg-zinc-50 p-4 text-zinc-600 text-sm" [innerHTML]="safeContent"></div>
+
+    <div class="mt-6">
+        <button class="w-full py-2 border border-zinc-300 rounded-md text-sm text-zinc-700 bg-white hover:bg-zinc-50" (click)="close()">
+            확인
+        </button>
+    </div>
+</div>

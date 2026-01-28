@@ -1,0 +1,15 @@
+<div class="relative">
+    <button (click)="monthOpen.set(true)" class="btn btn-ghost">
+        <p class="font-semibold text-base sm:text-lg">
+            {{ value() | date: 'MM월' }}
+        </p>
+    </button>
+    @if (monthOpen()) {
+        <app-month-select
+            (clickOutside)="monthOpen.set(false)"
+            (select)="handleSelectMonth($event)"
+            [value]="value()!"
+            class="absolute z-[99] left-0 top-[calc(100%+4px)]"
+        />
+    }
+</div>

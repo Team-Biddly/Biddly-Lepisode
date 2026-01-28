@@ -1,0 +1,46 @@
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.create-button {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.item {
+  font-size: 1rem;
+  text-align: center;
+  padding: 0.25rem;
+  position: relative;
+  width: 100%;
+}
+
+.text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  transition: background-color 0.2s ease-in-out;
+}
+
+@media (min-width: 768px) {
+  .text {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+}
+
+.text[data-text='today'] {
+  color: white;
+}
+.text[data-text='prev-month'] {
+  color: #9ca3af; /* text-dark-200 */
+}
+.text[data-background='today'] {
+  background-color: var(--color-primary);
+}

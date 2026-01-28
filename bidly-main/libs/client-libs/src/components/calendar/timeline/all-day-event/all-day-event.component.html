@@ -1,0 +1,42 @@
+@if (event(); as event) {
+    <div
+        [cdkContextMenuTriggerFor]="contextMenu"
+        (cdkContextMenuOpened)="isContextOpen.set(true)"
+        (cdkContextMenuClosed)="isContextOpen.set(false)"
+        [style]="{
+            'background-color': event.color,
+        }"
+        class="event truncate"
+    >
+        <div
+            #leftRef
+            (dragend)="handleLeftResize($event)"
+            dndDraggable
+            [class.disabled]="!options()?.event?.resize"
+            [dndDisableIf]="!options()?.event?.resize"
+            class="resizer-left"
+        ></div>
+        {{ event.title }}
+        @if (event.repeat) {
+            <app-calendar-repeat-icon [event]="event" />
+        }
+        <div
+            #rightRef
+            (dragend)="handleRightResize($event)"
+            dndDraggable
+            [class.disabled]="!options()?.event?.resize"
+            [dndDisableIf]="!options()?.event?.resize"
+            class="resizer-right"
+        ></div>
+    </div>
+}
+
+<ng-template #contextMenu>
+    @if (menus() && menus().length > 0) {
+        <app-menu cdkMenu>
+            @for (option of menus(); track $index) {
+                <app-menu-option (click)="menu.emit(option.value)" cdkMenuItem [icon]="option.icon">{{ option.label }}</app-menu-option>
+            }
+        </app-menu>
+    }
+</ng-template>

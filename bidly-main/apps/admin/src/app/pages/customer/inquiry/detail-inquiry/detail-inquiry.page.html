@@ -1,0 +1,79 @@
+<main>
+    @if (inquiry(); as inquiry) {
+        <section class="flex flex-col w-full gap-6">
+            <div class="flex flex-col gap-3">
+                <div class="flex items-center justify-between w-full">
+                    <div class="flex items-center gap-3">
+                        <div
+                            [ngClass]="inquiry?.answeredAt ? 'bg-primary' : 'bg-gray-400'"
+                            class="px-2 py-1 text-sm text-white rounded-md select-none min-w-max"
+                        >
+                            {{ inquiry?.answeredAt ? '답변 완료' : '답변 대기' }}
+                        </div>
+
+                        <h5 text class="text-xl font-semibold break-all">
+                            {{ inquiry?.title }}
+                        </h5>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button (click)="handleDelete()" class="btn">삭제</button>
+
+                        <button [routerLink]="['/inquiry/update', id()]" class="btn">답변변</button>
+                    </div>
+                </div>
+                <div class="flex gap-3 items-center">
+                    <div class="flex flex-row items-center gap-1 min-w-max">
+                        <app-icon class="text-gray-500" name="mdi:person" />
+                        <a [routerLink]="['/user', inquiry.user?.id]" class="text-primary underline underline-offset-4 text-sm">
+                            {{ inquiry?.user?.name }}
+                        </a>
+                    </div>
+                    <div class="flex flex-row items-center gap-1 min-w-max">
+                        <app-icon class="'text-gray-500'" name="ic:baseline-calendar-month" />
+                        <div class="'text-gray-500' text-sm">
+                            {{ inquiry.createdAt | date: 'y-MM-dd HH:mm' }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-full h-px bg-gray-200"></div>
+
+            <p text class="break-all whitespace-pre-line min-h-[10rem]">
+                {{ inquiry?.content }}
+            </p>
+
+            <div class="w-full h-px bg-gray-200"></div>
+
+            @if (inquiry?.answer) {
+                <div class="flex flex-col gap-4">
+                    <div class="flex justify-between gap-2">
+                        <h5 text class="font-bold">문의 답변</h5>
+                        <div class="flex flex-row items-center gap-1 min-w-max">
+                            <app-icon class="text-gray-500" name="ic:baseline-calendar-month" />
+                            <div class="text-gray-500 text-sm">
+                                {{ inquiry.answeredAt | date: 'y-MM-dd HH:mm' }}
+                            </div>
+                        </div>
+                    </div>
+                    <div text class="flex whitespace-pre-line max-h-[50rem] overflow-y-scroll text-sm flex-wrap min-h-[10rem] w-full">
+                        {{ inquiry?.answer }}
+                    </div>
+                </div>
+            } @else {
+                <div class="flex justify-between">
+                    <p text class="text-xl font-semibold text-gray-800">답변 대기중</p>
+                    <div class="flex items-center gap-3">
+                        <p text class="text-sm text-gray-800 xl:text-base">답변일</p>
+                        <p class="text-sm text-gray-400">-</p>
+                    </div>
+                </div>
+                <div class="text-sm text-gray-400 xl:text-base min-h-44">답변 대기중입니다.</div>
+            }
+
+            <div class="w-full h-px bg-gray-200"></div>
+
+            <button class="btn btn-primary" routerLink="..">목록</button>
+        </section>
+    }
+</main>

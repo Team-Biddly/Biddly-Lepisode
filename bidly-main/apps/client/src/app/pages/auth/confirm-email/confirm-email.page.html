@@ -1,0 +1,19 @@
+<main class="flex flex-col items-center justify-center min-h-screen gap-6 w-full max-w-sm mx-auto px-4 py-6 sm:px-0 sm:py-[15rem]">
+    <div class="flex flex-col items-center gap-1.5">
+        <img src="icons/check_circle.svg" alt="check_circle" class="w-8 h-8" />
+        <p class="text-zinc-800 text-2xl font-bold">아이디 확인</p>
+        <p class="text-zinc-500">연락처 확인이 완료되었습니다.</p>
+    </div>
+
+    <div class="py-8 border-y border-zinc-200 text-center w-full">
+        <p class="text-zinc-800">
+            가입하신 아이디는
+            <span class="text-primary">{{ user()?.auths?.[0]?.email }}</span>
+            입니다.
+        </p>
+    </div>
+
+    <div class="flex gap-3 w-full">
+        <button type="button" class="py-2 border border-zinc-200 rounded-sm w-full" routerLink="/login">로그인 하러가기</button>
+    </div>
+</main>

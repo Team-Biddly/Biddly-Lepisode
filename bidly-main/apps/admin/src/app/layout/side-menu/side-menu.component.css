@@ -1,0 +1,19 @@
+.side-menu-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 1.25rem;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  width: max-content;
+  min-width: 16rem;
+  padding-bottom: 1.25rem;
+}
+
+.scroll-none::-webkit-scrollbar {
+  display: none;
+}
+.scroll-none {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}

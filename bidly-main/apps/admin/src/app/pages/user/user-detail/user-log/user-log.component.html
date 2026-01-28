@@ -1,0 +1,12 @@
+<app-accordion title="로그 내역">
+    <app-ssp-data-grid
+        [(align)]="align"
+        [(orderBy)]="orderBy"
+        [(page)]="page"
+        [(pageSize)]="pageSize"
+        [(query)]="query"
+        [pageInfo]="pageInfo()"
+        [rowData]="items()"
+        [options]="options"
+        [columns]="columns"
+/></app-accordion>

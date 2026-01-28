@@ -1,0 +1,18 @@
+@if (event(); as event) {
+  <div class="flex gap-2 *:text-sm items-center w-full justify-between">
+    <p
+      class="truncate"
+      [ngClass]="getTextColor()"
+      [style.width]="width() - 80 + 'px'"
+    >
+      @if (!event.allDay) {
+        {{ event.startDate | date: 'HH:mm' }}
+      }
+      {{ event.title }}
+    </p>
+
+    @if (event.repeat) {
+      <app-calendar-repeat-icon [event]="event" />
+    }
+  </div>
+}

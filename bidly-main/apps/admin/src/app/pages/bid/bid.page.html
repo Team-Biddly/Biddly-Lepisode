@@ -1,0 +1,22 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<div class="flex flex-col gap-3 w-full">
+    <div class="tabs tabs-border">
+        <a class="tab" [class.tab-active]="!type()" (click)="type.set(undefined)">전체</a>
+        <a class="tab" [class.tab-active]="type() === 'construction'" (click)="type.set('construction')">건축</a>
+        <a class="tab" [class.tab-active]="type() === 'thing'" (click)="type.set('thing')">물품</a>
+        <a class="tab" [class.tab-active]="type() === 'service'" (click)="type.set('service')">용역</a>
+        <a class="tab" [class.tab-active]="type() === 'foreign'" (click)="type.set('foreign')">외자</a>
+    </div>
+    <app-ssp-data-grid
+        [rowData]="bids$.value()?.items"
+        [pageInfo]="bids$.value()?.pageInfo"
+        [options]="gridOptions"
+        [(align)]="align"
+        [(orderBy)]="orderBy"
+        [(page)]="page"
+        [(pageSize)]="pageSize"
+        [(query)]="query"
+        [columns]="columns"
+    />
+</div>

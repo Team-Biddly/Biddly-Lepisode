@@ -1,0 +1,129 @@
+<main class="flex flex-col items-center justify-center min-h-screen w-full max-w-sm mx-auto px-4 py-6 sm:px-0 sm:py-[15rem]">
+    <form [formGroup]="form" class="flex flex-col items-center gap-6 w-full">
+        <div class="flex flex-col items-center gap-1.5">
+            <p class="text-zinc-800 text-2xl font-bold">회원가입</p>
+            <p class="text-zinc-500">로그인에 필요한 필수 정보를 입력해주세요.</p>
+        </div>
+
+        <div class="flex items-center justify-between pb-3 border-b-2 border-zinc-800 w-full">
+            <span class="font-semibold text-zinc-800">회원정보</span>
+            <div class="flex items-center gap-1">
+                <span class="w-2 h-2 rounded-full bg-primary"></span>
+                <span class="text-xs text-zinc-400">필수입력</span>
+            </div>
+        </div>
+
+        <div class="flex flex-col gap-2 w-full">
+            <div class="flex items-center gap-1">
+                <span class="font-semibold text-zinc-800">이름</span>
+                <span class="w-2 h-2 rounded-full bg-primary"></span>
+            </div>
+            <input
+                formControlName="name"
+                class="w-full input text-zinc-800 placeholder:text-zinc-400"
+                type="text"
+                placeholder="입력해주세요."
+            />
+        </div>
+
+        <app-contact-verification
+            [value]="form.controls['contact'].value || ''"
+            (valueChange)="form.controls['contact'].setValue($event)"
+            [(provider)]="provider"
+            class="w-full"
+        ></app-contact-verification>
+
+        <app-email-verification
+            [value]="form.controls['email'].value || ''"
+            (valueChange)="form.controls['email'].setValue($event)"
+            class="w-full"
+        ></app-email-verification>
+
+        @if (!oAuthCreateDto()) {
+            <div class="flex flex-col gap-2 w-full">
+                <div class="flex items-center gap-1">
+                    <span class="font-semibold text-zinc-800">비밀번호</span>
+                    <span class="w-2 h-2 rounded-full bg-primary"></span>
+                </div>
+                <div class="relative w-full">
+                    <input
+                        formControlName="password"
+                        class="w-full input pr-10 text-zinc-800 placeholder:text-zinc-400"
+                        [type]="showPassword ? 'text' : 'password'"
+                        placeholder="비밀번호를 입력해주세요."
+                    />
+                    <button
+                        type="button"
+                        tabindex="0"
+                        class="absolute right-0 top-1/2 -translate-y-1/2 px-3 cursor-pointer bg-transparent border-none outline-none"
+                        (click)="togglePasswordVisibility()"
+                        (keydown.enter)="togglePasswordVisibility()"
+                        (keydown.space)="togglePasswordVisibility()"
+                        aria-label="비밀번호 보기 토글"
+                    >
+                        <img src="icons/eye.svg" alt="eye" [style.opacity]="showPassword ? 1 : 0.5" />
+                    </button>
+                </div>
+                <div class="relative w-full">
+                    <input
+                        formControlName="confirmPassword"
+                        class="w-full input pr-10 text-zinc-800 placeholder:text-zinc-400"
+                        [type]="showPasswordConfirm ? 'text' : 'password'"
+                        placeholder="한번 더 입력해주세요."
+                    />
+                    <button
+                        type="button"
+                        tabindex="0"
+                        class="absolute right-0 top-1/2 -translate-y-1/2 px-3 cursor-pointer bg-transparent border-none outline-none"
+                        (click)="togglePasswordConfirmVisibility()"
+                        (keydown.enter)="togglePasswordConfirmVisibility()"
+                        (keydown.space)="togglePasswordConfirmVisibility()"
+                        aria-label="비밀번호 확인 보기 토글"
+                    >
+                        <img src="icons/eye.svg" alt="eye" [style.opacity]="showPasswordConfirm ? 1 : 0.5" />
+                    </button>
+                </div>
+            </div>
+        }
+
+        <div class="flex flex-col gap-2 w-full">
+            <span class="font-semibold text-zinc-800">이용약관 동의</span>
+            <app-checkbox
+                label="전체 동의합니다"
+                class="border border-gray-200 p-2 rounded-sm"
+                [value]="agreementAll()"
+                (valueChange)="allAgreement(!!$event)"
+            />
+            <div class="border border-zinc-200 rounded-sm">
+                <div class="border-b border-zinc-50 p-3 flex items-center">
+                    <app-checkbox
+                        label="이용약관에 동의합니다. (필수)"
+                        [value]="agreementTerm1()"
+                        (valueChange)="toggleAgreement(policy.USE, $event)"
+                    />
+                    <button class="px-3 text-zinc-400 underline text-sm" (click)="openTerms()">원문 보기 ></button>
+                </div>
+                <div class="p-3 flex items-center">
+                    <app-checkbox
+                        label="개인정보처리방침에 동의합니다. (필수)"
+                        [value]="agreementTerm2()"
+                        (valueChange)="toggleAgreement(policy.PRIVACY, $event)"
+                    />
+                    <button class="px-3 text-zinc-400 underline text-sm" (click)="openPrivacyPolicy()">원문 보기 ></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex gap-3 w-full">
+            <button type="button" class="py-2 border border-zinc-200 rounded-sm w-full" (click)="goBack()">이전</button>
+            <button
+                [ngClass]="form.invalid || !agreementAll() ? 'cursor-not-allowed text-zinc-400 bg-zinc-200' : ''"
+                class="py-2 bg-primary text-white rounded-sm w-full"
+                [disabled]="form.invalid || !agreementAll()"
+                (click)="submit($event)"
+            >
+                회원가입
+            </button>
+        </div>
+    </form>
+</main>

@@ -1,0 +1,15 @@
+<div
+    class="w-full flex items-center justify-between p-2 border border-zinc-200 rounded-md focus-within:border-primary bg-white"
+    [ngClass]="class()"
+>
+    <input
+        #input
+        (input)="onInput($event)"
+        [placeholder]="placeholder()"
+        [maxLength]="maxLength()"
+        [readOnly]="readonly()"
+        [inputMode]="inputMode()"
+        class="w-full outline-none placeholder:text-zinc-300"
+    />
+    <img src="https://api.iconify.design/ic:round-search.svg?color=%23BDBDBD" class="size-5" alt="검색 아이콘" />
+</div>

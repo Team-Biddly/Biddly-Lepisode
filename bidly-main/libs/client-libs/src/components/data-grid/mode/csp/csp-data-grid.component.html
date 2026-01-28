@@ -1,0 +1,29 @@
+<section class="grid-wrapper theme-border border">
+    <app-grid-header [(align)]="align" [(orderBy)]="orderBy" [columns]="columns()" [rowData]="rowData()" [(query)]="query">
+        <ng-content name="[buttons]" />
+    </app-grid-header>
+    @if (options()?.view === 'table' || !options()?.view) {
+        <app-grid-table [(align)]="align" [(orderBy)]="orderBy" />
+    } @else {
+        <app-grid-gallery [(align)]="align" [(orderBy)]="orderBy" />
+    }
+    <section class="grid-section">
+        <p class="font-semibold theme-text">
+            전체
+            <span class="text-primary">{{ pageInfo()?.totalItems || 0 | number }}</span>
+        </p>
+        @if (!options()?.searchOption?.disablePagination) {
+            <div class="flex gap-4 items-center">
+                @if (pageInfo(); as pageInfo) {
+                    <app-pagination [(page)]="page" [pageInfo]="pageInfo" />
+                }
+                <!-- <app-select
+          size="sm"
+          [(value)]="pageSize"
+          class="max-w-[7rem]"
+          [options]="['5', '10', '15', '20', '50', '100', '500']"
+        /> -->
+            </div>
+        }
+    </section>
+</section>

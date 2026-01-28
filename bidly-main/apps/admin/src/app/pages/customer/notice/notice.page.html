@@ -1,0 +1,17 @@
+<main>
+    <app-ssp-data-grid
+        [pageInfo]="pageInfo()"
+        [rowData]="items()"
+        [columns]="cols"
+        [options]="gridOptions"
+        [(page)]="pageNo"
+        [(pageSize)]="pageSize"
+        [(align)]="align"
+        [(orderBy)]="orderBy"
+        [(query)]="query"
+    >
+        <div buttons>
+            <button class="btn-primary btn" routerLink="/customer/notice/form">등록</button>
+        </div>
+    </app-ssp-data-grid>
+</main>

@@ -1,0 +1,110 @@
+@if (bid(); as item) {
+    @switch (variant()) {
+        @case ('default') {
+            <div
+                class="flex flex-col sm:flex-row sm:items-start gap-4 p-5 select-none border-b border-gray-100 bg-base-100"
+                data-variant="default"
+            >
+                <section class="flex-1 flex flex-col gap-3">
+                    <div class="flex justify-between items-center">
+                        <div class="flex gap-2 items-center">
+                            <input type="checkbox" class="checkbox" (click)="select.emit(item)" />
+                            <span class="badge badge-primary">{{ item['업무구분명'] }}</span>
+                        </div>
+                        @if (userStore.isLogined()) {
+                            <app-bookmark-icon class="block sm:hidden" [modelId]="item.id" modelName="입찰공고" />
+                        }
+                    </div>
+
+                    <p class="text-lg font-bold line-clamp-2 cursor-pointer hover:text-primary" [routerLink]="['/bid', item.type, item.id]">
+                        {{ item['입찰공고명'] }}
+                    </p>
+                </section>
+
+                <section id="info-detail" class="flex-1 grid gap-x-2 gap-y-2" style="grid-template-columns: max-content max-content 1fr">
+                    <app-icon name="material-symbols:person" />
+                    <h6>담당자</h6>
+                    <span>{{ item['공고기관담당자명'] }}</span>
+
+                    <app-icon name="material-symbols:money-bag" />
+                    <h6>배정예산</h6>
+                    <span>{{ item['배정예산금액'] | number }}원 ({{ item['배정예산금액'] | koreanCurrency }})</span>
+
+                    @if (item['입찰개시일시']) {
+                        <app-icon name="material-symbols:calendar-clock" />
+                        <h6>입찰개시일시</h6>
+                        <span>{{ item['입찰개시일시'] | date: 'y-MM-dd HH:mm' }}</span>
+                    }
+
+                    <app-icon name="mingcute:building-3-fill" />
+                    <h6>공고기관</h6>
+                    <span>{{ item['공고기관명'] }}</span>
+
+                    @if (item['수요기관명'] && item['수요기관명'] !== item['공고기관명']) {
+                        <app-icon name="mingcute:building-3-fill" />
+                        <h6>수요기관</h6>
+                        <span>{{ item['수요기관명'] }}</span>
+                    }
+
+                    <app-icon name="material-symbols:dashboard" />
+                    <div class="flex items-start">
+                        <div class="flex gap-1 items-center">
+                            <h6>키워드</h6>
+                            <div class="tooltip h-5">
+                                <div class="tooltip-content bg-zinc-800 p-3 whitespace-nowrap max-w-max">
+                                    {{ item['키워드'].join(', ') }}
+                                </div>
+                                <app-icon name="solar:question-circle-bold" class="text-gray-500" size="sm" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap gap-1 items-center">
+                        @for (keyword of item['키워드'] | slice: 0 : 3; track $index) {
+                            <span class="whitespace-nowrap px-1 text-sm py-0.5 border border-zinc-300 text-zinc-500">{{ keyword }}</span>
+                        }
+                        @if (item['키워드'].length > 3) {
+                            <span class="text-zinc-400">+{{ item['키워드'].length - 3 }}</span>
+                        }
+                    </div>
+                </section>
+
+                @if (userStore.isLogined()) {
+                    <app-bookmark-icon class="hidden sm:block" [modelId]="item.id" modelName="입찰공고" />
+                }
+            </div>
+        }
+        @case ('card') {
+            <div class="order-plan-item flex flex-col p-6 w-96 bg-white gap-2 border border-zinc-200" data-variant="card">
+                <div class="flex justify-between items-center">
+                    <span class="badge badge-primary">{{ item['업무구분명'] }}</span>
+                    @if (userStore.isLogined()) {
+                        <app-bookmark-icon [modelId]="item.id" modelName="입찰공고" />
+                    }
+                </div>
+
+                <span class="text-sm">{{ item.id }}</span>
+
+                <p
+                    class="text-lg font-bold line-clamp-2 cursor-pointer hover:text-primary whitespace-nowrap text-ellipsis"
+                    [routerLink]="['/bid', item.type, item.id]"
+                >
+                    {{ item['입찰공고명'] }}
+                </p>
+
+                <section
+                    id="info-detail"
+                    class="flex-1 gap-x-2 gap-y-2 pt-10 sm:grid hidden"
+                    style="grid-template-columns: max-content max-content 1fr"
+                >
+                    <app-icon name="mingcute:building-3-fill" />
+                    <h6>공고기관</h6>
+                    <span>{{ item['공고기관명'] }}</span>
+
+                    <app-icon name="material-symbols:calendar-clock" />
+                    <h6>등록일시</h6>
+                    <span>{{ item['등록일시'] | date: 'y-MM-dd HH:mm' }}</span>
+                </section>
+            </div>
+        }
+    }
+}

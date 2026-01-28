@@ -1,0 +1,105 @@
+@if (dialogData) {
+    <section
+        #modalContainer
+        id="modal-container"
+        class="flex flex-col bg-white items-center theme-wrapper overflow-y-auto h-screen sm:h-fit max-h-screen sm:rounded-xl w-screen sm:w-[400px] relative"
+        (scroll)="onScroll($event)"
+    >
+        <header class="sticky top-0 z-10 flex flex-col items-center w-full gap-3 p-4 theme-wrapper">
+            <app-icon [name]="iconName()" [color]="iconColor()" [ngClass]="iconClass()" size="lg" />
+            <h1 class="text-xl font-semibold theme-text">
+                {{ dialogData.title }}
+            </h1>
+        </header>
+
+        @if (dialogData.data) {
+            <div class="flex flex-col w-full gap-3 px-4 py-3 mb-6 border-gray-200 border-y">
+                @for (data of dialogData.data; track $index) {
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-gray-500">{{ data.key }}</span>
+                        <span class="text-sm">{{ data.value }}</span>
+                    </div>
+                }
+            </div>
+        }
+
+        @if (dialogData.inputs) {
+            <form [formGroup]="form!" class="flex flex-col w-full gap-3 px-4 mb-6">
+                @for (input of dialogData.inputs; track $index) {
+                    <app-fieldset [label]="input.label" [required]="input.required ? 'true' : 'false'">
+                        @if (input.type !== 'textarea') {
+                            <input
+                                appInput
+                                [type]="input.type"
+                                [placeholder]="input.placeholder ?? ''"
+                                [value]="input.defaultValue"
+                                [formControlName]="input.key"
+                                class="w-full input focus-within:border-primary"
+                            />
+                        } @else {
+                            <textarea
+                                appInput
+                                [formControlName]="input.key"
+                                class="w-full textarea focus-within:border-primary resize-none"
+                                [placeholder]="input.placeholder ?? ''"
+                                [value]="input.defaultValue"
+                            ></textarea>
+                        }
+                    </app-fieldset>
+                }
+            </form>
+        }
+
+        @if (dialogData.content) {
+            <section class="flex items-center justify-center basis-full grow-0 sm:basis-0">
+                @if (!dialogData.markdown) {
+                    <div class="max-h-full px-4 text-center whitespace-pre-line text-pretty">
+                        {{ dialogData.content }}
+                    </div>
+                } @else {
+                    <markdown class="px-4 basis-full grow-0" [data]="dialogData.content" />
+                }
+            </section>
+        }
+
+        @if (dialogData.checkbox) {
+            <app-checkbox class="mt-6" [label]="dialogData.checkbox.text" [(value)]="checked" />
+        }
+
+        <footer class="sticky bottom-0 z-10 flex w-full gap-3 p-4 mt-6 border-t theme-wrapper border-gray-200">
+            @if (!dialogData.buttons?.cancel?.hidden) {
+                <button (click)="onCancel()" class="btn flex-1 btn-ghost">
+                    {{ dialogData.buttons?.cancel?.text ?? '취소' }}
+                </button>
+            }
+
+            @if (dialogData.buttons?.confirm?.hidden !== true) {
+                @let btnContent = dialogData.buttons?.confirm?.text ?? '확인';
+                @let disabled = (!!form && form.invalid) || checkInvalid();
+
+                @switch (dialogData?.type) {
+                    @case ('info') {
+                        <button [disabled]="disabled" class="btn flex-1 btn-primary" (click)="onConfirm()">
+                            {{ btnContent }}
+                        </button>
+                    }
+                    @case ('success') {
+                        <button [disabled]="disabled" class="btn flex-1 btn-success" (click)="onConfirm()">
+                            {{ btnContent }}
+                        </button>
+                    }
+                    @case ('warning') {
+                        <button [disabled]="disabled" class="btn flex-1 btn-warning" (click)="onConfirm()">
+                            {{ btnContent }}
+                        </button>
+                    }
+                    @case ('error') {
+                        <button [disabled]="disabled" class="btn flex-1 btn-error" (click)="onConfirm()">
+                            {{ btnContent }}
+                        </button>
+                    }
+                }
+            }
+        </footer>
+    </section>
+}

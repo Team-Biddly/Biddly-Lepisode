@@ -1,0 +1,18 @@
+<div [class.border-r]="index() !== 6" [style.height]="height()" class="group item border-t border-base-300 relative">
+    @if (selected() && options()?.day?.selected) {
+        <div class="absolute inset-0 border-primary w-full h-full border-2 z-[999] pointer-events-none"></div>
+    }
+    <div class="flex w-full justify-center sm:justify-between items-center">
+        <p class="text theme-text rounded-full" [attr.data-text]="type()" [attr.data-background]="type()">
+            {{ day().format('DD') }}
+        </p>
+
+        <!-- 등록 버튼  -->
+        @if (options()?.event?.create) {
+            <button (click)="handleCreate($event)" class="group-hover:sm:flex create-button hidden btn-sm btn btn-square">
+                <app-icon name="mdi:plus" class="text-neutral-700" />
+            </button>
+        }
+    </div>
+    <app-block-calendar-mobile-event [day]="day()" />
+</div>

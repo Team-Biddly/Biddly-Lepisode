@@ -1,0 +1,13 @@
+:host {
+  .day {
+    padding: 0.25rem 0.5rem;
+    width: max-content;
+    user-select: none;
+  }
+
+  .day.today {
+    background-color: var(--color-primary);
+    border-radius: 9999px;
+    color: white;
+  }
+}

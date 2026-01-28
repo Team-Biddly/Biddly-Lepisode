@@ -1,0 +1,32 @@
+<footer class="bg-zinc-100 text-sm text-zinc-400 w-full hidden sm:block">
+    <div class="flex flex-col gap-5 container py-8">
+        <div class="w-44 h-16">
+            <img [src]="businessInfo()?.logo?.url" alt="logo" class="w-44 h-16" />
+        </div>
+
+        <div class="flex flex-col gap-1">
+            <p class="flex gap-3">
+                <span>대표자: {{ businessInfo()?.representativeName }}</span> <span class="text-zinc-300">|</span>
+                <span>상호: {{ businessInfo()?.businessName }}</span> <span class="text-zinc-300">|</span>
+                <button (click)="openTerms()" class="underline">이용약관</button>
+                <span class="text-zinc-300">|</span>
+                <button (click)="openPrivacyPolicy()" class="underline">개인정보처리방침</button>
+            </p>
+            <p class="flex gap-3">
+                <span>사업자등록번호: {{ businessInfo()?.businessRegistrationNumber }}</span> <span class="text-zinc-300">|</span>
+                <span>통신판매업신고 : 1234-서울광진-1300호</span>
+            </p>
+            <p class="flex gap-3">
+                <span>주소 : {{ businessInfo()?.address }}</span> <span class="text-zinc-300">|</span>
+                <span>개인정보보호책임자 : {{ businessInfo()?.representativeName }}</span>
+            </p>
+            <p class="flex gap-3">
+                <span>고객문의 : {{ businessInfo()?.email }}</span>
+                <span class="text-zinc-300">|</span>
+                <span>고객센터 : {{ businessInfo()?.customerServiceCenter }}</span>
+            </p>
+        </div>
+
+        <p class="text-xs font-bold">© 2025 Biddly Inc. All rights reserved.</p>
+    </div>
+</footer>

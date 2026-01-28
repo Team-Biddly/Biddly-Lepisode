@@ -1,0 +1,53 @@
+<section>
+    <form (ngSubmit)="submit()" [formGroup]="form" class="flex flex-col h-full gap-6">
+        <section class="flex flex-col gap-6">
+            <div class="flex items-center gap-3">
+                <app-checkbox label="고정여부" formControlName="isPinned" />
+                <p
+                    class="text-sm"
+                    [ngClass]="{
+                        'text-primary': form.controls.isPinned.value,
+                        'text-gray-400': !form.controls.isPinned.value,
+                    }"
+                ></p>
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <div class="flex items-center gap-1">
+                    <span>제목</span>
+                    <span class="text-primary">*</span>
+                </div>
+                <div class="border border-gray-300 rounded-lg p-3">
+                    <input
+                        class="w-full text-zinc-800 placeholder:text-zinc-400"
+                        required
+                        formControlName="title"
+                        placeholder="제목을 입력해 주세요."
+                        [maxlength]="1000"
+                    />
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <div class="flex items-center gap-1">
+                    <span>내용</span>
+                    <span class="text-primary">*</span>
+                </div>
+                <div class="border border-gray-300 rounded-lg p-3">
+                    <textarea
+                        class="w-full h-48 text-zinc-800 placeholder:text-zinc-400"
+                        required
+                        formControlName="content"
+                        placeholder="내용을 입력해 주세요."
+                        [maxlength]="1000"
+                    ></textarea>
+                </div>
+            </div>
+        </section>
+
+        <div class="flex gap-3">
+            <button type="button" routerLink="/faq" class="w-full border border-gray-200 rounded-xl py-3 cursor-pointer">취소</button>
+            <button type="submit" class="w-full bg-primary rounded-xl py-3 text-white cursor-pointer">{{ id() ? '수정' : '등록' }}</button>
+        </div>
+    </form>
+</section>

@@ -1,0 +1,18 @@
+<div class="theme-text">
+    <div class="absolute">
+        @for (event of renderEvents(); track event) {
+            <app-all-day-event class="calendar-event" (menu)="handleEventMenu($event, event)" [event]="event" [index]="$index" />
+        }
+    </div>
+    <div class="flex w-full min-w-max" [style.height]="height() + 'px'">
+        <p
+            [style.height]="height() + 'px'"
+            class="min-w-[8rem] theme-text border-b-4 border-base-300 border-r flex items-center justify-center sticky left-0 z-20"
+        >
+            종일
+        </p>
+        @for (day of days(); track day.format('DD')) {
+            <div [style.height]="height() + 'px'" [attr.data-day]="day" class="day border-base-300 flex-1 border-b-4 min-w-[8rem]"></div>
+        }
+    </div>
+</div>

@@ -1,0 +1,11 @@
+<section class="flex flex-col items-center bg-white rounded-lg p-6 gap-4">
+    <p class="self-center text-xl font-semibold text-gray-800">계정 연결</p>
+    <p class="text-sm text-center text-gray-600">
+        이미 가입된 연락처입니다 <br />
+        기존 계정과 연동하시겠습니까?
+    </p>
+    <div class="flex gap-3 items-center">
+        <app-button (click)="close($event)" [type]="buttonType.ghost">취소</app-button>
+        <app-button (click)="confirm($event)" [type]="buttonType.primary">확인</app-button>
+    </div>
+</section>

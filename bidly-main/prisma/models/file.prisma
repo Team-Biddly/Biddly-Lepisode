@@ -1,0 +1,33 @@
+/// 파일
+model File {
+  /// ID
+  id               String        @id @default(cuid())
+  /// 파일명
+  name             String?
+  /// URL
+  url              String        @unique
+  /// 크기
+  size             Int
+  /// MIME 타입
+  mimeType         String?
+  /// 문서제목
+  title            String?
+  /// 문서내용
+  content          String?
+  /// 생성일
+  createdAt        DateTime      @default(now())
+  /// 수정일
+  updatedAt        DateTime      @updatedAt
+  /// 사용자
+  userId           String?
+  /// 배너
+  bannerPCImageId       String?  @unique
+  bannerMobileImageId   String?  @unique
+  bannerPCImage         Banner?  @relation("BannerPCImage", fields: [bannerPCImageId], references: [id], onDelete: Cascade)
+  bannerMobileImage     Banner?  @relation("BannerMobileImage", fields: [bannerMobileImageId], references: [id], onDelete: Cascade)
+
+  BusinessInfoId   String?       @unique
+  BusinessInfoLogo BusinessInfo? @relation("BusinessInfoLogo", fields: [BusinessInfoId], references: [id], onDelete: Cascade)
+  
+  user             Admin?        @relation(fields: [userId], references: [id], onDelete: Cascade)
+}

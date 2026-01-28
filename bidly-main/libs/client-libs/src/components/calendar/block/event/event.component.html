@@ -1,0 +1,70 @@
+@if (eventWidth(); as width) {
+    <div
+        [cdkContextMenuTriggerFor]="contextMenu"
+        (cdkContextMenuOpened)="isContextOpen.set(true)"
+        (cdkContextMenuClosed)="isContextOpen.set(false)"
+        [style.width]="width + 'px'"
+        class="h-5 pr-2"
+        [class.start-has-prev-week]="startHasPrevWeek()"
+        [ngClass]="{ 'pl-2': !startHasPrevWeek() }"
+    >
+        @if (event(); as event) {
+            <div class="relative">
+                <div
+                    [attr.data-color]="isHex()! ? '' : event.color"
+                    [style]="{
+                        'background-color': isHex()! ? event.color : '',
+                    }"
+                    class="prefix"
+                    [class.start-has-prev-week]="startHasPrevWeek()"
+                    [attr.data-all-day]="event.allDay"
+                    [class.active]="isContextOpen()"
+                ></div>
+                <div
+                    [class.disabled]="!options()?.event?.resize"
+                    [dndDisableIf]="!options()?.event?.resize"
+                    [dndDraggable]="{ event, type: 'resize', date: 'start' }"
+                    class="resizer-left"
+                ></div>
+
+                <!-- color가 hex 코드인 경우에만 배경색을 적용합니다. -->
+                <!-- hex 코드가 아닌 경우 css에서 정의한 색상을 적용합니다. -->
+                <div
+                    [attr.data-color]="isHex()! ? '' : currentColor()"
+                    [style]="{
+                        'background-color': isHex()! ? currentColor() : '',
+                    }"
+                    eventContent
+                    [event]="event"
+                    [width]="eventWidth()"
+                    dndDraggingClass="active"
+                    [dndDraggable]="{ event, type: 'drop' }"
+                    [dndDisableIf]="!options()?.event?.drop"
+                    [class.active]="isContextOpen()"
+                    [class.start-has-prev-week]="startHasPrevWeek()"
+                    [attr.data-all-day]="event.allDay"
+                    [attr.data-start]="event.startDate"
+                    [attr.data-end]="event.endDate"
+                    [attr.data-week-index]="weekIndex()"
+                    class="calendar-event"
+                ></div>
+                <div
+                    [class.disabled]="!options()?.event?.resize"
+                    [dndDisableIf]="!options()?.event?.resize"
+                    [dndDraggable]="{ event, type: 'resize', date: 'end' }"
+                    class="resizer-right"
+                ></div>
+            </div>
+        }
+    </div>
+}
+
+<ng-template #contextMenu>
+    @if (menus() && menus().length > 0) {
+        <app-menu cdkMenu>
+            @for (option of menus(); track $index) {
+                <app-menu-option (click)="menu.emit(option.value)" cdkMenuItem [icon]="option.icon">{{ option.label }}</app-menu-option>
+            }
+        </app-menu>
+    }
+</ng-template>

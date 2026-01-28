@@ -1,0 +1,3 @@
+export const NHN_CLOUD_SMS_MODULE_CONFIG = Symbol(
+  "NHN_CLOUD_SMS_MODUJLE_OPTIONS",
+);

@@ -1,0 +1,16 @@
+<div class="flex flex-col gap-3 w-full">
+    <div class="w-1/4">
+        <app-segment [options]="segmentOptions" [(value)]="targetType" class="w-full"></app-segment>
+    </div>
+    <app-ssp-data-grid
+        [(align)]="align"
+        [(orderBy)]="orderBy"
+        [(page)]="page"
+        [(pageSize)]="pageSize"
+        [(query)]="query"
+        [pageInfo]="pageInfo()"
+        [rowData]="items()"
+        [options]="options"
+        [columns]="columns"
+    />
+</div>

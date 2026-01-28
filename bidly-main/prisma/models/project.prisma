@@ -1,0 +1,22 @@
+/// 프로젝트
+model Project {
+  id                String        @id @default(cuid()) /// 공지사항 ID
+  title             String /// 제목
+  content           String /// 내용
+  address           String? /// 주소
+  isAutoProductPass Boolean       @default(false) /// 자동 상품 승인 여부
+  isExposed         Boolean       @default(false) /// 노출 여부
+  isLookOver        Boolean       @default(false) /// 둘러보기 여부
+  startAt           DateTime /// 시작일시
+  endAt             DateTime? /// 종료일시
+  isRecommended     Boolean?       @default(false) /// 추천 여부 (최대 10개)
+  isExposedMap       Boolean?       @default(false) /// 지도 노출 여부
+  canUseEntryCode  Boolean?       @default(false) /// 입장 코드 사용 여부
+  createdAt         DateTime      @default(now()) /// 생성 일시
+  updatedAt         DateTime     @updatedAt /// 수정 일시
+  deletedAt         DateTime? /// 삭제 일시
+  
+  policies          Policy[] /// 약관 정책 목록
+
+  companyId        String? /// 기업 ID
+}

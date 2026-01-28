@@ -1,0 +1,18 @@
+<button
+    class="btn"
+    appButtonPress
+    [attr.data-theme]="theme()"
+    [attr.data-size]="currentSize()"
+    [attr.data-color]="currentColor()"
+    [attr.data-rounded]="currentRounded()"
+    [attr.data-variant]="variant()"
+    [attr.data-expand]="expand()"
+    [attr.data-loading]="loading()"
+    [disabled]="disabled() || loading()"
+    [type]="type()"
+>
+    @if (currentIcon(); as icon) {
+        <app-icon class="shrink-0 cursor-pointer" size="sm" [name]="icon" [attr.data-color]="color()" [attr.data-variant]="variant()" />
+    }
+    <ng-content />
+</button>

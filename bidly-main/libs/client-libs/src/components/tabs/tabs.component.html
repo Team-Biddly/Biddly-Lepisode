@@ -1,0 +1,14 @@
+<div class="tabs tabs-box min-w-max">
+    @for (option of options(); track $index) {
+        <label (click)="value.set(option.value)" class="tab">
+            @if (option.icon) {
+                <app-icon size="sm" [name]="option.icon" />
+            }
+            <p [ngClass]="{ 'ml-2': option.icon }">{{ option.label }}</p>
+            <input type="radio" [ariaLabel]="option.label" [checked]="value() === option.value" />
+            @if (option.count) {
+                <span class="ml-1">{{ option.count }}</span>
+            }
+        </label>
+    }
+</div>

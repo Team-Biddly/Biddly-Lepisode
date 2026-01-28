@@ -1,0 +1,5 @@
+<section class="border-y flex sm:gap-6 gap-4 flex-wrap w-full p-4">
+    @for (row of rowData(); track row.uniqueId) {
+        <app-card [row]="row" [columns]="columns()!" />
+    }
+</section>

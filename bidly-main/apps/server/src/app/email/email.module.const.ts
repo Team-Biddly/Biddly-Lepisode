@@ -1,0 +1,1 @@
+export const EMAIL_MODULE_CONFIG = Symbol("EMAIL_MODULE_CONFIG");

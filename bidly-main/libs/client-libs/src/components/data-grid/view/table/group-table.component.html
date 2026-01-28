@@ -1,0 +1,25 @@
+<div class="w-full overflow-auto">
+    <table>
+        <thead>
+            <tr>
+                @for (column of columns(); track column.field) {
+                    <th
+                        gridColumn
+                        [(align)]="align"
+                        [(orderBy)]="orderBy"
+                        [column]="column"
+                        [ngClass]="{
+                            'left-0 sticky z-10 border-r': column.type === 'checkbox',
+                        }"
+                    ></th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            <div>상단 고정</div>
+            @for (row of rowData(); track row.uniqueId) {
+                <tr gridRow class="group" [class.cursor-pointer]="options()?.row?.clickHandler" [columns]="columns()!" [row]="row"></tr>
+            }
+        </tbody>
+    </table>
+</div>

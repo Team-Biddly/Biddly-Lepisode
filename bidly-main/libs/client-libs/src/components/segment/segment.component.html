@@ -1,0 +1,28 @@
+@if (optionsList() && optionsList().length > 0) {
+    <section
+        #container
+        class="relative flex w-full min-w-max gap-3 overflow-y-visible border-b border-base-300"
+        [class.overflow-x-auto]="scrollEnabled()"
+        [class.scrollbar-hide]="scrollEnabled()"
+    >
+        @for (option of optionsList(); track $index) {
+            <button
+                segmentOption
+                #item
+                (click)="handleClick(option)"
+                [active]="value() === option.value"
+                [option]="option"
+                [color]="color()"
+            >
+                &nbsp;
+            </button>
+        }
+        <div
+            #indicator
+            [attr.data-color]="color()"
+            class="absolute transition-all duration-300 ease-in-out indicator"
+            style="height: 0.15rem; z-index: 10"
+            [style.bottom]="scrollEnabled() ? 0 : '-0.15rem'"
+        ></div>
+    </section>
+}

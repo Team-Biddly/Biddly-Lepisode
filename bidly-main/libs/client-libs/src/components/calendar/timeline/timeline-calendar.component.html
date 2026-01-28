@@ -1,0 +1,29 @@
+<div [ngClass]="mode() === 'month' ? 'overflow-x-auto' : 'overflow-hidden'" class="border border-base-300 timeline-container">
+    <ng-container *ngTemplateOutlet="timeSection" />
+
+    <!-- 종일 이벤트를 표시할 섹션 -->
+    <ng-container *ngTemplateOutlet="allDaySection" />
+
+    <!-- 시간별 이벤트를 표시할 섹션 -->
+    <ng-container *ngTemplateOutlet="timelineSection" />
+</div>
+
+<ng-template #timeSection>
+    <div class="day-wrapper bg-primary-content">
+        <div class="w-[8rem]"></div>
+        @for (day of renderDays(); track day.format('DD')) {
+            <app-timeline-day [attr.data-day]="day.format('DD')" class="day-item" [day]="day" />
+        }
+    </div>
+</ng-template>
+<ng-template #allDaySection>
+    <app-all-day-timeline [days]="renderDays() || []" />
+</ng-template>
+
+<ng-template #timelineSection>
+    @for (time of times; track time) {
+        <div class="flex flex-col flex-1 w-full min-w-max">
+            <app-timeline [time]="time" [days]="renderDays() || []" [last]="$last" [slots]="slots()" />
+        </div>
+    }
+</ng-template>

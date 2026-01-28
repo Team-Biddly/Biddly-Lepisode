@@ -1,0 +1,26 @@
+<form [formGroup]="form">
+    <div class="flex items-center gap-2 pb-6">
+        @for (policy of policies; track $index) {
+            <button
+                (click)="title.set(policy.value)"
+                class="font-semibold px-5 py-3 cursor-pointer"
+                [ngClass]="title() === policy.value ? 'border-b-2 border-primary' : ''"
+            >
+                {{ policy.value }}
+            </button>
+        }
+    </div>
+    <div class="flex flex-col gap-6 border border-gray-200 rounded-lg p-6">
+        <div class="flex items-center justify-between">
+            <button (click)="isOpen.set(!isOpen())" class="flex items-center gap-3 cursor-pointer text-xl font-semibold">
+                {{ title() }}
+            </button>
+            <button (click)="submit($event)" class="bg-primary text-white rounded-md px-3 py-2 cursor-pointer">저장</button>
+        </div>
+
+        @if (isOpen()) {
+            <hr class="border-gray-200" />
+            <app-editor formControlName="content" [uploadHandler]="uploadHandler" [deleteHandler]="deleteHandler" />
+        }
+    </div>
+</form>

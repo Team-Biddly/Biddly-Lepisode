@@ -1,0 +1,14 @@
+<section class="p-6">
+    <app-ssp-data-grid
+        [(page)]="page"
+        [(orderBy)]="orderBy"
+        [(pageSize)]="pageSize"
+        [(align)]="align"
+        [pageInfo]="pageInfo()!"
+        [(query)]="query"
+        [columns]="cols"
+        [rowData]="rowData"
+        [options]="gridOptions"
+        (refresh)="refresh()"
+    />
+</section>

@@ -1,0 +1,24 @@
+:host {
+  ::-webkit-scrollbar {
+    height: 4px;
+    width: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    &[data-theme='light'] {
+      background-color: lightgray;
+    }
+
+    &[data-theme='dark'] {
+      background-color: darkgray;
+    }
+
+    border-radius: 2px;
+  }
+
+  .open-menu:hover {
+    background-color: #f1f1f1;
+    transition-duration: 200ms;
+    border-radius: 4px;
+  }
+}

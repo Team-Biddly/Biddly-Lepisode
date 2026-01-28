@@ -1,0 +1,98 @@
+<!-- eslint-disable @angular-eslint/template/label-has-associated-control -->
+<form [formGroup]="infoForm" class="flex flex-col gap-8 w-full">
+    <div class="w-full">
+        <p class="hidden lg:block text-zinc-800 text-lg font-semibold">회원 정보</p>
+        <div class="hidden lg:block border border-zinc-800 my-3"></div>
+        <div class="flex flex-col gap-6 w-full">
+            @if (isEmailUser) {
+                <!-- 이메일 로그인 유저 정보 -->
+                <div class="flex flex-col gap-2">
+                    <label class="flex items-center font-semibold gap-1">이름<span class="size-2 rounded-full bg-primary"></span></label>
+                    <input formControlName="name" class="w-full input" [value]="user()?.name" />
+                </div>
+
+                <app-contact-verification
+                    mode="UPDATE"
+                    [value]="infoForm.controls['contact'].value || ''"
+                    (valueChange)="infoForm.controls['contact'].setValue($event)"
+                    class="w-full"
+                />
+
+                @if (isLinkedUser()) {
+                    <div class="flex flex-col gap-2">
+                        <label class="flex items-center font-semibold gap-1"
+                            >이메일 주소<span class="size-2 rounded-full bg-primary"></span
+                        ></label>
+                        <input
+                            formControlName="email"
+                            class="w-full input bg-zinc-200 text-zinc-400 border-none"
+                            [disabled]="true"
+                            [readOnly]="true"
+                            [value]="user()?.auths?.[0]?.email"
+                        />
+                    </div>
+                } @else {
+                    <app-email-verification
+                        mode="UPDATE"
+                        [value]="infoForm.controls['email'].value || ''"
+                        (valueChange)="infoForm.controls['email'].setValue($event)"
+                        class="w-full"
+                    />
+                }
+            } @else {
+                <!-- 소셜로그인 유저 정보 -->
+                <div class="flex flex-col gap-2">
+                    <label class="flex items-center font-semibold gap-1">이름<span class="size-2 rounded-full bg-primary"></span></label>
+                    <input formControlName="name" class="w-full input border-zinc-200" [value]="user()?.name" [disabled]="false" />
+                </div>
+                <app-contact-verification
+                    mode="UPDATE"
+                    [value]="infoForm.controls['contact'].value || ''"
+                    (valueChange)="infoForm.controls['contact'].setValue($event)"
+                    class="w-full"
+                />
+                <div class="flex flex-col gap-2">
+                    <label class="flex items-center font-semibold gap-1"
+                        >이메일 주소<span class="size-2 rounded-full bg-primary"></span
+                    ></label>
+                    <input
+                        formControlName="email"
+                        class="w-full input bg-zinc-200 text-zinc-400 border-none"
+                        [disabled]="true"
+                        [readOnly]="true"
+                        [value]="user()?.auths?.[0]?.email"
+                    />
+                </div>
+            }
+        </div>
+    </div>
+
+    <button type="button" (click)="withdraw()" class="lg:hidden flex items-center text-zinc-400">
+        <span class="inline-block">회원탈퇴</span>
+        <app-icon name="mdi:chevron-right" class="size-4" />
+    </button>
+
+    <div class="flex gap-2">
+        <button type="button" (click)="goBack()" class="border border-zinc-200 rounded-sm py-2 w-full lg:w-1/2 text-zinc-600">이전</button>
+        <button
+            type="button"
+            [disabled]="infoForm.invalid"
+            (click)="onSubmitInfo($event)"
+            [ngClass]="
+                infoForm.invalid
+                    ? 'border border-zinc-200 bg-zinc-200 text-zinc-400 cursor-not-allowed'
+                    : 'border border-primary bg-primary text-white hover:bg-primary/90 transition-colors'
+            "
+            class="rounded-sm py-2 w-full lg:w-1/2"
+            [class.cursor-not-allowed]="infoForm.invalid"
+            [class.pointer-events-none]="infoForm.invalid"
+        >
+            수정
+        </button>
+    </div>
+
+    <button type="button" (click)="withdraw()" class="hidden lg:flex items-center text-zinc-400">
+        <span class="inline-block">회원탈퇴</span>
+        <app-icon name="mdi:chevron-right" class="w-4 h-4" />
+    </button>
+</form>

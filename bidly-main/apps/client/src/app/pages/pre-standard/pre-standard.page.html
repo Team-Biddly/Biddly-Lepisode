@@ -1,0 +1,51 @@
+<div class="flex flex-col container mx-auto py-5 sm:py-15 gap-3">
+    <h4 class="block sm:hidden">사전 규격 공개</h4>
+    <div class="flex flex-col sm:flex-row sm:gap-10">
+        <app-pre-standard-filter class="hidden sm:block w-75" />
+
+        <div class="flex-1 flex-col flex shrink-0">
+            <header class="flex justify-between items-center border-b border-gray-700 pb-3 mb-5">
+                <span class="text-gray-800">전체 {{ $results()?.pageInfo?.totalItems | number }} 건</span>
+
+                <button class="btn sm:hidden items-center flex" (click)="openFilterModal()">
+                    <app-icon name="solar:filter-bold-duotone" size="sm" />
+                    필터
+                    <span class="badge badge-primary badge-soft">{{ store.setOptionCount() }}</span>
+                </button>
+
+                <div class="hidden sm:flex sm:gap-2 sm:items-center">
+                    <div class="text-gray-400 flex items-center gap-1">
+                        <app-icon name="solar:history-2-broken" size="sm" />
+                        <span class="text-sm"> 최근 업데이트 일자 {{ latestLog()?.createdAt | date: 'y년 MM월 dd일' }}</span>
+                    </div>
+                    <div class="join">
+                        <button class="btn join-item" [disabled]="selected().length === 0" (click)="downloadSelected()">
+                            선택 다운로드
+                        </button>
+                        <button class="btn join-item" (click)="download()">전체 다운로드</button>
+                    </div>
+                </div>
+            </header>
+
+            <main class="flex flex-col relative" auto-animate>
+                @for (item of $results()?.items; track item.id) {
+                    <app-pre-standard-item [preStandard]="item" (select)="handleSelect($event)" />
+                } @empty {
+                    <div class="flex flex-col items-center justify-center gap-4 py-20">
+                        <app-icon name="material-symbols:search-off" class="text-6xl text-gray-300" />
+                        <p class="text-gray-400">검색 결과가 없습니다.</p>
+                    </div>
+                }
+            </main>
+
+            @if ($results()?.pageInfo; as pageInfo) {
+                <app-pagination
+                    class="mt-10 self-center"
+                    [page]="pageInfo.pageNo"
+                    [pageInfo]="pageInfo"
+                    (pageChange)="store.pageNo.set($event)"
+                />
+            }
+        </div>
+    </div>
+</div>

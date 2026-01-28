@@ -1,0 +1,14 @@
+.time {
+  min-width: 8rem;
+  text-align: center;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+}
+
+.timeline {
+  position: relative;
+  background-color: white;
+}

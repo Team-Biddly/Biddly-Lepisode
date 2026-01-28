@@ -1,0 +1,10 @@
+/// 사용자 활동 로그
+model UserActionLog {
+  id        String   @id @default(ulid())
+  userId    String
+  action    String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  adminId   String?
+  admin     Admin?   @relation(fields: [adminId], references: [id], onDelete: Cascade)
+}

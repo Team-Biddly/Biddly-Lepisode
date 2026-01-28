@@ -1,0 +1,24 @@
+@if (options(); as options) {
+    @if (options.series) {
+        <apx-chart
+            class="w-full"
+            #chart
+            [series]="options.series"
+            [chart]="options.chart!"
+            [dataLabels]="options.dataLabels!"
+            [stroke]="options.stroke!"
+            [labels]="options.labels"
+            [colors]="options.colors!"
+            [grid]="options.grid!"
+            [tooltip]="options.tooltip!"
+            [plotOptions]="options.plotOptions!"
+            [yaxis]="options.yaxis!"
+            [xaxis]="options.xaxis!"
+            [fill]="options.fill!"
+            [markers]="options.markers!"
+            [theme]="options.theme!"
+            [legend]="options.legend!"
+            [subtitle]="options.subtitle!"
+        />
+    }
+}

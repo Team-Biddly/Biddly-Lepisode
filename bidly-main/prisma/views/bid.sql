@@ -1,0 +1,75 @@
+CREATE VIEW view_name AS
+
+SELECT 
+    "Bid_Construction".id,
+    'construction'::text AS "type",
+    "Bid_Construction"."입찰공고명",
+    "Bid_Construction"."입찰개시일시",
+    COALESCE("Bid_Construction"."예산금액",0) AS "배정예산금액",
+    "Bid_Construction"."공고기관명",
+    "Bid_Construction"."수요기관명",
+    "Bid_Construction"."공고기관담당자명",
+    "Bid_Construction"."입찰방식명",
+    "Bid_Construction"."공고종류명",
+    starts_with("Bid_Construction".id, 'T') AS "모의공고여부",
+    "Bid_Construction"."등록일시",
+    "Bid_Construction"."공고규격서URL",
+    "Bid_Construction".keywords
+FROM "Bid_Construction"
+
+UNION ALL
+
+SELECT 
+    "Bid_Foreign".id,
+    'foreign'::text AS "type",
+    "Bid_Foreign"."입찰공고명",
+    "Bid_Foreign"."입찰개시일시",
+    COALESCE("Bid_Foreign"."배정예산금액", 0),
+    "Bid_Foreign"."공고기관명",
+    "Bid_Foreign"."수요기관명",
+    "Bid_Foreign"."공고기관담당자명",
+    "Bid_Foreign"."입찰방식명",
+    "Bid_Foreign"."공고종류명",
+    starts_with("Bid_Foreign".id, 'T') AS "모의공고여부",
+    "Bid_Foreign"."등록일시",
+    "Bid_Foreign"."공고규격서URL",
+    "Bid_Foreign".keywords
+FROM "Bid_Foreign"
+
+UNION ALL
+
+SELECT 
+    "Bid_Service".id,
+    'service'::text AS "type",
+    "Bid_Service"."입찰공고명",
+    "Bid_Service"."입찰개시일시",
+    COALESCE("Bid_Service"."배정예산금액", 0),
+    "Bid_Service"."공고기관명",
+    "Bid_Service"."수요기관명",
+    "Bid_Service"."공고기관담당자명",
+    "Bid_Service"."입찰방식명",
+    "Bid_Service"."공고종류명",
+    starts_with("Bid_Service".id, 'T') AS "모의공고여부",
+    "Bid_Service"."등록일시",
+    "Bid_Service"."공고규격서URL",
+    "Bid_Service".keywords
+FROM "Bid_Service"
+
+UNION ALL
+
+SELECT 
+    "Bid_Thing".id,
+    'thing'::text AS "type",
+    "Bid_Thing"."입찰공고명",
+    "Bid_Thing"."입찰개시일시",
+    COALESCE("Bid_Thing"."배정예산금액",0),
+    "Bid_Thing"."공고기관명",
+    "Bid_Thing"."수요기관명",
+    "Bid_Thing"."공고기관담당자명",
+    "Bid_Thing"."입찰방식명",
+    "Bid_Thing"."공고종류명",
+    starts_with("Bid_Thing".id, 'T') AS "모의공고여부",
+    "Bid_Thing"."등록일시",
+    "Bid_Thing"."공고규격서URL",
+    "Bid_Thing".keywords
+FROM "Bid_Thing"

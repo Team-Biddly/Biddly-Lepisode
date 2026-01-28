@@ -1,0 +1,55 @@
+<div class="flex flex-col gap-8 w-full mx-auto lg:w-3/5">
+    <p class="hidden lg:block text-2xl font-bold text-zinc-800 mx-auto">내 정보 수정</p>
+
+    <!-- PC 내부 탭 -->
+    @if (isEmailUser) {
+        <div class="hidden lg:flex border border-zinc-200 rounded-sm overflow-hidden w-full">
+            <button
+                class="w-1/2 py-2 text-sm"
+                [ngClass]="currentTab === 'info' ? 'bg-[#EAF4EF] text-primary' : 'bg-white text-zinc-500'"
+                (click)="changeTab('info')"
+            >
+                정보 수정
+            </button>
+            <button
+                class="w-1/2 py-2 text-sm"
+                [ngClass]="currentTab === 'password' ? 'bg-[#EAF4EF] text-primary' : 'bg-white text-zinc-500'"
+                (click)="changeTab('password')"
+            >
+                비밀번호 변경
+            </button>
+        </div>
+
+        <!-- 모바일 내부 탭 -->
+        <div class="lg:hidden w-full border-b border-zinc-100">
+            <div class="flex font-medium">
+                <button
+                    class="relative px-4 py-2 cursor-pointer"
+                    [ngClass]="currentTab === 'info' ? 'text-zinc-800' : 'text-zinc-400'"
+                    (click)="currentTab = 'info'"
+                >
+                    정보 수정
+                    @if (currentTab === 'info') {
+                        <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-[2px] bg-primary"></div>
+                    }
+                </button>
+                <button
+                    class="relative px-4 py-2 cursor-pointer"
+                    [ngClass]="currentTab === 'password' ? 'text-zinc-800' : 'text-zinc-400'"
+                    (click)="currentTab = 'password'"
+                >
+                    비밀번호 변경
+                    @if (currentTab === 'password') {
+                        <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-[2px] bg-primary"></div>
+                    }
+                </button>
+            </div>
+        </div>
+    }
+
+    @if (currentTab === 'info') {
+        <app-update-my-info />
+    } @else {
+        <app-update-password />
+    }
+</div>

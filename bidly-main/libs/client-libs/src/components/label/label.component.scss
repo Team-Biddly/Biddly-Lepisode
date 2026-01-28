@@ -1,0 +1,47 @@
+:host {
+  p {
+    @apply relative select-none;
+    // size
+    &[data-size='xs'] {
+      @apply text-xs;
+    }
+
+    &[data-size='sm'] {
+      @apply text-sm;
+    }
+
+    &[data-size='md'] {
+      @apply text-sm;
+    }
+
+    &[data-size='lg'] {
+      @apply text-lg;
+    }
+
+    &[data-size='xl'] {
+      @apply text-xl;
+    }
+
+    span {
+      &[data-color='primary'] {
+        @apply text-primary;
+      }
+
+      &[data-color='red'] {
+        @apply text-red-500;
+      }
+
+      &[data-color='green'] {
+        @apply text-green-500;
+      }
+
+      &[data-color='blue'] {
+        @apply text-blue-500;
+      }
+
+      &[data-color='yellow'] {
+        @apply text-yellow-500;
+      }
+    }
+  }
+}

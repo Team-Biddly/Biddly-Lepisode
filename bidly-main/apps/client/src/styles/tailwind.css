@@ -1,0 +1,93 @@
+@utility container {
+  padding-inline: 10px;
+  margin-inline: auto;
+
+  @variant sm {
+    padding-inline: 20px;
+  }
+
+  @variant lg {
+    padding-inline: 80px;
+  }
+
+  @variant xl {
+    padding-inline: 120px;
+  }
+}
+
+@layer utilities {
+  .border {
+    border-color: var(--color-zinc-200);
+  }
+
+  .border-t {
+    border-top-color: var(--color-zinc-200);
+  }
+
+  .border-b {
+    border-bottom-color: var(--color-zinc-200);
+  }
+
+  .border-l {
+    border-left-color: var(--color-zinc-200);
+  }
+
+  .border-t {
+    border-top-color: var(--color-zinc-200);
+  }
+
+  .border-b {
+    border-bottom-color: var(--color-zinc-200);
+  }
+
+  .border-l {
+    border-left-color: var(--color-zinc-200);
+  }
+
+  .border-r {
+    border-right-color: var(--color-zinc-200);
+  }
+
+  .border-r {
+    border-right-color: var(--color-zinc-200);
+  }
+  .text-small {
+    font-size: 14px;
+    color: #71717a;
+    font-weight: 500;
+  }
+  .gmarket {
+    font-family: 'GmarketSans', 'sans-serif' !important;
+  }
+
+  h1 {
+    font-size: 48px;
+    color: #27272a;
+    font-weight: 700;
+    line-height: 62px;
+  }
+
+  h2 {
+    font-size: 36px;
+    color: #27272a;
+    font-weight: 700;
+  }
+
+  h3 {
+    font-size: 28px;
+    color: #27272a;
+    font-weight: 700;
+  }
+
+  h4 {
+    font-size: 24px;
+    color: #27272a;
+    font-weight: 700;
+  }
+
+  h5 {
+    font-size: 20px;
+    color: #27272a;
+    font-weight: 700;
+  }
+}

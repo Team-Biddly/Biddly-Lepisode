@@ -1,0 +1,57 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<div class="flex flex-col gap-3 w-full">
+    <div class="tabs tabs-border">
+        <a class="tab" [class.tab-active]="!type()" (click)="type.set(undefined)">전체</a>
+        <a class="tab" [class.tab-active]="type() === '일반용역'" (click)="type.set('일반용역')">일반용역</a>
+        <a class="tab" [class.tab-active]="type() === '기술용역'" (click)="type.set('기술용역')">기술용역</a>
+        <a class="tab" [class.tab-active]="type() === '물품'" (click)="type.set('물품')">물품</a>
+        <a class="tab" [class.tab-active]="type() === '공사'" (click)="type.set('공사')">공사</a>
+        <a class="tab" [class.tab-active]="type() === '외자'" (click)="type.set('외자')">외자</a>
+    </div>
+
+    <app-ssp-data-grid
+        [(align)]="align"
+        [rowData]="orderPlans$.value()?.items"
+        [options]="gridOptions"
+        [pageInfo]="orderPlans$.value()?.pageInfo"
+        [(orderBy)]="orderBy"
+        [(page)]="page"
+        [(pageSize)]="pageSize"
+        [(query)]="query"
+        [columns]="columns"
+    >
+        <!-- <button class="btn btn-primary" (click)="syncModal.showModal()">
+            <app-icon name="mdi:sync" />
+            동기화
+        </button> -->
+    </app-ssp-data-grid>
+</div>
+
+<dialog #syncModal class="modal">
+    <div class="modal-box flex flex-col gap-4">
+        <h2 class="font-bold text-lg">발주 계획 동기화</h2>
+
+        <div class="flex gap-2 items-start">
+            <fieldset class="fieldset flex-1">
+                <legend class="fieldset-legend">시작 일자</legend>
+                <input #startDate type="date" class="input" />
+            </fieldset>
+            <fieldset class="fieldset flex-1">
+                <legend class="fieldset-legend">종료 일자</legend>
+                <input #endDate type="date" class="input" [max]="today" />
+            </fieldset>
+        </div>
+
+        <footer class="flex justify-end items-center gap-2">
+            <button class="btn" (click)="syncModal.close()">취소</button>
+            <button
+                class="btn btn-primary"
+                [disabled]="!startDate.value || !endDate.value"
+                (click)="sync(startDate.value, endDate.value); syncModal.close()"
+            >
+                확인
+            </button>
+        </footer>
+    </div>
+</dialog>

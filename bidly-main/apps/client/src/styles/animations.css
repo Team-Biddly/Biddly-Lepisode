@@ -1,0 +1,55 @@
+@keyframes slideInX {
+  from {
+    right: -100%;
+  }
+  to {
+    right: 0;
+  }
+}
+
+@keyframes slideOutX {
+  from {
+    right: 0;
+  }
+  to {
+    right: -100%;
+  }
+}
+
+@keyframes slideInY {
+  0% {
+    -webkit-transform: translateY(10px);
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+0 @keyframes slideOutY {
+  0% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: translateY(10px);
+    transform: translateY(10px);
+    opacity: 0;
+  }
+}
+
+.slide-x-animation {
+  animation: slideInX 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+.slide-y-animation {
+  animation: slideInY 0.2s cubic-bezier(0.68, -0.1, 0.3, 1) both;
+  view-transition-name: slide;
+}
+
+.slide {
+  view-transition-name: slide;
+}

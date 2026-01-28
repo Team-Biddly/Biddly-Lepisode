@@ -1,0 +1,80 @@
+model User {
+  id             String   @id @default(uuid())
+  name           String
+  nickname       String?
+  refreshToken   String?
+  contact        String?  @unique
+  email          String  @unique
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @default(now()) @updatedAt
+  deletedAt      DateTime?
+  emailConsent   Boolean? @default(false)
+  smsConsent     Boolean? @default(false)
+  agreementAll   Boolean? @default(false)
+  agreementTerm1 Boolean? @default(false)
+  agreementTerm2 Boolean? @default(false)
+  
+  bookmarks      Bookmark[]
+  status         UserAccountStatus @default(ACTIVE)
+
+  permissionId String?
+  permission   RoleLevelPermission? @relation(fields: [permissionId], references: [id])
+
+  inquiries     Inquiry[]
+  notices       Notice[]
+  auths         Auth[]
+  blockLogs     UserBlockLog[]
+  withdrawnLogs UserWithdrawnLog[]
+  logs          Log[]
+  actionLogs    UserActionLog[]
+
+  @@unique([name, contact])
+}
+// 사용자 상태
+enum UserAccountStatus {
+  ACTIVE        // 정상 사용 중
+  BLOCKED       // 차단됨
+  WITHDRAWN     // 탈퇴 완료
+  REJOINABLE    // 재가입 가능
+}
+
+model UserBlockLog {
+  id        String    @id @default(uuid())
+  userId    String
+  createdAt DateTime  @default(now())
+  until     DateTime?
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model UserWithdrawnLog {
+  id              String    @id @default(uuid())
+  userId          String
+  withdrawnReason String
+  createdAt       DateTime  @default(now())
+  until           DateTime?
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Role {
+  id              String                @id @default(uuid())
+  name            String                @unique
+  description     String?
+  default         Boolean               @default(false)
+  permissions     RoleLevelPermission[]
+  menuPermissions MenuPermission[]
+}
+
+model RoleLevelPermission {
+  id          String  @id @default(uuid())
+  permission  String  @unique
+  level       Int // level 값은 0~100 범위로 애플리케이션 로직에서 검증 필요
+  description String?
+  default     Boolean @default(false)
+
+  roleId String
+  role   Role   @relation(fields: [roleId], references: [id])
+
+  super Boolean @default(false) // 슈퍼관리자 권한 여부
+
+  users User[]
+}

@@ -1,0 +1,77 @@
+<form [formGroup]="form" class="container flex flex-col gap-6 mx-auto size-full bg-white p-6 rounded-xl w-[50dvh]">
+    <p class="font-bold text-2xl border-b border-zinc-300 text-zinc-800 pb-3">배너 {{ id() ? '수정' : '등록' }}</p>
+
+    <div class="flex flex-col gap-2">
+        <app-label [required]="true">노출 여부</app-label>
+        <div class="flex items-center gap-2">
+            <app-toggle formControlName="isExposed" />
+            <p class="text-sm text-gray-500">{{ form.controls['isExposed'].value ? '노출' : '숨김' }}</p>
+        </div>
+    </div>
+
+    <div class="gap-2 flex flex-col">
+        <app-label [required]="true">제목</app-label>
+        <input
+            type="text"
+            formControlName="title"
+            name="title"
+            required
+            placeholder="제목을 입력해 주세요."
+            [maxLength]="50"
+            class="w-full input text-zinc-800 placeholder:text-zinc-400"
+        />
+    </div>
+
+    @if (mode() === '웹용') {
+        <div class="gap-2 flex flex-col">
+            <app-label [required]="true">이미지(웹용)</app-label>
+            <app-hint>권장 비율 6 : 1 (예: 1296px * 216px)</app-hint>
+            <app-file-uploader
+                label="이미지"
+                formControlName="pcImage"
+                accept="image/*"
+                placeholder=".png, .jpeg, .jpg, .svg 등 이미지 형식만 가능합니다."
+                [maxLength]="1"
+                [useConvertToWebp]="true"
+                [uploadHandler]="uploadHandler"
+                [deleteHandler]="deleteHandler"
+            />
+        </div>
+    }
+
+    @if (mode() === '모바일용') {
+        <div class="gap-2 flex flex-col">
+            <app-label>이미지(모바일용)</app-label>
+            <app-hint>권장 비율 2.5 : 1 (예: 607px * 243px)</app-hint>
+            <app-file-uploader
+                label="이미지"
+                formControlName="mobileImage"
+                accept="image/*"
+                placeholder=".png, .jpeg, .jpg, .svg 등 이미지 형식만 가능합니다."
+                [maxLength]="1"
+                [useConvertToWebp]="true"
+                [uploadHandler]="uploadHandler"
+                [deleteHandler]="deleteHandler"
+            />
+        </div>
+    }
+
+    <div class="gap-2 flex flex-col">
+        <app-label>링크</app-label>
+        <input
+            type="text"
+            formControlName="url"
+            name="url"
+            placeholder="링크를 입력해 주세요."
+            [maxLength]="1000"
+            class="w-full input text-zinc-800 placeholder:text-zinc-400"
+        />
+    </div>
+
+    <div class="flex justify-between w-full">
+        <button class="btn btn-ghost" (click)="close($event)">닫기</button>
+        <button [disabled]="form.invalid" (click)="submit($event)" class="btn btn-primary">
+            {{ id() ? '수정' : '등록' }}
+        </button>
+    </div>
+</form>

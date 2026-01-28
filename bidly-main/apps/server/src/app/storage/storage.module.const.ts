@@ -1,0 +1,1 @@
+export const STORAGE_MODULE_CONFIG = Symbol("STORAGE_MODULE_CONFIG");

@@ -1,0 +1,7 @@
+<app-fieldset [label]="label()" [required]="required() ? 'true' : 'false'">
+    <div class="flex gap-3 items-center">
+        <app-date-picker [(value)]="startAt" (valueChange)="handleChange()" />
+        <p class="mt-1">-</p>
+        <app-date-picker [(value)]="endAt" (valueChange)="handleChange()" />
+    </div>
+</app-fieldset>

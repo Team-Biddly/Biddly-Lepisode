@@ -1,0 +1,40 @@
+model Menu {
+    id        String      @id @default(uuid())
+    name      String
+    routeUrl       String?
+    apiUrl       String?
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    permissions MenuPermission[]
+
+    pageType PageType @default(READ) // READ, CREATE, UPDATE
+
+    children  Menu[] @relation("ParentMenu")
+    parentId  String?
+    parent    Menu? @relation("ParentMenu", fields: [parentId], references: [id], onDelete: Cascade)
+}
+
+model MenuPermission {
+    id        String      @id @default(uuid()) 
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    canCreate  Boolean @default(false)
+    canRead   Boolean @default(false)
+    canUpdate Boolean @default(false)
+    canDelete Boolean @default(false)
+
+    level     Int  @default(0)  // level 값은 0~100 범위로 애플리케이션 로직에서 검증 필요
+
+    roleId    String
+    role      Role        @relation(fields: [roleId], references: [id])   
+    menuId   String 
+    menu      Menu     @relation(fields: [menuId], references: [id])
+}
+
+enum PageType {
+    READ
+    CREATE
+    UPDATE
+}

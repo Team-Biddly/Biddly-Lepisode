@@ -1,0 +1,3 @@
+export const NCP_CLOUD_EMAIL_MODULE_CONFIG = Symbol(
+  "NCP_CLOUD_EMAIL_MODULE_CONFIG",
+);

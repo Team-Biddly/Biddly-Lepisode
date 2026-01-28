@@ -1,0 +1,61 @@
+<section class="bg-base-100 flex select-none rounded-md p-4">
+    <ng-container *ngTemplateOutlet="yearSection" />
+    <div class="flex w-full flex-col border-l border-gray-100 pl-6">
+        <ng-container *ngTemplateOutlet="header" />
+        <ng-container *ngTemplateOutlet="daySection" />
+    </div>
+</section>
+
+<ng-template #header>
+    <section class="relative mb-3 flex w-full items-center justify-between gap-2">
+        <p class="text-lg font-semibold text-gray-800">
+            {{ currentDate() | date: 'y년 MM월' }}
+        </p>
+
+        <div class="flex items-center gap-3">
+            <button (click)="handleNavigate('prev', 'month', 1)" class="btn btn-ghost">
+                <app-icon name="ic:baseline-chevron-left" />
+            </button>
+            <button (click)="handleNavigate('next', 'month', 1)" class="btn btn-ghost">
+                <app-icon name="ic:baseline-chevron-right" />
+            </button>
+        </div>
+    </section>
+</ng-template>
+
+<ng-template #yearSection>
+    <section class="flex flex-col gap-4 pr-6">
+        <p class="mt-2 text-lg font-semibold text-gray-800">년도 선택</p>
+        <div id="carousel" class="year-section relative flex max-h-[20rem] min-w-[15rem] flex-col overflow-y-auto">
+            @for (y of years(); track $index) {
+                <button
+                    (click)="handleSelectYear(y)"
+                    [id]="y"
+                    class="cursor-pointer rounded-lg p-2 transition-colors"
+                    [ngClass]="y === year() ? 'bg-gray-100' : 'bg-white hover:bg-gray-50'"
+                >
+                    {{ y }}
+                </button>
+            }
+        </div>
+    </section>
+</ng-template>
+
+<ng-template #daySection>
+    <section class="flex w-full flex-col">
+        <div class="grid w-full grid-cols-7">
+            <p class="item text-red-600">일</p>
+            <p class="theme-text item">월</p>
+            <p class="theme-text item">화</p>
+            <p class="theme-text item">수</p>
+            <p class="theme-text item">목</p>
+            <p class="theme-text item">금</p>
+            <p class="item text-blue-600">토</p>
+        </div>
+        <div class="grid w-full grid-cols-7">
+            @for (day of days(); track $index) {
+                <app-day (select)="handleSelectDay(day)" [value]="value()!" [day]="day" />
+            }
+        </div>
+    </section>
+</ng-template>

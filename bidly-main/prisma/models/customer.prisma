@@ -1,0 +1,24 @@
+model Inquiry {
+  id         String    @id @default(uuid())
+  title      String
+  content    String
+  answer     String?
+  answeredAt DateTime?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  deletedAt  DateTime?
+  userId String?
+  user User? @relation(fields: [userId], references: [id])
+}
+
+
+model Notice {
+  id          String      @id @default(uuid())  /// 공지사항 ID
+  title       String    /// 제목
+  content     String  /// 내용
+  createdAt   DateTime    @default(now()) /// 생성 일시
+  updatedAt   DateTime    @updatedAt  /// 수정 일시
+  isPinned    Boolean    @default(false) /// 상단 고정 여부
+  admin User @relation(fields: [adminId], references: [id])
+  adminId String
+}

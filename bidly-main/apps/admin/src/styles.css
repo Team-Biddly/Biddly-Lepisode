@@ -1,0 +1,33 @@
+@import 'tailwindcss';
+@plugin "daisyui" {
+  themes: light --default;
+}
+
+* {
+  letter-spacing: -0.04em !important;
+  outline: none;
+}
+
+/* details 화살표 제거 */
+summary::-webkit-details-marker {
+  display: none;
+}
+summary {
+  list-style-type: none;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+:root {
+  --color-primary: #3c8eee;
+}
+
+@import '@angular/cdk/overlay-prebuilt.css';
+@import 'ngx-toastr/toastr';
+@import 'prismjs/themes/prism.css';
+
+@import './styles/daisy.css';
+@import './styles/font.css';
+@import './styles/scroll.css';

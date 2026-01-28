@@ -1,0 +1,6 @@
+<div class="sm:hidden flex w-full justify-center">
+    @if (hasEventLength(); as eventLength) {
+        <!-- <div class="size-2 bg-primary rounded-full mt-4"></div> -->
+        <p class="p-0.5 bg-primary-50 text-primary mt-2 text-xs rounded">{{ eventLength | number }}건</p>
+    }
+</div>

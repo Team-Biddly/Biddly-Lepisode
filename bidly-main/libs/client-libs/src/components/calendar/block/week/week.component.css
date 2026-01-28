@@ -1,0 +1,9 @@
+.day-wrapper {
+  width: 100%;
+  transition: background-color 0.2s ease-in-out;
+  position: relative;
+}
+
+.day-wrapper.weekend {
+  background-color: #f3f4f6; /* bg-gray-100 */
+}

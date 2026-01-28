@@ -1,0 +1,25 @@
+<section class="flex sm:flex-row flex-col w-full justify-between items-center my-3 gap-3">
+    <section class="relative flex w-full sm:justify-start justify-between items-center gap-2">
+        <button (click)="handleNavigate('prev', _mode()!, 1)" class="btn btn-ghost">
+            <app-icon name="ic:baseline-chevron-left" />
+        </button>
+        <button class="btn btn-ghost" [cdkMenuTriggerFor]="c">
+            <p class="font-semibold text-base sm:text-lg">
+                {{ value() | date: 'y년 MM월' }}
+            </p>
+        </button>
+        <button (click)="handleNavigate('next', _mode()!, 1)" class="btn btn-ghost">
+            <app-icon name="ic:baseline-chevron-right" />
+        </button>
+    </section>
+    <section class="flex flex-row gap-3 items-center min-w-max w-full sm:w-auto justify-between sm:justify-start">
+        <app-tabs [options]="modes" [value]="_mode() || 'month'" (valueChange)="handleModeChange($event)" />
+        <ng-content />
+    </section>
+</section>
+
+<ng-template #c>
+    <div class="rounded-md shadow-md" cdkMenu>
+        <app-pick-calendar [value]="value()" (valueChange)="handleDateChange($event!)" />
+    </div>
+</ng-template>

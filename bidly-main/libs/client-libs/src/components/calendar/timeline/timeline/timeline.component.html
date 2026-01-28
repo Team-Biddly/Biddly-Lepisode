@@ -1,0 +1,30 @@
+<div [attr.data-time]="time()" class="timeline w-full">
+    <div class="absolute">
+        @for (day of days(); track day.format('DD')) {
+            <app-timeline-event-wrapper [slots]="slots()" [events]="renderEvents()!" [day]="day" [time]="time()" (menu)="menu($event)" />
+        }
+    </div>
+    <div class="flex w-full min-w-max items-center">
+        <div class="sticky left-0 z-10 border-r border-base-300">
+            <p class="time">
+                {{ time() | time }}
+            </p>
+            @if (!last()) {
+                <div class="w-full h-px bg-base-300"></div>
+            }
+        </div>
+        <div class="flex w-full">
+            @for (day of days(); track day.format('DD')) {
+                <div
+                    dndDropzone
+                    dndDragoverClass="bg-primary-content"
+                    (dndDrop)="drop($event, day)"
+                    [attr.data-day]="day.format('DD')"
+                    [class.border-r]="!$last"
+                    [class.border-b]="!last()"
+                    class="day flex-1 min-h-12 h-full min-w-[8rem] border-base-300"
+                ></div>
+            }
+        </div>
+    </div>
+</div>

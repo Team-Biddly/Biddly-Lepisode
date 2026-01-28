@@ -1,0 +1,31 @@
+@if (row(); as row) {
+    <div
+        [cdkContextMenuTriggerFor]="context"
+        [class.cursor-pointer]="options()?.row?.clickHandler"
+        class="select-none w-[20rem] h-[20rem] hover:shadow-2xl transition-shadow shadow-md rounded-md overflow-hidden theme-border"
+    >
+        <div class="w-[20rem] h-[10rem] overflow-hidden">
+            <app-image [src]="src()" />
+        </div>
+        <div class="flex flex-col gap-4 p-4">
+            <p class="text-xl sm:text-2xl font-semibold theme-text overflow-hidden line-clamp-2">
+                {{ title() }}
+            </p>
+            <p class="theme-sub-text overflow-hidden line-clamp-2">
+                {{ content() }}
+            </p>
+        </div>
+    </div>
+}
+
+<ng-template #context>
+    @if (rowOptions(); as options) {
+        @if (options.length > 0) {
+            <app-menu cdkMenu>
+                @for (option of options; track option) {
+                    <app-menu-option [icon]="option.icon" (click)="handleOption(option)" cdkMenuItem>{{ option.label }}</app-menu-option>
+                }
+            </app-menu>
+        }
+    }
+</ng-template>

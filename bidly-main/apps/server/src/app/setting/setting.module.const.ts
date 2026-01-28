@@ -1,0 +1,1 @@
+export const SETTING_MODULE_CONFIG = Symbol("SETTING_MODULE_CONFIG");

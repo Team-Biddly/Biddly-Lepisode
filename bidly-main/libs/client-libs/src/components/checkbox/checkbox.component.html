@@ -1,0 +1,12 @@
+<label class="fieldset-label select-none">
+    <input
+        [(ngModel)]="value"
+        [ngClass]="[currentColor(), currentSize()]"
+        type="checkbox"
+        checked="checked"
+        class="checkbox border-neutral-300 checked:border-primary rounded"
+    />
+    @if (label(); as label) {
+        <p class="text-gray-800 font-normal !text-sm">{{ label }}</p>
+    }
+</label>

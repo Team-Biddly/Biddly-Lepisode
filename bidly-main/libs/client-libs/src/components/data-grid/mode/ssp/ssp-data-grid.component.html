@@ -1,0 +1,42 @@
+<section class="flex flex-col rounded-md w-full gap-3">
+    @if (options()?.header?.show !== false) {
+        <app-grid-header
+            [(align)]="align"
+            [(orderBy)]="orderBy"
+            [columns]="columns()"
+            [rowData]="rowData()"
+            [(query)]="query"
+            [(selecteds)]="selecteds"
+        >
+            <ng-content name="[buttons]" />
+        </app-grid-header>
+    }
+    @if (options()?.view === 'table' || !options()?.view) {
+        <app-grid-table [(align)]="align" [(orderBy)]="orderBy" [(selecteds)]="selecteds" />
+    } @else {
+        <app-grid-gallery [(align)]="align" [(orderBy)]="orderBy" />
+    }
+    <section class="flex w-full justify-between items-center">
+        <p class="font-semibold theme-text">
+            전체
+            <span class="text-primary ml-1">{{ totalItems() | number }}</span>
+        </p>
+        @if (!options()?.searchOption?.disablePagination) {
+            <div class="flex items-center gap-4">
+                @if (pageInfo(); as pageInfo) {
+                    <app-pagination [(page)]="page" [pageInfo]="pageInfo" />
+                }
+                <select class="select focus-within:input-primary min-w-[7rem]" [(ngModel)]="pageSize">
+                    <option disabled selected>선택</option>
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                    <option value="500">500</option>
+                </select>
+            </div>
+        }
+    </section>
+</section>

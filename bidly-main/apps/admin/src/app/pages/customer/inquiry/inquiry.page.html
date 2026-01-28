@@ -1,0 +1,9 @@
+<main>
+    <app-ssp-data-grid
+        [pageInfo]="data().pageInfo"
+        [rowData]="data().items"
+        [columns]="cols"
+        [options]="gridOptions"
+        (refresh)="refresh$.next($event)"
+    />
+</main>

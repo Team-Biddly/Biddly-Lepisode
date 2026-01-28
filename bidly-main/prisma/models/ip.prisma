@@ -1,0 +1,7 @@
+model Ip {
+    id           String         @id @default(uuid())
+    ip        String?   @unique
+    isBlocked Boolean  @default(false)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt
+}

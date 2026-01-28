@@ -1,0 +1,121 @@
+@font-face {
+  font-family: 'GmarketSans';
+  font-weight: 300;
+  font-style: normal;
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansLight.eot');
+  src:
+    url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansLight.eot?#iefix')
+      format('embedded-opentype'),
+    url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansLight.woff')
+      format('woff'),
+    url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansLight.ttf')
+      format('truetype');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'GmarketSans';
+  font-weight: 500;
+  font-style: normal;
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.eot');
+  src:
+    url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.eot?#iefix')
+      format('embedded-opentype'),
+    url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff')
+      format('woff'),
+    url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.ttf')
+      format('truetype');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'GmarketSans';
+  font-weight: 700;
+  font-style: normal;
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.eot');
+  src:
+    url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.eot?#iefix')
+      format('embedded-opentype'),
+    url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.woff')
+      format('woff'),
+    url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.ttf')
+      format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SUIT';
+  font-weight: 100;
+  font-style: normal;
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Thin.woff2')
+    format('woff2');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'SUIT';
+  font-weight: 200;
+  font-style: normal;
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-ExtraLight.woff2')
+    format('woff2');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'SUIT';
+  font-weight: 300;
+  font-style: normal;
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Light.woff2')
+    format('woff2');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'SUIT';
+  font-weight: 400;
+  font-style: normal;
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Regular.woff2')
+    format('woff2');
+
+  font-display: swap;
+}
+@font-face {
+  font-family: 'SUIT';
+  font-weight: 500;
+  font-style: normal;
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Medium.woff2')
+    format('woff2');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'SUIT';
+  font-weight: 600;
+  font-style: normal;
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-SemiBold.woff2')
+    format('woff2');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'SUIT';
+  font-weight: 700;
+  font-style: normal;
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Bold.woff2')
+    format('woff2');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'SUIT';
+  font-weight: 800;
+  font-style: normal;
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-ExtraBold.woff2')
+    format('woff2');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'SUIT';
+  font-weight: 900;
+  font-style: normal;
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Heavy.woff2')
+    format('woff2');
+  font-display: swap;
+}
+
+* {
+  font-family: 'SUIT', sans-serif;
+  letter-spacing: -0.4px;
+}

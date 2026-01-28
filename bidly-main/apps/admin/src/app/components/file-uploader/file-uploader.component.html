@@ -1,0 +1,97 @@
+<!-- eslint-disable @angular-eslint/template/alt-text -->
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<div class="flex flex-col gap-2 flex-wrap">
+    <div class="flex w-full gap-6" [class.flex-row]="direction() === 'row'" [class.flex-col]="direction() === 'column'">
+        @if (value().length < maxLength()) {
+            <div class="flex flex-col w-full gap-2">
+                <div
+                    class="p-4 min-w-[20rem] gap-4 border-2 border-gray-200 border-dashed rounded-lg flex flex-col items-center justify-center hover:border-primary hover:bg-primary-50 transition-all cursor-pointer"
+                    [class.bg-primary-50]="isDragOvered()"
+                    [class.border-primary]="isDragOvered()"
+                    [class.bg-white]="!isDragOvered()"
+                    [ngClass]="{ 'min-h-[18.75rem]': direction() === 'row' }"
+                    (click)="onClick()"
+                    (dragover)="onDragOver($event)"
+                    (dragleave)="onDragLeave($event)"
+                    (drop)="onFileDrop($event)"
+                >
+                    <app-icon name="ic:baseline-upload-file" class="size-8 text-primary" />
+                    <div class="flex flex-col gap-1 text-center">
+                        <p class="text-sm text-gray-800">{{ type() === 'image' ? '사진' : '파일' }}을 선택하거나 끌어다 놓기</p>
+                        @if (placeholder()) {
+                            <p class="text-sm text-gray-500">
+                                {{ placeholder() }}
+                            </p>
+                        }
+                    </div>
+                </div>
+                @if (maxLength() > 1) {
+                    <div class="flex w-full text-sm text-gray-500">
+                        <p>{{ value().length }} / {{ maxLength() }}</p>
+                    </div>
+                }
+            </div>
+        }
+        @if (value(); as value) {
+            @if (value.length > 0) {
+                <div
+                    cdkDropList
+                    [cdkDropListData]="value"
+                    [cdkDropListDisabled]="value.length < 2"
+                    (cdkDropListDropped)="onDrop($event)"
+                    class="flex flex-col gap-2 max-h-[20rem] min-w-[15rem]"
+                >
+                    @for (item of value; track $index) {
+                        <div cdkDrag class="flex w-full justify-between p-2.5 gap-2.5 bg-white border border-gray-200 rounded-md">
+                            <div class="flex gap-2.5 items-center">
+                                @if (type() === 'image') {
+                                    @if (item?.status) {
+                                        <img
+                                            [src]="item.url"
+                                            class="rounded-md cursor-pointer w-9 h-9"
+                                            (click)="openImage(item?.url || '')"
+                                        />
+                                    } @else {
+                                        <div class="flex items-center justify-center p-2 border border-gray-200 rounded-md w-9 h-9">
+                                            <app-icon name="mdi:file-image" class="block w-6 h-6 bg-gray-700" />
+                                        </div>
+                                    }
+                                } @else {
+                                    <app-icon name="ic:outline-insert-drive-file" class="block w-6 h-6 bg-gray-700" />
+                                }
+                                <div class="flex flex-col gap-1">
+                                    <p
+                                        [ngClass]="{ 'max-w-[7rem]': direction() === 'row' }"
+                                        class="w-full truncate max-w-[10rem] lg:max-w-[25rem] text-sm text-gray-700"
+                                    >
+                                        {{ item?.name }}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                @if (item?.status === 'FAIL') {
+                                    <app-icon class="w-5 h-5 text-red-500" name="ic:round-warning-amber" />
+                                }
+                                @if (item?.status === 'SUCCESS') {
+                                    <app-icon class="w-5 h-5 text-green-500" name="ic:baseline-check" />
+                                }
+                                @if (!item?.status) {
+                                    <app-icon class="w-5 h-5 text-primary animate-spin" name="mdi:loading" />
+                                }
+                                @if (item?.status) {
+                                    <app-icon
+                                        name="ic:outline-close"
+                                        class="w-5 h-5 text-gray-700 cursor-pointer"
+                                        (click)="removeFile(item?.url || '')"
+                                    />
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        }
+    </div>
+</div>
+<input #inputRef class="hidden" id="uploader" type="file" multiple [accept]="accept()" />

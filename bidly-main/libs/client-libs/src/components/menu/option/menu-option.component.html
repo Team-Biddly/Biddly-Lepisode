@@ -1,0 +1,14 @@
+<button
+    [class.focus]="focus()"
+    class="min-w-[8rem] hover:bg-gray-100 w-full flex items-center gap-2 p-2 transition-all cursor-pointer outline-none select-none"
+>
+    <div class="flex items-center">
+        @if (icon(); as icon) {
+            <app-icon size="sm" [name]="icon" class="theme-text" />
+        }
+    </div>
+    <ng-content />
+    @if (active()) {
+        <app-icon name="mdi:check" size="sm" class="theme-text" />
+    }
+</button>

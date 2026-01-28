@@ -1,0 +1,26 @@
+.wrapper {
+  border: 1px solid #d1d5db;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 0.5rem;
+  min-width: max-content;
+  display: flex;
+  flex-direction: column;
+  border-radius: 0.375rem;
+}
+
+.month-item {
+  width: 3.5rem;
+  height: 3.5rem;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 50%;
+  transition: background-color 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.month-item[data-active='true'] {
+  background-color: var(--color-primary);
+  color: white;
+}

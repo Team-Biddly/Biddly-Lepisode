@@ -1,0 +1,37 @@
+:host {
+  .event {
+    position: relative;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.5rem;
+    color: white;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    min-height: 2rem;
+  }
+
+  .resizer-left {
+    width: 0.25rem;
+    position: absolute;
+    left: 0;
+    height: 100%;
+    cursor: col-resize;
+  }
+
+  .resizer-left.disabled {
+    cursor: auto;
+  }
+
+  .resizer-right {
+    width: 0.25rem;
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    cursor: col-resize;
+  }
+
+  .resizer-right.disabled {
+    cursor: auto;
+  }
+}

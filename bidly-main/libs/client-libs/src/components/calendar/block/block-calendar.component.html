@@ -1,0 +1,18 @@
+<section class="flex flex-col gap-4 sm:gap-6">
+    <section class="flex flex-col overflow-hidden border border-base-300">
+        <div class="grid w-full grid-cols-7 bg-gray-100">
+            @for (day of ['일', '월', '화', '수', '목', '금', '토']; track day) {
+                <p class="theme-text item">{{ day }}</p>
+            }
+        </div>
+
+        <div class="flex flex-col w-full">
+            @for (days of renderDays(); track $index) {
+                <app-week [days]="days" [index]="$index" />
+            }
+        </div>
+    </section>
+    @if (options()?.mobile?.showEventList) {
+        <app-event-list class="sm:hidden" />
+    }
+</section>

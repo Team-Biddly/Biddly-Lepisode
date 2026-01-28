@@ -1,0 +1,61 @@
+@for (tab of modeTabs; track $index) {
+    <button
+        (click)="mode.set(tab.value)"
+        class="font-semibold px-5 py-3 cursor-pointer mb-8"
+        [ngClass]="mode() === tab.value ? 'border-b-2 border-primary' : ''"
+    >
+        {{ tab.value }}
+    </button>
+}
+
+@if (mode() === '웹용') {
+    @if ($data.value(); as data) {
+        <div class="w-full flex flex-col gap-6">
+            <app-ssp-data-grid
+                [pageInfo]="data.pageInfo"
+                [rowData]="data.items"
+                [columns]="cols()"
+                [options]="gridOptions"
+                [(page)]="pageNo"
+                [(pageSize)]="pageSize"
+                [(align)]="align"
+                [(orderBy)]="orderBy"
+                [(query)]="query"
+                (refresh)="$data.reload()"
+            >
+                <div buttons>
+                    <button class="btn btn-primary" (click)="openFormModal()">
+                        <app-icon name="mdi:plus" />
+                        등록
+                    </button>
+                </div>
+            </app-ssp-data-grid>
+        </div>
+    }
+}
+
+@if (mode() === '모바일용') {
+    @if ($data.value(); as data) {
+        <div class="w-full flex flex-col gap-6">
+            <app-ssp-data-grid
+                [pageInfo]="data.pageInfo"
+                [rowData]="data.items"
+                [columns]="cols()"
+                [options]="gridOptions"
+                [(page)]="pageNo"
+                [(pageSize)]="pageSize"
+                [(align)]="align"
+                [(orderBy)]="orderBy"
+                [(query)]="query"
+                (refresh)="$data.reload()"
+            >
+                <div buttons>
+                    <button class="btn btn-primary" (click)="openFormModal()">
+                        <app-icon name="mdi:plus" />
+                        등록
+                    </button>
+                </div>
+            </app-ssp-data-grid>
+        </div>
+    }
+}

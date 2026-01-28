@@ -1,0 +1,12 @@
+<main class="w-full p-6">
+    <app-ssp-data-grid
+        [pageInfo]="pageInfo()"
+        [rowData]="faqs()"
+        [columns]="cols"
+        [options]="gridOptions"
+        (refresh)="searchOption.set($event)"
+        class="w-full"
+    >
+        <button class="btn btn-primary" routerLink="form">등록</button>
+    </app-ssp-data-grid>
+</main>

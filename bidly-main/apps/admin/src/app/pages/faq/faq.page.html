@@ -1,0 +1,18 @@
+@if (faq(); as faq) {
+    <app-ssp-data-grid
+        [pageInfo]="faq!.pageInfo"
+        [rowData]="faq!.items"
+        [columns]="cols"
+        [options]="gridOptions"
+        (refresh)="faq$.reload()"
+        [(page)]="pageNo"
+        [(pageSize)]="pageSize"
+        [(align)]="align"
+        [(orderBy)]="orderBy"
+        [(query)]="query"
+    >
+        <div buttons>
+            <button class="bg-primary text-white px-3 py-2 rounded-lg hover:cursor-pointer" routerLink="/faq/create">등록</button>
+        </div>
+    </app-ssp-data-grid>
+}

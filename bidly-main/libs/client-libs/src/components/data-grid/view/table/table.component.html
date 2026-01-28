@@ -1,0 +1,51 @@
+<div class="w-full overflow-auto">
+    <table class="w-full table-auto whitespace-nowrap select-none" [class.!border-t-0]="!options()?.header?.show">
+        <thead class="sticky top-0 z-10">
+            <tr class="border-b-2 border-gray-200">
+                @for (column of columns(); track column.field) {
+                    @let isOpenMenu =
+                        !column?.filter?.disabled && showHeaderOption() && column?.field !== 'rowNumber' && column?.field !== 'checkbox';
+
+                    <th
+                        gridColumn
+                        [(align)]="align"
+                        [(orderBy)]="orderBy"
+                        [(selecteds)]="selecteds"
+                        [column]="column"
+                        [showHeaderOption]="showHeaderOption()"
+                        [class.open-menu]="isOpenMenu"
+                        class="border-0 whitespace-nowrap"
+                        [ngClass]="{
+                            'left-0 sticky z-10': column.type === 'checkbox',
+                        }"
+                    ></th>
+                }
+            </tr>
+        </thead>
+        <tbody
+            cdkDropList
+            [cdkDropListData]="rowData()"
+            (cdkDropListDropped)="handleDragDrop($event)"
+            [cdkDropListDisabled]="!dragDrop()?.enable"
+        >
+            @for (row of rowData(); track row) {
+                <tr
+                    @fadeIn
+                    gridRow
+                    cdkDrag
+                    class="hover:bg-gray-100 transition-colors hover:cursor-pointer"
+                    [class.cursor-pointer]="options()?.row?.clickHandler"
+                    [columns]="columns()!"
+                    [row]="row"
+                    [(selecteds)]="selecteds"
+                ></tr>
+            } @empty {
+                <tr>
+                    <td [attr.colspan]="columns()?.length" class="text-center whitespace-nowrap">
+                        <p class="py-[5rem] font-medium text-gray-500">검색 결과를 찾을 수 없습니다.</p>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

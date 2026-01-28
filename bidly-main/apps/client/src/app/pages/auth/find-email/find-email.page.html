@@ -1,0 +1,52 @@
+<main class="flex flex-col items-center justify-center min-h-screen w-full max-w-sm mx-auto px-4 py-6 sm:px-0 sm:py-[15rem]">
+    <form [formGroup]="form" class="flex flex-col items-center gap-6 w-full">
+        <div class="flex flex-col items-center gap-1.5">
+            <p class="text-zinc-800 text-2xl font-bold">아이디 찾기</p>
+            <p class="text-zinc-500">가입 당시 사용한 정보를 입력하시면 아이디를 알려드립니다.</p>
+        </div>
+
+        <div class="flex items-center justify-between pb-3 border-b-2 border-zinc-800 w-full">
+            <span class="font-semibold text-zinc-800">회원정보</span>
+            <div class="flex items-center gap-1">
+                <span class="w-2 h-2 rounded-full bg-primary"></span>
+                <span class="text-xs text-zinc-400">필수입력</span>
+            </div>
+        </div>
+
+        <div class="flex flex-col gap-2 w-full">
+            <div class="flex items-center gap-1">
+                <span class="font-semibold text-zinc-800">이름</span>
+                <span class="w-2 h-2 rounded-full bg-primary"></span>
+            </div>
+            <input
+                formControlName="name"
+                class="w-full input text-zinc-800 placeholder:text-zinc-400"
+                type="text"
+                placeholder="입력해주세요."
+            />
+        </div>
+
+        <app-contact-verification
+            [value]="form.controls['contact'].value || ''"
+            (valueChange)="form.controls['contact'].setValue($event)"
+            class="w-full"
+        />
+
+        <div class="flex gap-3 w-full">
+            <button type="button" class="py-2 border border-zinc-200 rounded-sm w-full" routerLink="/login">이전</button>
+            <button
+                type="button"
+                (click)="submit($event)"
+                [ngClass]="form.invalid ? 'cursor-not-allowed text-zinc-400 bg-zinc-200' : ''"
+                class="py-2 bg-primary text-white rounded-sm w-full"
+                [disabled]="form.invalid"
+                [class.cursor-not-allowed]="form.invalid"
+                [class.pointer-events-none]="form.invalid"
+                [class.text-zinc-400]="form.invalid"
+                [class.bg-zinc-200]="form.invalid"
+            >
+                확인
+            </button>
+        </div>
+    </form>
+</main>

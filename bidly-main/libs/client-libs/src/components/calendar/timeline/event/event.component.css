@@ -1,0 +1,72 @@
+:host {
+  .prefix {
+    height: 100%;
+    width: 0.5rem;
+    position: absolute;
+    left: 0;
+    top: 0;
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+    transition: background-color 0.2s ease-in-out;
+  }
+
+  .event {
+    position: relative;
+    padding: 0.25rem 0.5rem 0.25rem 1rem;
+    border-radius: 0.5rem;
+    color: #1f2937; /* text-gray-800 */
+    height: 100%;
+    display: flex;
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+
+  .resizer-left {
+    width: 0.25rem;
+    position: absolute;
+    left: 0;
+    height: 100%;
+    cursor: col-resize;
+  }
+
+  .resizer-left.disabled {
+    cursor: auto;
+  }
+
+  .resizer-right {
+    width: 0.25rem;
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    cursor: col-resize;
+  }
+
+  .resizer-right.disabled {
+    cursor: auto;
+  }
+
+  .resizer-top {
+    height: 0.25rem;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    cursor: row-resize;
+  }
+
+  .resizer-top.disabled {
+    cursor: auto;
+  }
+
+  .resizer-bottom {
+    height: 0.25rem;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    cursor: row-resize;
+  }
+
+  .resizer-bottom.disabled {
+    cursor: auto;
+  }
+}

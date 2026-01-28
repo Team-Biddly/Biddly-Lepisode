@@ -1,0 +1,65 @@
+/**
+ * 물품 발주계획
+ * @author 최강훈 <ganghun@lepisode.team>
+ */
+export type OrderPlan_Thing = {
+  bsnsDivCd: string;
+  bsnsDivNm: string;
+  bsnsTyCd: string;
+  bsnsTyNm: string;
+  orderYear: string;
+  orderInsttCd: string;
+  totlmngInsttNm: string;
+  jrsdctnDivCd: string;
+  jrsdctnDivNm: string;
+  orderInsttNm: string;
+  orderPlanSno: string;
+  prcrmntMethd: string;
+  orderMnth: string;
+  bizNm: string;
+  cnstwkRgnNm: string;
+  cnsttyDivNm: string;
+  cntrctMthdNm: string;
+  orderContrctAmt: string;
+  orderGovsplyMtrcst: string;
+  orderEtcAmt: string;
+  sumOrderAmt: string;
+  deptNm: string;
+  ofclNm: string;
+  telNo: string;
+  agrmntYn: string;
+  usgCntnts: string;
+  qtyCntnts: string;
+  unit: string;
+  prdctClsfcNo: string;
+  dtilPrdctClsfcNo: string;
+  prdctClsfcNoNm: string;
+  ntceNticeYn: string;
+  cnstwkMngNo: string;
+  orderOrd: string;
+  sumOrderDolAmt: string;
+  rcritRgstNo: string;
+  specItemNm1: string;
+  specItemNm2: string;
+  specItemNm3: string;
+  specItemNm4: string;
+  specItemNm5: string;
+  specItemCntnts1: string;
+  specItemCntnts2: string;
+  specItemCntnts3: string;
+  specItemCntnts4: string;
+  specItemCntnts5: string;
+  bdgtDivCd: string;
+  cnstwkPrdCntnts: string;
+  nticeDt: string;
+  orderThtmContrctAmt: string;
+  orderNtntrsAuxAmt: string;
+  dtilPrdctClsfcNoNm: string;
+  specCntnts: string;
+  dsgnDocRdngPlceNm: string;
+  dsgnDocRdngPrdCntnts: string;
+  rmrkCntnts: string;
+  orderPlanUntyNo: string;
+  bidNtceNoList: string;
+  chgDt: string;
+};

@@ -1,0 +1,129 @@
+:host {
+  .scrollbar-hide {
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
+    scrollbar-width: none; /* Firefox */
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none; /* Safari and Chrome */
+  }
+
+  .option {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    gap: 0.5rem;
+    font-weight: 500;
+    transition: background-color 0.2s ease-in-out;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    user-select: none;
+    min-width: max-content;
+  }
+
+  .option[data-theme='dark']:hover {
+    background-color: #2d2d2d;
+  }
+
+  .option[data-theme='dark']:active {
+    background-color: #1a1a1a;
+  }
+
+  .option:hover {
+    background-color: #f3f4f6;
+  }
+
+  .option:active {
+    background-color: #e5e7eb;
+  }
+
+  .option[data-height='sm'] {
+    padding-top: 0.625rem;
+    padding-bottom: 0.625rem;
+  }
+
+  .option[data-height='md'],
+  .option:not([data-height]) {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+  }
+
+  .option[data-height='lg'] {
+    padding-top: 0.875rem;
+    padding-bottom: 0.875rem;
+  }
+
+  .option[data-height='xl'] {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .option-text {
+    color: #6b7280;
+  }
+
+  .option-text.active[data-color='black'] {
+    color: #000000;
+  }
+
+  .option-text.active[data-color='primary'] {
+    color: var(--color-primary);
+  }
+
+  .option-text.active[data-color='blue'] {
+    color: #2563eb;
+  }
+
+  .option-text.active[data-color='green'] {
+    color: #10b981;
+  }
+
+  .option-text.active[data-color='red'] {
+    color: #ef4444;
+  }
+
+  .option-text.active[data-color='yellow'] {
+    color: #f59e0b;
+  }
+
+  .option-text.active[data-color='purple'] {
+    color: #8b5cf6;
+  }
+
+  .option-text.active[data-color='gray'] {
+    color: #6b7280;
+  }
+
+  .indicator[data-color='black'] {
+    background-color: #000000;
+  }
+
+  .indicator[data-color='primary'] {
+    background-color: var(--color-primary);
+  }
+
+  .indicator[data-color='blue'] {
+    background-color: #2563eb;
+  }
+
+  .indicator[data-color='green'] {
+    background-color: #10b981;
+  }
+
+  .indicator[data-color='red'] {
+    background-color: #ef4444;
+  }
+
+  .indicator[data-color='yellow'] {
+    background-color: #f59e0b;
+  }
+
+  .indicator[data-color='purple'] {
+    background-color: #8b5cf6;
+  }
+
+  .indicator[data-color='gray'] {
+    background-color: #6b7280;
+  }
+}

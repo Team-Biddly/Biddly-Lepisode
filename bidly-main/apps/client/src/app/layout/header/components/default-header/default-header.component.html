@@ -1,0 +1,111 @@
+<!-- 모바일/PC 헤더 -->
+<div class="flex items-center justify-between sm:container px-4 h-16 w-full">
+    @if (logoUrl()) {
+        <img [src]="logoUrl()" alt="logo" routerLink="/" class="cursor-pointer w-44 h-16" />
+    }
+    <div class="flex items-center gap-4 justify-between">
+        <div class="sm:flex gap-2 cursor-pointer hidden items-center">
+            <!-- <button class="hidden sm:flex">
+                <div class="flex items-center justify-center bg-primary rounded-full size-8">
+                    <img src="icons/search.svg" alt="search" class="size-5" />
+                </div>
+            </button> -->
+            <span class="text-zinc-200 hidden sm:flex">|</span>
+            @if (user()) {
+                <div class="gap-2 cursor-pointer hidden sm:flex">
+                    <app-icon name="mdi:account-circle-outline" class="size-5 text-zinc-400" />
+                    <button routerLink="/my-page/book-mark" [queryParams]="{ tab: 'order-plan' }">마이페이지</button>
+                </div>
+            }
+            @if (user()) {
+                <span class="text-zinc-200">|</span>
+                <app-icon name="mdi:logout" class="size-5 text-zinc-400" />
+                <button (click)="logout()">로그아웃</button>
+            } @else {
+                <app-icon name="mdi:login" class="size-5 text-zinc-400" />
+                <button routerLink="/login">로그인</button>
+            }
+        </div>
+    </div>
+    <button class="flex sm:hidden" (click)="toggleMobileMenu()">
+        <img src="https://api.iconify.design/ci:hamburger-lg.svg?color=%2371717A" alt="hamburger_menu" class="size-10" />
+    </button>
+</div>
+
+<!-- PC 전용 네비게이션 -->
+<div class="h-12 bg-primary hidden sm:block">
+    <div class="flex justify-between items-center text-white font-semibold container py-3">
+        <div class="flex gap-11">
+            <button routerLink="/order-plan">발주 계획</button>
+            <button routerLink="/pre-standard">사전 규격 공개</button>
+            <button routerLink="/bid">입찰 공고</button>
+            <button routerLink="/faq">이용안내</button>
+            <button routerLink="/introduce">소개</button>
+        </div>
+    </div>
+</div>
+
+<!-- 모바일 메뉴 (햄버거 클릭 시 열림) -->
+@if (isMobileMenuOpen()) {
+    <div class="w-full fixed inset-0 z-50 flex justify-end">
+        <div class="bg-white w-full flex flex-col">
+            <div class="flex items-center justify-between sm:container px-4 h-16 border-b border-zinc-200">
+                <img src="icons/logo.svg" alt="logo" class="h-8" />
+                <app-icon name="mdi:close" class="text-zinc-400" (click)="toggleMobileMenu()" />
+            </div>
+
+            <div class="p-4 flex flex-col gap-4">
+                <div class="border-b border-zinc-200 py-4 flex flex-col gap-4">
+                    @if (user()) {
+                        <div class="flex flex-col">
+                            <span class="text-lg font-semibold">{{ user()?.name }}</span>
+                            <span class="text-sm text-zinc-400">{{ user()?.auths?.[0]?.email }}</span>
+                        </div>
+
+                        <div class="flex items-center justify-between gap-1 bg-zinc-50 rounded-sm w-full h-20">
+                            <button
+                                (click)="navigateAndClose('/my-page/update-info', { tab: 'info' })"
+                                class="flex flex-col gap-2 items-center justify-center flex-1"
+                            >
+                                <app-icon name="mdi:pencil-outline" class="size-5 text-zinc-400" />
+                                내 정보 변경
+                            </button>
+
+                            <div class="w-px h-8 bg-zinc-200"></div>
+
+                            <button
+                                (click)="navigateAndClose('/my-page/book-mark', { tab: 'order-plan' })"
+                                class="flex flex-col gap-2 items-center justify-center flex-1"
+                            >
+                                <app-icon name="mdi:account-circle-outline" class="size-5 text-zinc-400" />
+                                마이페이지
+                            </button>
+                        </div>
+                    } @else {
+                        <p class="text-zinc-500 text-center">로그인 후 이용해주세요.</p>
+                        <button routerLink="/login" class="border border-zinc-300 rounded-md p-2 w-full">로그인</button>
+                    }
+                </div>
+
+                <!-- 메뉴 버튼 -->
+                <nav class="flex flex-col gap-5 py-4 items-start">
+                    <button class="hidden md:block" (click)="navigateAndClose('/search')">검색</button>
+                    <button (click)="navigateAndClose('/order-plan', { tab: 'entire' })">발주계획</button>
+                    <button (click)="navigateAndClose('/pre-spec', { tab: 'entire' })">사전 규격 공개</button>
+                    <button (click)="navigateAndClose('/bid-notice')">입찰 공고 목록</button>
+                    <button (click)="navigateAndClose('/faq')">이용안내</button>
+                    <button (click)="navigateAndClose('/introduce')">소개</button>
+                </nav>
+            </div>
+
+            @if (user()) {
+                <div class="mt-auto p-4">
+                    <button (click)="logout()" class="flex items-center gap-2 text-zinc-400">
+                        <app-icon name="mdi:logout" class="size-5" />
+                        로그아웃
+                    </button>
+                </div>
+            }
+        </div>
+    </div>
+}

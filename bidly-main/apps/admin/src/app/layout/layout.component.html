@@ -1,0 +1,32 @@
+<section class="relative flex w-screen h-screen overflow-hidden">
+    <ng-container *ngTemplateOutlet="menuSection" />
+    <div class="w-full overflow-hidden h-full">
+        <app-top-bar
+            [header]="currentChildMenu()?.name || currentMenu()?.name || ''"
+            [description]="currentChildMenu()?.description || currentMenu()?.description || ''"
+        />
+        <div id="layout-content" class="w-full h-full overflow-y-auto p-6 has-[#dashboard]:p-0">
+            <router-outlet />
+        </div>
+    </div>
+</section>
+
+<ng-template #menuSection>
+    <app-side-menu class="sm:block hidden">
+        @for (menu of menus(); track $index) {
+            @if (menu.children && menu.children.length > 0) {
+                <app-side-menu-item-group [active]="currentMenu() === menu" [label]="menu.name" [icon]="menu.icon!">
+                    @for (child of menu.children; track $index) {
+                        <app-side-menu-item-child (click)="navigate(child)" [active]="currentChildMenu() === child">{{
+                            child.name
+                        }}</app-side-menu-item-child>
+                    }
+                </app-side-menu-item-group>
+            } @else {
+                <app-side-menu-item (click)="navigate(menu)" [active]="currentMenu() === menu" [icon]="menu.icon!">{{
+                    menu.name
+                }}</app-side-menu-item>
+            }
+        }
+    </app-side-menu>
+</ng-template>

@@ -1,0 +1,13 @@
+<input #inputRef class="input w-full" type="text" placeholder="엔터키를 눌러 키워드를 추가해주세요." />
+@if (cva.value; as value) {
+    @if (value.length > 0) {
+        <div class="mt-2 flex flex-wrap gap-2 max-w-full" auto-animate>
+            @for (keyword of value; track keyword) {
+                <button class="flex gap-1 items-center px-2 rounded-xs bg-zinc-100" (click)="removeKeyword(keyword)" type="button">
+                    <span> {{ keyword }}</span>
+                    <app-icon name="solar:close-circle-bold-duotone" size="xs" class="text-zinc-400" />
+                </button>
+            }
+        </div>
+    }
+}

@@ -1,0 +1,43 @@
+<div cdkMenu class="z-[100] min-w-60 mt-2 bg-white rounded-lg border border-base-300 overflow-hidden">
+    <div class="flex w-full p-3 bg-gray-50">
+        <p class="text-gray-800">색상 변경</p>
+    </div>
+    <div class="grid items-center grid-cols-5 gap-2 p-2">
+        @for (color of colors; track $index) {
+            <app-color-picker-item cdkMenuItem [color]="color" (setColor)="setColor.emit($event)" />
+        }
+        <!-- @for (color of centerUser()?.colors; track $index) {
+      <app-color-picker-item
+        cdkMenuItem
+        [color]="color"
+        (setColor)="setColor.emit($event)"
+        (remove)="removeColor(color)"
+        removeMode
+      />
+    } -->
+    </div>
+    <div class="w-full p-3">
+        <button
+            class="btn btn-block bg-white"
+            [cpPosition]="'bottom'"
+            [cpPositionOffset]="'50%'"
+            [cpPositionRelativeToArrow]="true"
+            [(colorPicker)]="cpColor"
+            [cpExtraTemplate]="customTemplate"
+            [(cpToggle)]="cpToggle"
+        >
+            <p class="text-sm">색상 추가</p>
+        </button>
+    </div>
+</div>
+
+<ng-template #customTemplate>
+    <div class="p-4 flex gap-3 items-center">
+        <button class="btn bg-white" (click)="cpToggle.set(false)">
+            <p class="!text-sm">취소</p>
+        </button>
+        <button class="btn btn-primary" (click)="addColor()">
+            <p class="!text-sm">추가</p>
+        </button>
+    </div>
+</ng-template>
