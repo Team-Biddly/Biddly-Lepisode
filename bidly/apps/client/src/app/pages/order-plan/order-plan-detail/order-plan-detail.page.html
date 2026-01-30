@@ -1,0 +1,287 @@
+@if (data(); as data) {
+    <div class="container">
+        <div class="flex flex-col gap-6 sm:py-15 sm:px-0 p-4">
+            <details open class="group flex flex-col border border-zinc-100 rounded-sm p-6 w-full">
+                <summary class="cursor-pointer">
+                    <div class="flex flex-col gap-3 pb-5 border-b border-zinc-100">
+                        <div class="flex items-center justify-between">
+                            <span class="px-2 py-1 text-sm font-medium text-white bg-blue-500 rounded">{{ data['업무구분명'] }}</span>
+                            <app-bookmark-icon [modelId]="data.id" modelName="발주계획" />
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <p class="text-xl font-semibold text-zinc-800">{{ data['사업명'] }}</p>
+                            <app-icon
+                                name="mdi:chevron-down"
+                                class="size-4 text-zinc-400 group-open:rotate-180 transition-transform self-end px-2"
+                            />
+                        </div>
+                    </div>
+                </summary>
+
+                <div class="flex flex-col gap-4 sm:grid grid-cols-3 gap-y-4 gap-x-8 py-5 text-sm">
+                    <div class="flex gap-2">
+                        <span class="text-gray-500">업무 구분</span>
+                        <span class="text-zinc-800">{{ data['업무구분명'] }}</span>
+                    </div>
+                    <div class="flex gap-2">
+                        <span class="text-gray-500">발주계획번호</span>
+                        <span class="text-zinc-800">{{ data['발주계획통합번호'] || '-' }}</span>
+                    </div>
+                    <div class="flex gap-2">
+                        <span class="text-gray-500">공개일시</span>
+                        <span class="text-zinc-800">{{ data['게시일시'] | date: 'yyyy/MM/dd HH:mm' }}</span>
+                    </div>
+                    <div class="flex gap-2">
+                        <span class="text-gray-500 min-w-max">발주기관</span>
+                        <span class="text-zinc-800">{{ data['발주기관명'] || '-' }}</span>
+                    </div>
+                    <div class="flex gap-2">
+                        <span class="text-gray-500">발주시기</span>
+                        @if (data['발주년도'] && data['발주월']) {
+                            <span class="text-zinc-800">{{ data['발주년도'] }}/{{ data['발주월'] }}</span>
+                        } @else {
+                            <span class="text-zinc-800">-</span>
+                        }
+                    </div>
+                    <div class="flex gap-2">
+                        <span class="text-gray-500">조달방식</span>
+                        <span class="text-zinc-800">{{ data['조달방식'] || '-' }}</span>
+                    </div>
+                    @if (data['업무구분명'] === '공사') {
+                        <div class="flex gap-2">
+                            <span class="text-gray-500">업무유형</span>
+                            <span class="text-zinc-800">{{ data['업무유형명'] || '-' }}</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <span class="text-gray-500">계약방법</span>
+                            <span class="text-zinc-800">{{ data['계약방법명'] || '-' }}</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <span class="text-gray-500">낙찰방법</span>
+                            <!-- 데이터 없으면 '-'로 표기해둘 것 -->
+                            <span class="text-zinc-800">-</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <span class="text-gray-500">공종</span>
+                            <span class="text-zinc-800">{{ data['공종구분명'] || '-' }}</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <span class="text-gray-500">국제입찰대상 여부</span>
+                            <!-- 데이터 없으면 '-'로 표기해둘 것 -->
+                            <span class="text-zinc-800">-</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <span class="text-gray-500">협정여부</span>
+                            <!-- 해당있음 부분 체크 필요 -->
+                            <span class="text-zinc-800">{{ data['협정여부'] === false ? '해당없음' : '해당있음' }}</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <span class="text-gray-500">공사지역</span>
+                            <span class="text-zinc-800">{{ data['공사지역명'] || '-' }}</span>
+                        </div>
+                    } @else if (data['업무구분명'] === '용역') {
+                        <div class="flex gap-2">
+                            <span class="text-gray-500">계약방법</span>
+                            <span class="text-zinc-800">{{ data['계약방법명'] || '-' }}</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <span class="text-gray-500">국제입찰대상 여부</span>
+                            <!-- 데이터 없으면 '-'로 표기해둘 것 -->
+                            <span class="text-zinc-800">-</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <span class="text-gray-500">협정여부</span>
+                            <!-- 해당있음 부분 체크 필요 -->
+                            <span class="text-zinc-800">{{ data['협정여부'] === false ? '해당없음' : '해당있음' }}</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <span class="text-gray-500">장기계약여부</span>
+                            <!-- 데이터 없으면 '-'로 표기해둘 것 -->
+                            <span class="text-zinc-800">-</span>
+                        </div>
+                    } @else if (data['업무구분명'] === '물품') {
+                        <div class="flex gap-2">
+                            <span class="text-gray-500">계약방법</span>
+                            <span class="text-zinc-800">{{ data['계약방법명'] }}</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <span class="text-gray-500">국제입찰대상 여부</span>
+                            <!-- 데이터 없으면 '-'로 표기해둘 것 -->
+                            <span class="text-zinc-800">-</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <span class="text-gray-500">협정여부</span>
+                            <!-- 해당있음 부분 체크 필요 기획 확정 후 재표기 예정 -->
+                            <span class="text-zinc-800">{{ data['협정여부'] === false ? '해당없음' : '해당있음' }}</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <span class="text-gray-500">세부품명번호</span>
+                            <!-- 데이터 없을 시 '-'로 표기 -->
+                            <span class="text-zinc-800">-</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <span class="text-gray-500">품명</span>
+                            <!-- 데이터 없을 시 '-'로 표기 -->
+                            <span class="text-zinc-800">-</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <span class="text-gray-500">용도</span>
+                            <!-- 데이터 없을 시 '-'로 표기 -->
+                            <span class="text-zinc-800">-</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <span class="text-gray-500">주요규격</span>
+                            <!-- 데이터 없을 시 '-'로 표기 -->
+                            <span class="text-zinc-800">-</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <span class="text-gray-500 min-w-max">사업명</span>
+                            <span class="text-zinc-800">{{ data['사업명'] || '-' }}</span>
+                        </div>
+                    }
+                </div>
+
+                <!-- 사전규격과 마찬가지로 데이터 없을 시 '-'로 표기 현재 수의계약사유 데이터 없음으로 '-' 표기해두겠습니다. -->
+                <div class="flex flex-col gap-2">
+                    <span class="text-gray-500 text-sm block mb-1">수의계약사유</span>
+                    <span class="text-zinc-800 bg-zinc-50 text-sm p-4">-</span>
+                </div>
+            </details>
+
+            <section class="flex flex-col gap-4">
+                <p class="text-zinc-800 font-semibold text-lg">키워드</p>
+                <div class="flex flex-wrap gap-2 border border-zinc-100 p-5 rounded-sm">
+                    @for (keyword of data.keywords; track $index) {
+                        <span class="border border-zinc-300 text-zinc-500 px-1 min-w-max">{{ keyword }}</span>
+                    }
+                </div>
+            </section>
+
+            @if (data['업무구분명'] === '공사') {
+                <section class="flex flex-col gap-4">
+                    <p class="text-zinc-800 font-semibold text-lg">공사규모</p>
+                    <div class="flex flex-col border border-zinc-100 rounded-sm w-full p-5">
+                        <div class="flex flex-col gap-4 sm:grid grid-cols-3 gap-y-4 gap-x-8 text-sm">
+                            <div class="flex gap-2">
+                                <span class="text-gray-500">발주도급금액</span>
+                                <span class="text-zinc-800">{{ data['발주도급금액'] | number }}원</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="text-gray-500">발주관급자재비</span>
+                                <span class="text-zinc-800">{{ data['발주관급자재비'] | number }}원</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="text-gray-500">발주기타금액</span>
+                                <span class="text-zinc-800">{{ data['발주기타금액'] | number }}원</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="text-gray-500">발주합계금액</span>
+                                <span class="text-zinc-800">{{ data['합계발주금액'] | number }}원</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="text-gray-500">발주금차도급금액</span>
+                                <span class="text-zinc-800">{{ data['발주금차도급금액'] | number }}원</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="text-gray-500">발주국고보조금액</span>
+                                <span class="text-zinc-800">{{ data['발주국고보조금액'] | number }}원</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="text-gray-500">예산코드</span>
+                                <!-- 예산코드 데이터 x 기획자의 의도에 따라 일단 '-' 해두었습니다 -->
+                                <span class="text-zinc-800">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            } @else if (data['업무구분명'] === '용역') {
+                <section class="flex flex-col gap-4">
+                    <p class="text-zinc-800 font-semibold text-lg">용역규모</p>
+                    <div class="flex flex-col border border-zinc-100 rounded-sm w-full p-5">
+                        <div class="flex flex-col gap-4 sm:grid grid-cols-3 gap-y-4 gap-x-8 text-sm">
+                            <div class="flex gap-2">
+                                <span class="text-gray-500">예산액</span>
+                                <span class="text-zinc-800">{{ data['합계발주금액'] | number }}원</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            } @else if (data['업무구분명'] === '물품') {
+                <section class="flex flex-col gap-4">
+                    <p class="text-zinc-800 font-semibold text-lg">구매계획 정보</p>
+                    <div class="flex flex-col border border-zinc-100 rounded-sm w-full p-5">
+                        <div class="flex flex-col gap-4 sm:grid grid-cols-3 gap-y-4 gap-x-8 text-sm">
+                            <div class="flex gap-2">
+                                <span class="text-gray-500">물품수량</span>
+                                <span class="text-zinc-800">{{ data['합계발주금액'] | number }}원</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="text-gray-500">수량단위</span>
+                                <span class="text-zinc-800">{{ data['합계발주금액'] | number }}원</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="text-gray-500">구매예정금액 (예산액)</span>
+                                <span class="text-zinc-800">{{ data['합계발주금액'] | number }}원</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            }
+
+            <section class="flex flex-col gap-4">
+                <p class="text-zinc-800 font-semibold text-lg">담당부서 정보</p>
+                <div class="flex flex-col border border-zinc-100 rounded-sm w-full p-5">
+                    <div class="flex flex-col gap-4 sm:grid grid-cols-3 gap-y-4 gap-x-8 text-sm">
+                        <div class="flex gap-2">
+                            <span class="text-gray-500">담당부서명</span>
+                            <span class="text-zinc-800">{{ data['부서명'] || '-' }}</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <span class="text-gray-500">담당자</span>
+                            <span class="text-zinc-800">{{ data['담당자명'] || '-' }}</span>
+                        </div>
+                    </div>
+
+                    <!-- 데이터 없을 시 '-'로 표기 현재 받아오는 비고 데이터 없음으로 '-' 표기해두겠습니다. -->
+                    <div class="flex flex-col pt-5 gap-2">
+                        <span class="text-gray-500 text-sm block mb-1">비고</span>
+                        <span class="text-zinc-800 bg-zinc-50 text-sm p-4">-</span>
+                    </div>
+                </div>
+            </section>
+
+            @if (data['업무구분명'] === '용역' || data['업무구분명'] === '물품') {
+                <section class="flex flex-col gap-4">
+                    <p class="text-zinc-800 font-semibold text-lg">연관 정보</p>
+                    <div class="flex flex-col border border-zinc-100 rounded-sm w-full p-5">
+                        <div class="flex flex-col gap-4 sm:grid grid-cols-3 gap-y-4 gap-x-8 text-sm">
+                            <div class="flex gap-2">
+                                <span class="text-gray-500">사전규격번호</span>
+                                <!-- 데이터 없을 시 '-'로 표기 현재 받아오는 사전규격번호 데이터 없음으로 '-' 표기해두겠습니다. -->
+                                <span class="text-zinc-800">-</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="text-gray-500">입찰공고번호</span>
+                                <!-- 피그마 상 해당 데이터가 발주계획통합번호와 같으나 컬럼명과 다르므로 체크가 필요해보입니다. -->
+                                <span class="text-zinc-800">{{ data['발주계획통합번호'] || '-' }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            }
+
+            <section class="flex flex-col gap-4">
+                <p class="text-zinc-800 font-semibold text-lg">파일첨부</p>
+                <div class="divide-y divide-zinc-200 border-y border-zinc-200">
+                    <div class="flex items-center justify-center gap-1 p-4">
+                        <img src="icons/board.svg" alt="board_icon" />등록된 첨부파일이 없습니다.
+                    </div>
+                </div>
+            </section>
+
+            <div class="flex justify-center w-full py-6">
+                <button (click)="location.back()" class="border border-e-zinc-200 rounded-sm py-2 w-full sm:w-75">목록으로</button>
+            </div>
+        </div>
+    </div>
+}

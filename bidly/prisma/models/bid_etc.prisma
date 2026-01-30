@@ -1,0 +1,51 @@
+/// 기타 입찰 공고
+
+model Bid_Etc {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  keywords String[]
+
+  입찰공고번호           String   @unique
+  입찰공고차수           Int?
+  통합공고번호           String?
+  등록유형명             String?
+  공고종류명             String?
+  입찰공고일시           DateTime?
+  참조번호               String?
+  입찰공고명             String?
+  등록일시               DateTime?
+
+  공고기관코드           String?
+  공고기관명             String?
+  수요기관명             String?
+
+  입찰방식명             String?
+  계약체결방법명         String?
+  낙찰방법명             String?
+  재입찰허용여부         Boolean? @default(false)
+  공동수급여부           Boolean? @default(false)
+
+  입찰개시일시           DateTime?
+  입찰마감일시           DateTime?
+  개찰일시               DateTime?
+  개찰장소               String?
+
+  추정가격               BigInt?
+  입찰참가수수료         BigInt?
+  입찰참가수수료납부여부 String?
+  입찰보증금납부대상여부 Boolean? @default(false)
+
+  공고규격서URL         String[]
+  공고규격파일명         String[]
+  입찰참가자격내용       String?   @db.Text
+  비고내용               String?   @db.Text
+  입찰공고상세URL        String?
+  입찰공고URL            String?
+
+  @@index([입찰공고명])
+  @@index([공고기관명])
+  @@index([수요기관명])
+  @@index([입찰공고번호])
+}

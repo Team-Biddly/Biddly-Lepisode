@@ -1,0 +1,175 @@
+@if (bidEtc(); as data) {
+    <div class="container">
+        <div class="flex flex-col gap-6 sm:py-15 sm:px-0 p-4">
+            <details open class="group flex flex-col border border-zinc-100 rounded-sm p-6 w-full">
+                <summary class="cursor-pointer">
+                    <div class="flex flex-col gap-3 pb-5 border-b border-zinc-100">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <span class="px-2 py-1 text-sm font-medium text-white bg-purple-500 rounded">기타</span>
+                                <span class="px-2 py-1 text-sm font-medium text-purple-500 border-purple-500 border rounded">{{
+                                    data['등록유형명'] || '등록공고'
+                                }}</span>
+                            </div>
+                            <app-bookmark-icon [modelId]="data.id" modelName="입찰공고" />
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <p class="text-xl font-semibold text-zinc-800">{{ data['입찰공고명'] || '-' }}</p>
+                            <div class="min-w-max">
+                                <app-icon
+                                    name="mdi:chevron-down"
+                                    class="size-4 text-zinc-400 group-open:rotate-180 transition-transform self-end"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </summary>
+
+                <div class="flex flex-col gap-5">
+                    <div class="flex flex-col gap-5">
+                        <div class="w-full h-px bg-zinc-100"></div>
+                        <p class="text-zinc-800 font-semibold">기본정보</p>
+                        <div class="flex flex-col gap-4 sm:grid grid-cols-3 gap-y-4 gap-x-8 text-sm">
+                            <div class="flex gap-2">
+                                <span class="text-gray-500 min-w-max">공고종류</span>
+                                <span class="text-zinc-800">{{ data['공고종류명'] || '-' }}</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="text-gray-500 min-w-max">공고일시</span>
+                                <span class="text-zinc-800">{{ data['입찰공고일시'] | date: 'yyyy/MM/dd HH:mm:ss' }}</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="text-gray-500 min-w-max">입찰공고번호</span>
+                                <span class="text-zinc-800">{{ data['id'] || '-' }}</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="text-gray-500 min-w-max">참조번호</span>
+                                <span class="text-zinc-800">{{ data['참조번호'] || '-' }}</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="text-gray-500 min-w-max">공고기관</span>
+                                <span class="text-zinc-800">{{ data['공고기관명'] || '-' }}</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="text-gray-500 min-w-max">수요기관</span>
+                                <span class="text-zinc-800">{{ data['수요기관명'] || '-' }}</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="text-gray-500 min-w-max">계약방법</span>
+                                <span class="text-zinc-800">{{ data['계약체결방법명'] || '-' }}</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="text-gray-500 min-w-max">입찰방법</span>
+                                <span class="text-zinc-800">{{ data['입찰방식명'] || '-' }}</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="text-gray-500 min-w-max">낙찰방법</span>
+                                <span class="text-zinc-800">{{ data['낙찰방법명'] || '-' }}</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="text-gray-500 min-w-max">재입찰</span>
+                                <span class="text-zinc-800">{{ data['재입찰허용여부'] ? '가능' : '불가' }}</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="text-gray-500 min-w-max">공동수급</span>
+                                <span class="text-zinc-800">{{ data['공동수급여부'] ? '가능' : '불가' }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </details>
+
+            <div class="gap-5 flex flex-col border border-zinc-100 rounded-sm p-6 w-full">
+                <p class="text-zinc-800 font-semibold">입찰진행</p>
+
+                <div class="flex flex-col gap-4 sm:grid grid-cols-3 text-sm">
+                    <div class="flex gap-2">
+                        <span class="text-gray-500 min-w-max">입찰서접수 개시일시</span>
+                        <span class="text-zinc-800">{{ (data['입찰개시일시'] | date: 'yyyy/MM/dd HH:mm:ss') || '-' }}</span>
+                    </div>
+                    <div class="flex gap-2">
+                        <span class="text-gray-500 min-w-max">입찰서접수 마감일시</span>
+                        <span class="text-zinc-800">{{ (data['입찰마감일시'] | date: 'yyyy/MM/dd HH:mm:ss') || '-' }}</span>
+                    </div>
+                    <div class="flex gap-2">
+                        <span class="text-gray-500 min-w-max">개찰일시</span>
+                        <span class="text-zinc-800">{{ (data['개찰일시'] | date: 'yyyy/MM/dd HH:mm:ss') || '-' }}</span>
+                    </div>
+                    <div class="flex gap-2">
+                        <span class="text-gray-500 min-w-max">개찰장소</span>
+                        <span class="text-zinc-800">{{ data['개찰장소'] || '-' }}</span>
+                    </div>
+                </div>
+
+                <div class="flex flex-col gap-2 pt-4 border-t border-zinc-100 mt-2">
+                    <p class="text-gray-500 text-sm">입찰참가자격</p>
+                    <div class="p-4 bg-zinc-50 rounded-sm">
+                        <p class="text-zinc-800 whitespace-pre-wrap text-sm">{{ data['입찰참가자격내용'] || '-' }}</p>
+                    </div>
+                </div>
+
+                <div class="flex flex-col gap-2">
+                    <p class="text-gray-500 text-sm">비고</p>
+                    <div class="p-4 bg-zinc-50 rounded-sm">
+                        <p class="text-zinc-800 whitespace-pre-wrap text-sm">{{ data['비고내용'] || '-' }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="gap-5 flex flex-col p-6 w-full border border-zinc-100 rounded-sm">
+                <p class="text-zinc-800 font-semibold">관련금액</p>
+
+                <div class="flex flex-col gap-4 sm:grid grid-cols-3 text-sm">
+                    <div class="flex gap-2">
+                        <span class="text-gray-500 min-w-max">추정가격</span>
+                        <span class="text-zinc-800">{{ (data['추정가격'] | number) || '-' }} 원</span>
+                    </div>
+                    <div class="flex gap-2">
+                        <span class="text-gray-500 min-w-max">입찰참가수수료</span>
+                        <span class="text-zinc-800">{{ (data['입찰참가수수료'] | number) || '-' }} 원</span>
+                    </div>
+                    <div class="flex gap-2">
+                        <span class="text-gray-500 min-w-max">입찰보증금납부대상</span>
+                        <span class="text-zinc-800">{{ data['입찰보증금납부대상여부'] ? '예' : '아니오' }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="gap-5 flex flex-col p-6 w-full border border-zinc-100 rounded-sm">
+                <p class="text-zinc-800 font-semibold">첨부파일</p>
+                @if (data['공고규격파일명'] && data['공고규격파일명'].length) {
+                    <div class="flex flex-col border-t border-zinc-100">
+                        @for (item of data['공고규격파일명']; track $index) {
+                            <div class="divide-y divide-zinc-200 border-b border-zinc-100">
+                                <div class="flex items-center justify-between p-4">
+                                    <span class="text-sm text-zinc-800">{{ item }}</span>
+                                    <app-file-download [url]="data['공고규격서URL'][$index]" [filename]="item">
+                                        <button
+                                            class="flex items-center gap-1 border border-zinc-200 rounded-sm px-3 py-1 hover:bg-zinc-50 transition-colors"
+                                        >
+                                            <app-icon name="mdi:tray-arrow-down" class="text-zinc-400" size="xs" />
+                                            <span class="text-zinc-600 text-sm">다운로드</span>
+                                        </button>
+                                    </app-file-download>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                } @else {
+                    <div class="flex items-center justify-between py-5 border-zinc-100 border-t border-b">
+                        <p class="text-zinc-400 text-sm">첨부파일이 없습니다.</p>
+                    </div>
+                }
+            </div>
+
+            <div class="flex justify-center w-full py-6">
+                <button
+                    (click)="location.back()"
+                    class="border border-e-zinc-200 rounded-sm py-2 w-full sm:w-75 hover:bg-zinc-50 transition-colors"
+                >
+                    목록으로
+                </button>
+            </div>
+        </div>
+    </div>
+}

@@ -1,0 +1,227 @@
+@if (data(); as data) {
+    <div class="container">
+        <div class="flex flex-col gap-6 sm:py-15 sm:px-0 p-4">
+            <details open class="group flex flex-col border border-zinc-100 rounded-sm p-6 w-full">
+                <summary class="cursor-pointer">
+                    <div class="flex flex-col gap-3 pb-5 border-b border-zinc-100">
+                        <div class="flex items-center justify-between">
+                            <span class="px-2 py-1 text-sm font-medium text-white bg-blue-500 rounded">{{ data.type }}</span>
+                            <button (click)="isBookMarked.set(!isBookMarked())" class="flex items-start">
+                                @if (isBookMarked()) {
+                                    <app-icon name="mdi:bookmark" class="size-5 text-primary" />
+                                } @else {
+                                    <app-icon name="mdi:bookmark-outline" class="size-5 text-zinc-300" />
+                                }
+                            </button>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <p class="text-xl font-semibold text-zinc-800">{{ data['입찰공고명'] }}</p>
+                            <app-icon
+                                name="mdi:chevron-down"
+                                class="size-4 text-zinc-400 group-open:rotate-180 transition-transform self-end"
+                            />
+                        </div>
+                    </div>
+                </summary>
+
+                @if (data.type === '공사') {
+                    <div class="flex flex-col gap-4 sm:grid grid-cols-3 gap-y-4 gap-x-8 py-5 text-sm">
+                        <div class="flex gap-2">
+                            <span class="text-gray-500">공고종류명</span>
+                            <span class="text-zinc-800">{{ data['공고종류명'] }}</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <span class="text-gray-500">등록일시</span>
+                            <span class="text-zinc-800">{{ data['등록일시'] | date: 'yyyy-MM-dd HH:mm' }}</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <span class="text-gray-500">입찰공고차수</span>
+                            <span class="text-zinc-800">{{ data['입찰공고차수'] }}</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <span class="text-gray-500">참조번호</span>
+                            <span class="text-zinc-800">{{ data['참조번호'] }}</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <span class="text-gray-500">공고기관명</span>
+                            <span class="text-zinc-800">{{ data['공고기관명'] }}</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <span class="text-gray-500">수요기관명</span>
+                            <span class="text-zinc-800">{{ data['수요기관명'] }}</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <span class="text-gray-500">계약체결방법명</span>
+                            <span class="text-zinc-800">{{ data['계약체결방법명'] }}</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <span class="text-gray-500">국제입찰대상 여부</span>
+                            <span class="text-zinc-800">{{ data['국제입찰대상여부'] ? '대상' : '비대상' }}</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <span class="text-gray-500">입찰방식명</span>
+                            <span class="text-zinc-800">{{ data['입찰방식명'] }}</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <span class="text-gray-500">낙찰방법명</span>
+                            <span class="text-zinc-800">{{ data['낙찰방법명'] }}</span>
+                        </div>
+
+                        <div class="flex gap-2">
+                            <span class="text-gray-500">재입찰개찰일시</span>
+                            <span class="text-zinc-800">{{ data['재입찰개찰일시'] | date: 'yyyy-MM-dd HH:mm' }}</span>
+                        </div>
+                        <!-- 
+                        <div class="flex gap-2">
+                            <span class="text-gray-500">발주계획통합번호</span>
+                            <span class="text-zinc-800">{{ data['발주계획통합번호'] }}</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <span class="text-gray-500">배정예산금액</span>
+                            <span class="text-zinc-800">{{ data['배정예산금액']?.toLocalString() }}원</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <span class="text-gray-500">PQ신청서접수일시</span>
+                            <span class="text-zinc-800">{{ data['PQ신청서접수일시'] }}</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <span class="text-gray-500">공공조달대분류명</span>
+                            <span class="text-zinc-800">{{ data['공공조달대분류명'] }}</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <span class="text-gray-500">등록유형명</span>
+                            <span class="text-zinc-800">{{ data['등록유형명'] }}</span>
+                        </div>
+
+                        <div class="flex gap-2">
+                            <span class="text-gray-500">공종</span>
+                            <span class="text-zinc-800">소방</span>
+                        </div>
+
+                        <div class="flex gap-2">
+                            <span class="text-gray-500">공동수급협정서접수방식</span>
+                            <span class="text-zinc-800">{{ data['적용기준내용'] }}</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <span class="text-gray-500">공사현장지역명</span>
+                            <span class="text-zinc-800">{{ data['공사현장지역명'] }}</span>
+                        </div> -->
+                    </div>
+                }
+            </details>
+
+            @if (data.keywords && data.keywords.length) {
+                <section class="flex flex-col gap-4">
+                    <p class="text-zinc-800 font-semibold text-lg">키워드</p>
+                    <div class="flex gap-2 border border-zinc-100 p-5 rounded-sm">
+                        @for (item of data.keywords; track $index) {
+                            <span class="border border-zinc-300 text-zinc-500 px-1">{{ item }}</span>
+                        }
+                    </div>
+                </section>
+            }
+
+            @if (data.type === '공사') {
+                <section class="flex flex-col gap-4">
+                    <p class="text-zinc-800 font-semibold text-lg">공사규모</p>
+                    <div class="flex flex-col border border-zinc-100 rounded-sm w-full p-5">
+                        <div class="flex flex-col gap-4 sm:grid grid-cols-3 gap-y-4 gap-x-8 text-sm">
+                            <div class="flex gap-2">
+                                <span class="text-gray-500">예산금액</span>
+                                <span class="text-zinc-800">{{ data['예산금액']?.toLocalString() }}원</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="text-gray-500">관급금액</span>
+                                <span class="text-zinc-800">{{ data['관급금액']?.toLocalString() }}원</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="text-gray-500">주공종공사예정금액</span>
+                                <span class="text-zinc-800">{{ data['주공종공사예정금액']?.toLocalString() }}원</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="text-gray-500">도급자설치관급자재금액</span>
+                                <span class="text-zinc-800">{{ data['도급자설치관급자재금액']?.toLocalString() }}원</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="text-gray-500">관급자설치관급자재금액</span>
+                                <span class="text-zinc-800">{{ data['관급자설치관급자재금액']?.toLocalString() }}원</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            }
+
+            @if (data.type === '용역') {
+                <section class="flex flex-col gap-4">
+                    <p class="text-zinc-800 font-semibold text-lg">용역규모</p>
+                    <div class="flex flex-col border border-zinc-100 rounded-sm w-full p-5">
+                        <div class="flex flex-col gap-4 sm:grid grid-cols-3 gap-y-4 gap-x-8 text-sm">
+                            <div class="flex gap-2">
+                                <span class="text-gray-500">예산금액</span>
+                                <span class="text-zinc-800">{{ data['예산금액']?.toLocalString() }}원</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="text-gray-500">관급금액</span>
+                                <span class="text-zinc-800">{{ data['관급금액']?.toLocalString() }}원</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="text-gray-500">주공종공사예정금액</span>
+                                <span class="text-zinc-800">{{ data['주공종공사예정금액']?.toLocalString() }}원</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="text-gray-500">도급자설치관급자재금액</span>
+                                <span class="text-zinc-800">{{ data['도급자설치관급자재금액']?.toLocalString() }}원</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <span class="text-gray-500">관급자설치관급자재금액</span>
+                                <span class="text-zinc-800">{{ data['관급자설치관급자재금액']?.toLocalString() }}원</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            }
+
+            <section class="flex flex-col gap-4">
+                <p class="text-zinc-800 font-semibold text-lg">공고기관 정보</p>
+                <div class="flex flex-col border border-zinc-100 rounded-sm w-full p-5">
+                    <div class="flex flex-col gap-4 sm:grid grid-cols-3 gap-y-4 gap-x-8 text-sm">
+                        <div class="flex gap-2">
+                            <span class="text-gray-500">공고기관명</span>
+                            <span class="text-zinc-800">{{ data['공고기관명'] }}</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <span class="text-gray-500">공고기관담당자명</span>
+                            <span class="text-zinc-800">{{ data['공고기관담당자명'] }}</span>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col pt-5 gap-2">
+                        <span class="text-gray-500 text-sm block mb-1">비고</span>
+                        <span class="text-zinc-800 bg-zinc-50 text-sm p-4">작성했을 경우 표출, 작성하지 않으면 미표출</span>
+                    </div>
+                </div>
+            </section>
+
+            @if (data['공고규격파일명'] && data['공고규격파일명'].length) {
+                <section class="flex flex-col gap-4">
+                    <p class="text-zinc-800 font-semibold text-lg">파일첨부</p>
+                    @for (item of data['공고규격파일명']; track $index) {
+                        <div class="divide-y divide-zinc-200 border-y border-zinc-200">
+                            <div class="flex items-center justify-between p-4">
+                                {{ item }}
+                                <button class="flex items-center gap-1 border border-zinc-200 rounded-sm px-3 py-1">
+                                    <app-icon name="mdi:tray-arrow-down" class="text-zinc-400" size="xs" />
+                                    <span class="text-zinc-600">다운로드</span>
+                                </button>
+                            </div>
+                        </div>
+                    }
+                </section>
+            }
+
+            <div class="flex justify-center w-full py-6">
+                <button (click)="location.back()" class="border border-e-zinc-200 rounded-sm py-2 w-full sm:w-75">목록으로</button>
+            </div>
+        </div>
+    </div>
+}

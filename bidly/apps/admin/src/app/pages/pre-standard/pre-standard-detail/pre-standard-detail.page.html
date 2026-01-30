@@ -1,0 +1,83 @@
+@if (prestandard$.value(); as prestandard) {
+    <div class="container mx-auto flex flex-col gap-8">
+        <header class="flex flex-col gap-6">
+            <div class="flex items-center cursor-pointer" routerLink="..">
+                <app-icon name="mdi:chevron-left" />
+                <p class="text-xl font-semibold">목록으로</p>
+            </div>
+
+            <div class="flex flex-col gap-3">
+                <span class="badge badge-primary badge-soft badge-lg">{{ prestandard['업무구분명'] }}</span>
+                <div class="flex justify-between items-center mb-2">
+                    <h2>{{ prestandard['품명'] }}</h2>
+                    <button class="btn btn-primary" (click)="keywordModal.showModal()">
+                        <app-icon name="mdi:pencil" />
+                        키워드 변경
+                    </button>
+                </div>
+                <span class="flex gap-1 flex-wrap items-center">
+                    @for (keyword of prestandard.keywords; track keyword) {
+                        <span class="badge badge-soft">{{ keyword }}</span>
+                    } @empty {
+                        -
+                    }
+                </span>
+            </div>
+        </header>
+
+        <section class="fields">
+            <legend>사전규격등록번호</legend>
+            <span>{{ prestandard['사전규격등록번호'] }}</span>
+            <legend>업무구분</legend>
+            <span>{{ prestandard['업무구분명'] }}</span>
+            <legend>사전규격명</legend>
+            <span>{{ prestandard['품명'] }}</span>
+            <legend>발주기관</legend>
+            <span>{{ prestandard['발주기관명'] }}</span>
+            <legend>수요기관</legend>
+            <span>{{ prestandard['실수요기관명'] }}</span>
+            <legend>참조번호</legend>
+            <span>{{ prestandard['참조번호'] }}</span>
+            <legend>공고기관</legend>
+            <span>{{ prestandard['실수요기관명'] }} {{ prestandard['담당자명'] }}</span>
+            <legend>담당자 전화번호</legend>
+            <span>{{ prestandard['담당자전화번호'] || '-' }}</span>
+            <legend>담당자 이메일</legend>
+            <span>{{ $any(prestandard)['담당자이메일'] || '-' }}</span>
+            <legend>SW사업대상</legend>
+            <span>{{ prestandard['SW사업대상여부'] ? '대상' : '비대상' }}</span>
+            <legend>배정예산액 (부가세포함)</legend>
+            <span>{{ prestandard['배정예산금액'] | number }}원</span>
+            <legend>의견등록마감일시</legend>
+            <span>{{ prestandard['의견등록마감일시'] | date: 'y-MM-dd HH:mm:ss' }}원</span>
+            @if (prestandard['납품기한일시']) {
+                <legend>납품(완수)기한 (납품일수)</legend>
+                <span>{{ prestandard['납품기한일시'] | date: 'y-MM-dd' }} (계약 후 {{ prestandard['납품일수'] }}일 이내)</span>
+            }
+            <legend>사전규격 공개일시</legend>
+            <span>{{ prestandard['등록일시'] | date: 'y-MM-dd HH:mm:ss' }}</span>
+        </section>
+    </div>
+
+    <dialog #keywordModal class="modal">
+        <form method="dialog" class="modal-box">
+            <h3 class="font-bold text-lg mb-4">키워드 변경</h3>
+
+            <div role="alert" class="alert alert-info alert-soft">
+                <span>쉼표 (,)로 구분하세요.</span>
+            </div>
+            <input
+                #inputRef
+                type="text"
+                placeholder="키워드 입력"
+                class="input input-bordered w-full mt-4"
+                [value]="prestandard.keywords.join(', ')"
+            />
+
+            <div class="modal-action">
+                <button type="button" class="btn" (click)="keywordModal.close()">취소</button>
+                <button class="btn btn-primary" (click)="submit(inputRef.value); keywordModal.close()">변경</button>
+            </div>
+        </form>
+    </dialog>
+}

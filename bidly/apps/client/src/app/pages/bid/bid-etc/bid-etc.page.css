@@ -1,0 +1,14 @@
+.bid-info-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.bid-info-label {
+  font-size: 0.875rem;
+  color: #71717a;
+}
+
+.bid-info-value {
+  color: #27272a;
+}
