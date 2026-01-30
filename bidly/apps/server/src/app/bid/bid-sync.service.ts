@@ -560,6 +560,10 @@ export class BidSyncService implements OnModuleInit {
       const buffer = await fetch(url).then((res) => res.arrayBuffer());
 
       content = await this.parser.parse(buffer);
+      // OPENAI_API_KEY가 없으면 AI 호출 없이 간단 추출만 사용 (로컬/임시 env 시 401 방지)
+      if (!process.env.OPENAI_API_KEY?.trim()) {
+        return extractSimpleKeywords(`${data.bidNtceNm} ${content}`);
+      }
     }
 
     try {

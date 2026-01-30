@@ -54,32 +54,38 @@ export class StorageService implements OnModuleInit {
   });
 
   async onModuleInit() {
-    const bucketExists = await this.s3Client
-      .headBucket({ Bucket: this.options.bucketName })
-      .then(() => true)
-      .catch(() => false);
-    if (!bucketExists) {
-      await this.s3Client.createBucket({ Bucket: this.options.bucketName });
+    try {
+      const bucketExists = await this.s3Client
+        .headBucket({ Bucket: this.options.bucketName })
+        .then(() => true)
+        .catch(() => false);
+      if (!bucketExists) {
+        await this.s3Client.createBucket({ Bucket: this.options.bucketName });
 
-      const policy = {
-        Version: '2012-10-17',
-        Statement: [
-          {
-            Effect: 'Allow',
-            Principal: '*',
-            Action: 's3:GetObject',
-            Resource: `arn:aws:s3:::${this.options.bucketName}/*`,
-          },
-        ],
-      };
+        const policy = {
+          Version: '2012-10-17',
+          Statement: [
+            {
+              Effect: 'Allow',
+              Principal: '*',
+              Action: 's3:GetObject',
+              Resource: `arn:aws:s3:::${this.options.bucketName}/*`,
+            },
+          ],
+        };
 
-      await this.s3Client.putBucketPolicy({
-        Bucket: this.options.bucketName,
-        Policy: JSON.stringify(policy),
-      });
+        await this.s3Client.putBucketPolicy({
+          Bucket: this.options.bucketName,
+          Policy: JSON.stringify(policy),
+        });
+      }
+
+      this.logger.log('Storage module initialized successfully.');
+    } catch (err) {
+      this.logger.warn(
+        'Storage endpoint unreachable (local dev without MinIO?). File upload will fail until S3 is available.',
+      );
     }
-
-    this.logger.log('Storage module initialized successfully.');
   }
 
   async upload(file: Express.Multer.File, bucket?: string): Promise<FileDTO> {
