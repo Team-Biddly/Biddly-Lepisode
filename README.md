@@ -77,22 +77,26 @@ npx nx serve admin
    FileEngine이 없거나 실패 시 자동으로 기존 HWP/Word 파서로 폴백합니다.
 
 ## 변경 사항
+<details markdown="1">
+<summary><strong> 01.03(금) </strong></summary>
+
 - apps\server\src\app\bid\bid-sync.service.ts (563~566 줄 아래 내용 추가)
-```
-      // OPENAI_API_KEY가 없으면 AI 호출 없이 간단 추출만 사용 (로컬/임시 env 시 401 방지)
-      if (!process.env.OPENAI_API_KEY?.trim()) {
-        return extractSimpleKeywords(`${data.bidNtceNm} ${content}`);
-      }
-```
+  ```
+  // OPENAI_API_KEY가 없으면 AI 호출 없이 간단 추출만 사용 (로컬/임시 env 시 401 방지)
+  if (!process.env.OPENAI_API_KEY?.trim()) {
+    return extractSimpleKeywords(`${data.bidNtceNm} ${content}`);
+  }
+  ```
 
 - apps\server\src\app\storage\storage.service.ts (try문 추가 57줄, 84~88줄)
-```
-async onModuleInit() {
-    try {                              // 54줄 추가
-    ...
-    } catch (err) {                    // 84~88줄 추가
-      this.logger.warn(
-        'Storage endpoint unreachable (local dev without MinIO?). File upload will fail until S3 is available.',
-      );
-    }
-```
+  ```
+  async onModuleInit() {
+      try {                              // 54줄 추가
+      ...
+      } catch (err) {                    // 84~88줄 추가
+        this.logger.warn(
+          'Storage endpoint unreachable (local dev without MinIO?). File upload will fail until S3 is available.',
+        );
+      }
+  ```
+</details>
