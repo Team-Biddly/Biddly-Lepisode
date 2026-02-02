@@ -112,7 +112,8 @@
     "ua-parser-js": "^2.0.3",
     "xlsx": "^0.18.5",
     "xlsx-style": "^0.8.13",
-    "zone.js": "0.15.0"
+    "zone.js": "0.15.0",
+    "form-data": "^4.0.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "20.1.3",
