@@ -78,7 +78,7 @@ npx nx serve admin
 
 ## 변경 사항
 <details markdown="1">
-<summary><strong> 01.03(금) </strong></summary>
+<summary><strong> 01.30(금) </strong></summary>
 
 - apps\server\src\app\bid\bid-sync.service.ts (563~566 줄 아래 내용 추가)
   ```
@@ -99,4 +99,82 @@ npx nx serve admin
         );
       }
   ```
+</details>
+<details markdown="1">
+<summary><strong> 02.01(월) </strong></summary>
+
+### # prisma\models\file.prisma
+
+**변경 내용**
+
+파일 내 검색과 일반 검색을 통합하기 위하여 file.prisma에 변환 여부를 확인하기 위한 isConverted를 추가.
+
+<aside>
+
+/// 문서 변환 여부
+isConverted        Boolean? @default(false)
+
+</aside>
+
+### # apps\server\src\app\app.module.ts
+
+**변경 내용**
+
+모듈화 시킨 파이썬 엔진을 import만.
+
+<aside>
+
+import { FileEngineModule } from '../../../../libs/api-client/src/file-engine/file-engine.module';
+import { PythonFileEngineModule } from './python-file-engine/python-file-engine.module'; 
+
+</aside>
+
+### # apps\server\src\app\python-file-engine\python-file-engine.controller.ts
+
+**변경 내용**
+
+<aside>
+FileEngineService를 주입받아 그 메서드를 호출하는 테스트 목적의 컨트롤러
+
+</aside>
+
+### # apps\server\src\app\python-file-engine\python-file-engine.module.ts
+
+**변경 내용**
+
+<aside>
+
+apps/server 애플리케이션 내부에서 FileEngineModule을 import하고,
+PythonFileEngineController를 controllers 배열에 포함하여 테스트 엔드포인트를 노출하는 모듈
+
+</aside>
+
+### # libs\api-client\src\file-engine\file-engine.module.ts
+
+**변경 내용**
+
+<aside>
+
+위 서비스를 HttpModule, ConfigModule과 함께 묶어 외부 NestJS 프로젝트에서 사용할 수 있도록
+export하는 모듈. 이 모듈은 api-client 라이브러리의 일부로, 재사용성을 위해 설계.
+
+</aside>
+
+### # libs\api-client\src\file-engine\file-engine.service.ts
+
+**변경 내용**
+
+<aside>
+Python FastAPI와 실제 통신하는 로직을 담고 있는 핵심 서비스
+
+</aside>
+
+### # libs\api-client\src\file-engine\interfaces\file-engine.interface.ts
+
+**변경 내용**
+
+<aside>
+Response 타입 힌트를 주는 Interface
+
+</aside>
 </details>
