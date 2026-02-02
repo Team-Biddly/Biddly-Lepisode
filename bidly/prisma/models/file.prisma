@@ -13,7 +13,7 @@ model File {
   /// 문서제목
   title            String?
   /// 문서내용
-  convertedText      String?
+  content            String?
   /// 문서 변환 여부
   isConverted        Boolean? @default(false)
   /// 생성일
