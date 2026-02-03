@@ -1,4 +1,5 @@
 import { PutObjectCommandInput, S3 } from '@aws-sdk/client-s3';
+import { HttpService } from '@nestjs/axios';
 import {
   BadGatewayException,
   BadRequestException,
@@ -14,6 +15,7 @@ import dayjs from 'dayjs';
 import { readFileSync, rmSync } from 'fs';
 import { diskStorage } from 'multer';
 import { extname, join } from 'path';
+import { firstValueFrom } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
 import { FileCreateDTO } from './dtos/file.create.dto ';
 import { FileDeleteDTO } from './dtos/file.delete.dto';
@@ -32,6 +34,7 @@ export class StorageService implements OnModuleInit {
     @Inject(STORAGE_MODULE_CONFIG)
     private readonly options: StorageModuleConfig,
     private readonly prisma: PrismaService,
+    private readonly httpService: HttpService,
   ) {
     if (!this.options.accessKey)
       throw new Error('Access Key ID가 설정되지 않았습니다.');
@@ -88,6 +91,44 @@ export class StorageService implements OnModuleInit {
     }
   }
 
+  private triggerTextExtraction(file: File) {
+    const pythonEngineUrl =
+      process.env.PYTHON_ENGINE_URL || 'http://localhost:8001'; // dev 환경 전용, 배포 시 변경 요망
+
+    if (!file.url) {
+      this.logger.warn(
+        `${file.id} 파일에 URL이 존재하지 않습니다. 변환을 생략합니다.`,
+      );
+      return;
+    }
+
+    this.logger.log(`파일 변환 트리거 실행: ${file.id}`);
+
+    firstValueFrom(
+      this.httpService.post<{ extracted_text: string }>(
+        `${pythonEngineUrl}/extract-text`,
+        { file_url: file.url },
+      ),
+    )
+      .then(async (response) => {
+        const extractedText = response.data.extracted_text;
+        await this.prisma.file.update({
+          where: { id: file.id },
+          data: {
+            content: extractedText,
+            isConverted: true,
+          },
+        });
+        this.logger.log(`파일 변환과 저장에 성공하였습니다.: ${file.id}`);
+      })
+      .catch((error) => {
+        this.logger.error(
+          `파일 변환에 실패하였습니다. ${file.id}. URL: ${file.url}`,
+          error.stack,
+        );
+      });
+  }
+
   async upload(file: Express.Multer.File, bucket?: string): Promise<FileDTO> {
     const files = Array.isArray(file) ? file : [file];
     const targetBucket = bucket || this.options.bucketName;
@@ -142,6 +183,9 @@ export class StorageService implements OnModuleInit {
         });
 
         createdFiles.push(createdFile);
+        
+        // 텍스트 변환 트리거 백그라운드 실행
+        this.triggerTextExtraction(createdFile);
 
         // 파일이 디스크에 저장된 경우에만 삭제 시도
         if (file.path) {
@@ -220,6 +264,9 @@ export class StorageService implements OnModuleInit {
           size: file.size,
         },
       });
+      
+      // 텍스트 변환 트리거 백그라운드 실행
+      this.triggerTextExtraction(created);
 
       if (data.modelName && data.modelId) {
         await this.prisma.file.update({
