@@ -158,6 +158,22 @@ export class BidService {
         { 공고기관명: { contains: query, mode: 'insensitive' } },
         { 수요기관명: { contains: query, mode: 'insensitive' } },
       );
+
+      // Search in converted files' content
+      const matchedFiles = await this.prisma.file.findMany({
+        where: {
+          isConverted: true,
+          content: { contains: query, mode: 'insensitive' },
+        },
+        select: { url: true },
+      });
+
+      if (matchedFiles.length > 0) {
+        const fileUrls = matchedFiles.map((f) => f.url);
+        where.OR.push({
+          공고규격서URL: { hasSome: fileUrls },
+        });
+      }
     }
 
     if (모의공고여부 !== undefined) {
