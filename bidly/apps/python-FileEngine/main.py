@@ -11,7 +11,7 @@ from converters.pdf_converter import PdfConverter
 app = FastAPI(
     title="File to Txt Converter",
     description="File to Txt Converter with Classifier",
-    version="demo",
+    version="v1",
 )
 
 # Init

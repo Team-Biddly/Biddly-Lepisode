@@ -133,7 +133,7 @@ async def process_doc(file: UploadFile) -> dict:
 
 async def process_pdf(file: UploadFile) -> dict:
     """
-    PDF TO TXT 호출 // 구현 후 수정 필요
+    PDF TO TXT 호출
 
     Args:
          file: Upload file
