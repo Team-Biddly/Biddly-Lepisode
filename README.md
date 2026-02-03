@@ -143,6 +143,34 @@ private triggerTextExtraction(file: File) {
 // 텍스트 변환 트리거 백그라운드 실행
 this.triggerTextExtraction(created);
 ```
+
+---
+
+### apps\server\src\app\bid\bid.service.ts
+
+**변경 내용**
+
+`161~176번 줄` 변환된 파일 검색 추가
+```
+
+// Search in converted files' content
+const matchedFiles = await this.prisma.file.findMany({
+  where: {
+    isConverted: true,
+    content: { contains: query, mode: 'insensitive' },
+  },
+  select: { url: true },
+});
+
+if (matchedFiles.length > 0) {
+  const fileUrls = matchedFiles.map((f) => f.url);
+  where.OR.push({
+    공고규격서URL: { hasSome: fileUrls },
+  });
+}
+```
+
 </details>
 
 ---
+
