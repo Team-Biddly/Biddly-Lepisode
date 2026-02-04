@@ -32,8 +32,6 @@ import { BidModule } from './bid/bid.module';
 import { PreStandardModule } from './pre-standard/pre-standard.module';
 import { BookmarkModule } from './bookmark/bookmark.module';
 import { CacheModule } from '@nestjs/cache-manager';
-import { FileEngineModule } from '../../../../libs/api-client/src/file-engine/file-engine.module'; // FileEngineModule 추가
-import { PythonFileEngineModule } from './python-file-engine/python-file-engine.module'; // PythonFileEngineModule 추가
 
 @Module({
   imports: [
