@@ -34,28 +34,47 @@ async def extract_text_from_url(request: UrlProcessingRequest):
     """
     try:
         # Download the file from the URL
-        response = requests.get(request.file_url, stream=True)
-        response.raise_for_status()  # Raise an exception for bad status codes
+        response = requests.get(request.file_url, stream=True, timeout=10)
+        response.raise_for_status()
         file_content = response.content
         
-        # Get filename from URL
-        file_name = os.path.basename(request.file_url)
+        # 1. Content-Disposition 헤더에서 파일명 추출 시도
+        content_disposition = response.headers.get('Content-Disposition')
+        file_name = ""
+        if content_disposition and 'filename=' in content_disposition:
+            import re
+            # filename="abc.pdf" 또는 filename=abc.pdf 추출
+            filenames = re.findall('filename="?([^"]+)"?', content_disposition)
+            if filenames:
+                file_name = filenames[0]
 
-        # Classify the file based on its extension
+        # 2. 헤더에 없으면 URL에서 추출
+        if not file_name:
+            file_name = os.path.basename(request.file_url.split('?')[0])
+
+        # 3. 확장자가 없거나 .do인 경우 Content-Type으로 보정
         file_type = classifier.classify(file_name)
+        if file_type == "other":
+            content_type = response.headers.get('Content-Type', '').lower()
+            if 'pdf' in content_type:
+                file_type = 'pdf'
+            elif 'hwp' in content_type:
+                file_type = 'hwp'
+            elif 'msword' in content_type or 'officedocument.wordprocessingml' in content_type:
+                file_type = 'doc'
 
         text = ""
         success = False
 
         # Process the file based on its type
-        if file_type == "hwp" or file_type == "hwpx":
-            text, success = hwp_converter.hwp_to_txt(file_content, file_name)
-        elif file_type == "doc" or file_type == "docx":
-            text, success = doc_converter.doc_to_txt(file_content, file_name)
+        if file_type in ["hwp", "hwpx"]:
+            text, success = hwp_converter.hwp_to_txt(file_content, file_name or "document.hwp")
+        elif file_type in ["doc", "docx"]:
+            text, success = doc_converter.doc_to_txt(file_content, file_name or "document.docx")
         elif file_type == "pdf":
             text, success = pdf_converter.pdf_to_txt(file_content)
         else:
-            raise HTTPException(status_code=400, detail=f"지원하지 않는 파일 형식: {file_type}")
+            raise HTTPException(status_code=400, detail=f"지원하지 않는 파일 형식 또는 감지 불가: {file_type} (Content-Type: {response.headers.get('Content-Type')})")
 
         if not success:
             raise HTTPException(status_code=500, detail=f"파일 변환 실패: {text}")

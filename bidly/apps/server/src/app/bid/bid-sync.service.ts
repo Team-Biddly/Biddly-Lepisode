@@ -132,6 +132,63 @@ export class BidSyncService implements OnModuleInit {
   }
 
   /**
+   * 공고 수집 시 첨부파일을 인지하여 Convert 테이블에 개별 텍스트로 변환 및 저장합니다.
+   */
+  async processConvert(item: any, bidName: string) {
+    const bidId = item.bidNtceNo || item.id;
+    if (!bidId) return;
+
+    const urls = [];
+    for (let i = 1; i <= 10; i++) {
+      const urlKey = `ntceSpecDocUrl${i}`;
+      if (item[urlKey] && item[urlKey].trim() !== '') {
+        urls.push(item[urlKey]);
+      }
+    }
+
+    if (urls.length === 0) return;
+
+    for (const url of urls) {
+      try {
+        const response = await fetch(
+          `${process.env.PYTHON_ENGINE_URL || 'http://localhost:8000'}/extract-text`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ file_url: url }),
+          },
+        );
+
+        if (response.ok) {
+          const result = await response.json();
+          const text = result.extracted_text;
+
+          if (text && text.trim() !== '') {
+            await this.prisma.convert.upsert({
+              where: { url },
+              create: {
+                url,
+                bidId, // 공고 ID 연결
+                name: bidName || '첨부파일',
+                convertedText: text,
+                isConverted: true,
+              },
+              update: {
+                bidId,
+                convertedText: text,
+                isConverted: true,
+              },
+            });
+            this.logger.log(`✅ 파일 저장 완료: ${url}`);
+          }
+        }
+      } catch (error) {
+        this.logger.error(`❌ 파일 변환 오류 (${url}):`, error);
+      }
+    }
+  }
+
+  /**
    * 건축 입찰공고를 동기화합니다.
    *
    * 실행 시점 일자에 등록된 입찰공고를 조회 및 데이터베이스에 저장합니다.
@@ -171,6 +228,9 @@ export class BidSyncService implements OnModuleInit {
 
       for (const item of response.response.body.items) {
         const data = new BidConstructionEntity(item).toCreateInput();
+
+        // [추가] 파일 변환 및 Convert 테이블 저장
+        await this.processConvert(item, data.입찰공고명);
 
         const existing = await this.prisma.bid_Construction.findUnique({
           where: { id: data.id },
@@ -255,6 +315,9 @@ export class BidSyncService implements OnModuleInit {
 
       for (const item of response.response.body.items) {
         const data = new BidThingEntity(item).toCreateInput();
+
+        // [추가] 파일 변환 및 Convert 테이블 저장
+        await this.processConvert(item, data.입찰공고명);
 
         const existing = await this.prisma.bid_Thing.findUnique({
           where: { id: data.id },
@@ -341,6 +404,9 @@ export class BidSyncService implements OnModuleInit {
       for (const item of response.response.body.items) {
         const data = new BidServiceEntity(item).toCreateInput();
 
+        // [추가] 파일 변환 및 Convert 테이블 저장
+        await this.processConvert(item, data.입찰공고명);
+
         const existing = await this.prisma.bid_Service.findUnique({
           where: { id: data.id },
           select: { id: true, keywords: true },
@@ -426,6 +492,9 @@ export class BidSyncService implements OnModuleInit {
       for (const item of response.response.body.items) {
         const data = new BidForeignEntity(item).toCreateInput();
 
+        // [추가] 파일 변환 및 Convert 테이블 저장
+        await this.processConvert(item, data.입찰공고명);
+
         const existing = await this.prisma.bid_Foreign.findUnique({
           where: { id: data.id },
           select: { id: true, keywords: true },
@@ -503,6 +572,9 @@ export class BidSyncService implements OnModuleInit {
       for (const item of response.response.body.items) {
         const data = new BidEtcEntity(item).toCreateInput();
 
+        // [추가] 파일 변환 및 Convert 테이블 저장
+        await this.processConvert(item, data.입찰공고명);
+
         const existing = await this.prisma.bid_Etc.findUnique({
           where: { id: data.id },
           select: { id: true, keywords: true },
@@ -554,7 +626,7 @@ export class BidSyncService implements OnModuleInit {
     if ('ntceSpecDocUrl1' in data === false) {
       content = JSON.stringify(data);
     } else {
-      const url = data.ntceSpecDocUrl1;
+      const url = (data as any).ntceSpecDocUrl1;
 
       if (!url || url === '') return [];
       const buffer = await fetch(url).then((res) => res.arrayBuffer());
@@ -562,23 +634,18 @@ export class BidSyncService implements OnModuleInit {
       content = await this.parser.parse(buffer);
       // OPENAI_API_KEY가 없으면 AI 호출 없이 간단 추출만 사용 (로컬/임시 env 시 401 방지)
       if (!process.env.OPENAI_API_KEY?.trim()) {
-        return extractSimpleKeywords(`${data.bidNtceNm} ${content}`);
+        return extractSimpleKeywords(`${(data as any).bidNtceNm} ${content}`);
       }
     }
 
     try {
-      // 운영 한경에서만 AI 키워드 추출 실행
-      // if (process.env.NODE_ENV === 'production') {
       const keywords = await this.ai.extractKeywords(
-        `${data.bidNtceNm} ${content}`,
+        `${(data as any).bidNtceNm} ${content}`,
       );
       return keywords;
-      // } else {
-      // return extractSimpleKeywords(`${data.bidNtceNm} ${content}`);
-      // }
     } catch (error) {
       this.logger.error('❌ 키워드 추출에 실패하여 간단 추출로 변경', error);
-      return extractSimpleKeywords(`${data.bidNtceNm} ${content}`);
+      return extractSimpleKeywords(`${(data as any).bidNtceNm} ${content}`);
     }
   }
 }

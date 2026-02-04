@@ -1,4 +1,4 @@
-CREATE VIEW view_name AS
+CREATE VIEW Bid AS
 
 SELECT 
     "Bid_Construction".id,

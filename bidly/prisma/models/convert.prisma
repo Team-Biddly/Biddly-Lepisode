@@ -1,0 +1,11 @@
+/// 문서 변환 텍스트 저장용 테이블
+model Convert {
+  id             String   @id @default(cuid())
+  url            String   @unique
+  bidId          String?
+  name           String?
+  convertedText  String?  @db.Text
+  isConverted    Boolean  @default(false)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}

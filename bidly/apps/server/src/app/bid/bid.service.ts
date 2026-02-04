@@ -134,6 +134,7 @@ export class BidService {
     } = options;
 
     const where: Prisma.BidWhereInput = {};
+    const AND: Prisma.BidWhereInput[] = [];
 
     if (type) {
       where.type = type;
@@ -152,28 +153,33 @@ export class BidService {
     }
 
     if (query) {
-      where.OR = [];
-      where.OR.push(
+      const queryOR: Prisma.BidWhereInput[] = [
         { 입찰공고명: { contains: query, mode: 'insensitive' } },
         { 공고기관명: { contains: query, mode: 'insensitive' } },
         { 수요기관명: { contains: query, mode: 'insensitive' } },
-      );
+      ];
 
-      // Search in converted files' content
-      const matchedFiles = await this.prisma.file.findMany({
+      // [수정] Convert 테이블에서 파일 내용 부분 일치 검색
+      const matchedFiles = await this.prisma.convert.findMany({
         where: {
           isConverted: true,
-          content: { contains: query, mode: 'insensitive' },
+          convertedText: { contains: query, mode: 'insensitive' },
         },
-        select: { url: true },
+        select: { bidId: true, url: true },
       });
 
       if (matchedFiles.length > 0) {
+        const bidIds = matchedFiles.map((f) => f.bidId).filter(id => id !== null);
         const fileUrls = matchedFiles.map((f) => f.url);
-        where.OR.push({
-          공고규격서URL: { hasSome: fileUrls },
-        });
+        
+        // bidId(공고번호)가 있는 경우 직접 매칭, 없는 경우(수동업로드 등) URL로 매칭
+        queryOR.push(
+          { id: { in: bidIds } },
+          { 공고규격서URL: { hasSome: fileUrls } }
+        );
       }
+
+      AND.push({ OR: queryOR });
     }
 
     if (모의공고여부 !== undefined) {
@@ -191,7 +197,6 @@ export class BidService {
       }
     }
 
-    const AND = [];
     const now = new Date();
 
     if (입찰개시일시시작) {
@@ -221,8 +226,6 @@ export class BidService {
         ],
       });
     }
-
-    console.log(JSON.stringify(AND));
 
     if (keywords) {
       where.keywords = { hasEvery: keywords };

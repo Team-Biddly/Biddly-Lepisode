@@ -112,14 +112,22 @@ export class StorageService implements OnModuleInit {
     )
       .then(async (response) => {
         const extractedText = response.data.extracted_text;
-        await this.prisma.file.update({
-          where: { id: file.id },
-          data: {
-            content: extractedText,
+        
+        // [수정] File 테이블 대신 Convert 테이블에 저장 (url 고유 키 사용)
+        await this.prisma.convert.upsert({
+          where: { url: file.url },
+          create: {
+            url: file.url,
+            name: file.name || '업로드파일',
+            convertedText: extractedText,
+            isConverted: true,
+          },
+          update: {
+            convertedText: extractedText,
             isConverted: true,
           },
         });
-        this.logger.log(`파일 변환과 저장에 성공하였습니다.: ${file.id}`);
+        this.logger.log(`파일 변환과 Convert 테이블 저장에 성공하였습니다.: ${file.id}`);
       })
       .catch((error) => {
         this.logger.error(
