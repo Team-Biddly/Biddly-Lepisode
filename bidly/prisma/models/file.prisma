@@ -14,8 +14,6 @@ model File {
   title            String?
   /// 문서내용
   content            String?
-  /// 문서 변환 여부
-  isConverted        Boolean? @default(false)
   /// 생성일
   createdAt        DateTime      @default(now())
   /// 수정일
