@@ -137,3 +137,9 @@ dist
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+.gemini/GEMINI.md
+bidly/apps/python-FileEngine/__pycache__/classification.cpython-314.pyc
+bidly/apps/python-FileEngine/__pycache__/main.cpython-314.pyc
+bidly/apps/python-FileEngine/converters/__pycache__/doc_converter.cpython-314.pyc
+bidly/apps/python-FileEngine/converters/__pycache__/hwp_converter.cpython-314.pyc
+bidly/apps/python-FileEngine/converters/__pycache__/pdf_converter.cpython-314.pyc
