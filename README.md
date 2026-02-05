@@ -55,6 +55,15 @@ npx nx serve admin
 
 첫 실행 시 `nx serve server`는 빌드 때문에 시간이 걸릴 수 있습니다.
 
+## Architecture
+1. 나라장터 수집 (Node.js): API를 통해 공고와 파일 정보를 가져옵니다.
+2. 파일 업로드 (Node.js): 원본 파일을 NHN Cloud(S3)에 업로드하고 S3 URL을 얻습니다.
+3. DB 기록 (Node.js): PostgreSQL의 Convert 테이블에 bidId, url, isConverted: false 상태로 저장합니다.
+4. 작업 인지 (Python): (폴링/감시): 파이썬이 스스로 DB를 10초마다 체크해서 isConverted: false인 목록이 있는지 확인하고 가져옵니다.
+5. 변환 작업 (Python): DB에서 받은 URL로 NHN Cloud에서 파일을 다운로드하여 텍스트를 추출합니다.
+6. 결과 저장 (Python): 추출된 텍스트를 다시 PostgreSQL의 해당 레코드에 업데이트하고 isConverted: true로 변경합니다.
+7. 검색 및 조회 (Node.js): 사용자가 검색하면 Node.js는 DB에서 isConverted: true인 데이터들만 검색 결과에 포함시킵니다.
+
 ## 변경 사항
 <details markdown="1">
 <summary><strong> 01.30(금) - 로컬 테스트 환경 설정 </strong></summary>
